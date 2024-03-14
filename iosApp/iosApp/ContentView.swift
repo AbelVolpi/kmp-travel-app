@@ -13,10 +13,14 @@ struct ContentView: View {
 extension ContentView {
     @MainActor
     class ViewModel: ObservableObject {
-        @Published var greetings: Array<String> = []
+        @Published var greetings: [String] = []
 
         func startObserving() {
-            // ...
+            Task {
+                for await phrase in Greeting().greet() {
+                    self.greetings.append(phrase)
+                }
+            }
         }
     }
 }
