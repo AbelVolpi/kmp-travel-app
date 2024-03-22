@@ -15,10 +15,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.abelvolpi.kmptravelapp.Category
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Firebase.initialize(this)
         setContent {
             App()
         }
@@ -28,19 +32,19 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App(mainViewModel: MainViewModel = viewModel()) {
     MyApplicationTheme {
-        val greetings by mainViewModel.greetingList.collectAsStateWithLifecycle()
-        GreetingView(greetings = greetings)
+        val categories by mainViewModel.greetingList.collectAsStateWithLifecycle()
+        GreetingView(categories = categories)
     }
 }
 
 @Composable
-fun GreetingView(greetings: List<String>) {
+fun GreetingView(categories: List<Category>) {
     Column(
         modifier = Modifier.padding(all = 20.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        greetings.forEach { greeting ->
-            Text(greeting)
+        categories.forEach { greeting ->
+            Text(categories.toString())
             Divider()
         }
     }
@@ -50,8 +54,8 @@ fun GreetingView(greetings: List<String>) {
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
-        GreetingView(
-            listOf("a", "b")
-        )
+//        GreetingView(
+//           // listOf("a", "b")
+//        )
     }
 }

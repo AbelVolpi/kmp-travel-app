@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -48,4 +49,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+//    implementation(platform(libs.firebase.bom))
+//    implementation(libs.firebase.common.ktx)
+    implementation("com.google.firebase:firebase-common-ktx:20.3.3")
+
 }
