@@ -1,11 +1,8 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    kotlin("plugin.serialization") version "1.9.22"
-    id("co.touchlab.skie") version "0.6.2"
-//    id("com.google.gms.google-services") version "4.4.1" apply false
-//    id("com.google.gms.google-services").version("4.3.14").apply(false)
-
+    kotlin(libs.plugins.serialization.get().pluginId) version(libs.versions.serialization)
+    alias(libs.plugins.touchlabSkie)
 }
 
 kotlin {
@@ -35,14 +32,12 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.datetime)
-            implementation("dev.gitlive:firebase-firestore:1.8.1")
-            implementation("dev.gitlive:firebase-common:1.8.1")
+            implementation(libs.firebase.firestore)
+            implementation(libs.firebase.common)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
-            implementation(platform("com.google.firebase:firebase-bom:30.0.1"))
-
-
+            implementation(libs.firebase.bom)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
