@@ -17,8 +17,8 @@ extension ContentView {
 
         func startObserving() {
             Task {
-                for await phrase in Greeting().greet() {
-                    self.greetings.append(phrase)
+                for await phrase in Greeting().getCategories() {
+                    self.greetings.append(phrase.first!.name)
                 }
             }
         }
