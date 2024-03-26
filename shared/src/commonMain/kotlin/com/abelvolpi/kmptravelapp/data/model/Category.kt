@@ -1,4 +1,4 @@
-package com.abelvolpi.kmptravelapp
+package com.abelvolpi.kmptravelapp.data.model
 
 import kotlinx.serialization.Serializable
 

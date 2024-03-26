@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.abelvolpi.kmptravelapp.Category
+import com.abelvolpi.kmptravelapp.data.model.Category
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
 

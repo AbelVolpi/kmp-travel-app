@@ -1,5 +1,6 @@
 package com.abelvolpi.kmptravelapp
 
+import com.abelvolpi.kmptravelapp.data.model.Category
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.delay

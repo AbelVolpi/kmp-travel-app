@@ -2,7 +2,7 @@ package com.abelvolpi.kmptravelapp.android
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abelvolpi.kmptravelapp.Category
+import com.abelvolpi.kmptravelapp.data.model.Category
 import com.abelvolpi.kmptravelapp.Greeting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
