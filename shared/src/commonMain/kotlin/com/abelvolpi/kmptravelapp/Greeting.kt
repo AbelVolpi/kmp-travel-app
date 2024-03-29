@@ -11,14 +11,12 @@ import kotlin.time.Duration.Companion.seconds
 
 class Greeting {
     private val platform: Platform = getPlatform()
-    private val rocketComponent = RocketComponent()
 
     fun greet(): Flow<String> = flow {
         emit(if (Random.nextBoolean()) "Hi!" else "Hello!")
         delay(1.seconds)
         emit("Guess what this is! > ${platform.name.reversed()}")
         delay(1.seconds)
-        emit(rocketComponent.launchPhrase())
     }
 
     fun getCategories(): Flow<List<Category>> = flow {
