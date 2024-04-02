@@ -18,8 +18,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.abelvolpi.kmptravelapp.data.model.Category
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
+import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
+import org.koin.androidx.compose.koinViewModel
+import org.koin.androidx.compose.viewModel
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Firebase.initialize(this)
@@ -30,7 +35,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun App(mainViewModel: MainViewModel = viewModel()) {
+fun App(mainViewModel: MainViewModel = koinViewModel()) {
     MyApplicationTheme {
         val categories by mainViewModel.greetingList.collectAsStateWithLifecycle()
         GreetingView(categories = categories)
@@ -43,8 +48,8 @@ fun GreetingView(categories: List<Category>) {
         modifier = Modifier.padding(all = 20.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        categories.forEach { greeting ->
-            Text(categories.toString())
+        categories.forEach { category ->
+            Text(category.toString())
             Divider()
         }
     }

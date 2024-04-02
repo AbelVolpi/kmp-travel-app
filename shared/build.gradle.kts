@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    kotlin(libs.plugins.serialization.get().pluginId) version(libs.versions.serialization)
+    kotlin(libs.plugins.serialization.get().pluginId) version (libs.versions.serialization)
     alias(libs.plugins.touchlabSkie)
+    alias(libs.plugins.realmKotlin)
 }
 
 kotlin {
@@ -13,7 +14,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -34,6 +35,9 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.firebase.firestore)
             implementation(libs.firebase.common)
+            implementation(libs.realm.kotlin)
+            implementation(libs.koin.core)
+            implementation(libs.koin.test)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
