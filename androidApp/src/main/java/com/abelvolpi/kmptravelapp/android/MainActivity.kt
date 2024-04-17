@@ -14,14 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.abelvolpi.kmptravelapp.data.model.Category
+import com.abelvolpi.kmptravelapp.data.model.Place
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
-import org.koin.androidx.compose.getViewModel
-import org.koin.androidx.compose.inject
 import org.koin.androidx.compose.koinViewModel
-import org.koin.androidx.compose.viewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -37,18 +33,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App(mainViewModel: MainViewModel = koinViewModel()) {
     MyApplicationTheme {
-        val categories by mainViewModel.greetingList.collectAsStateWithLifecycle()
-        GreetingView(categories = categories)
+        val places by mainViewModel.greetingList.collectAsStateWithLifecycle()
+        GreetingView(places = places)
     }
 }
 
 @Composable
-fun GreetingView(categories: List<Category>) {
+fun GreetingView(places: List<Place>) {
     Column(
         modifier = Modifier.padding(all = 20.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        categories.forEach { category ->
+        places.forEach { category ->
             Text(category.toString())
             Divider()
         }

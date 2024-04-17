@@ -22,5 +22,4 @@ class CategoryRepository(
     fun getCategories(): Flow<List<Category>> = flow {
         emit(localDataSource.getAllCategories())
     }
-
 }

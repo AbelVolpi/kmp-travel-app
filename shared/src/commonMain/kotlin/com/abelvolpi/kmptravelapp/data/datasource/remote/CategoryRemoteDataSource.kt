@@ -14,7 +14,7 @@ class CategoryRemoteDataSource(
             val categoriesResponse = firebaseFirestore.collection(CATEGORIES).get()
             emit(categoriesResponse.documents.map { it.data() })
         } catch (error: Exception) {
-            throw error
+            println(error)
         }
     }
 
