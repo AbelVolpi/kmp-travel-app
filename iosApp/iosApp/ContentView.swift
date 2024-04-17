@@ -17,12 +17,18 @@ extension ContentView {
         
         func startObserving() {
             Task {
-                try? await DIHelper().categoryRepository.fetchCategories()
-                for await phrase in DIHelper().categoryRepository.getCategories() {
-                    for category in phrase {
-                        self.greetings.append(category.name)
+                for await phrase in DIHelper().placeRepository.fetchPlaces() {
+                    for place in phrase {
+                        self.greetings.append(place.name)
                     }
                 }
+                
+                //                try? await DIHelper().categoryRepository.fetchCategories()
+                //                for await phrase in DIHelper().categoryRepository.getCategories() {
+                //                    for category in phrase {
+                //                        self.greetings.append(category.name)
+                //                    }
+                //                }
             }
         }
     }

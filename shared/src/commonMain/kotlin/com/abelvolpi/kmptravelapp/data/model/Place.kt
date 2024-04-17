@@ -4,10 +4,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Place(
-    val name: String,
-    val imageUrls: List<String>,
-    val description: String,
-    val address: String,
-    val categoryId: String,
-    val price: String
+    var id: String = "",
+    val name: String = "",
+    val imageUrls: List<String> = listOf(""),
+    val description: String = "",
+    val address: String = "",
+    val categoryId: String = "",
+    val price: String = ""
 )
