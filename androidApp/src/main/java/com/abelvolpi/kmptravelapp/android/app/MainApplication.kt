@@ -1,4 +1,4 @@
-package com.abelvolpi.kmptravelapp.android
+package com.abelvolpi.kmptravelapp.android.app
 
 import android.app.Application
 import com.abelvolpi.kmptravelapp.android.di.androidModule

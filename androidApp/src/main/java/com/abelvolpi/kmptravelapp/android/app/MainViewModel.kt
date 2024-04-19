@@ -1,4 +1,4 @@
-package com.abelvolpi.kmptravelapp.android
+package com.abelvolpi.kmptravelapp.android.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,6 +1,6 @@
 package com.abelvolpi.kmptravelapp.android.di
 
-import com.abelvolpi.kmptravelapp.android.MainViewModel
+import com.abelvolpi.kmptravelapp.android.app.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

@@ -1,4 +1,4 @@
-package com.abelvolpi.kmptravelapp.android
+package com.abelvolpi.kmptravelapp.android.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.abelvolpi.kmptravelapp.android.presentation.theme.MyApplicationTheme
 import com.abelvolpi.kmptravelapp.data.model.Place
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
