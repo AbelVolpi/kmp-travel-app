@@ -1,4 +1,4 @@
-package com.abelvolpi.kmptravelapp.android
+package com.abelvolpi.kmptravelapp.android.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
