@@ -23,13 +23,11 @@ val appModule = module {
     single { providePlaceRepository(get(), get()) }
     single { providePlaceRemoteDataSource(get()) }
     single { providePlaceLocalDataSource(providePlaceRealm()) }
-//    single { providePlaceRealm() }
 
     // Categories
     single { provideCategoryRepository(get(), get()) }
     single { provideCategoryRemoteDataSource(get()) }
     single { provideCategoryLocalDataSource(provideCategoryRealm()) }
-//    single { provideCategoryRealm() }
 
     // Remote Data
     single { provideFirestore() }
