@@ -59,7 +59,6 @@ fun ExploreScreen() {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBarComponent() {
@@ -146,16 +145,18 @@ fun CategoriesList() {
 @Composable
 fun CategoryItem(resourceId: Int, position: Int, lastIndex: Int) {
     Column(
-        modifier = Modifier.padding(
-            start = if (position == 0) 30.dp else 0.dp,
-            end = if (position == lastIndex) 30.dp else 0.dp,
-        )
+        modifier = Modifier
+            .padding(
+                start = if (position == 0) 30.dp else 0.dp,
+                end = if (position == lastIndex) 30.dp else 0.dp,
+            )
     ) {
         Box(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .clip(shape = RoundedCornerShape(15.dp))
                 .background(color = tertiaryColor)
+                .clickable { }
         ) {
             Icon(
                 modifier = Modifier
@@ -193,6 +194,7 @@ fun RecommendationItem() {
         modifier = Modifier
             .size(150.dp)
             .clip(shape = RoundedCornerShape(30.dp))
+            .clickable { }
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
