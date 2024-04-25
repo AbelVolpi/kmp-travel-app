@@ -1,6 +1,7 @@
 package com.abelvolpi.kmptravelapp.android.presentation.ui.chalet
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +38,6 @@ fun ChaletScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 30.dp)
             .verticalScroll(rememberScrollState())
     ) {
         ChaletTitle()
@@ -51,7 +51,8 @@ fun ChaletTitle() {
     Text(
         text = "Chalés Lua Cheia",
         color = Color.White,
-        modifier = Modifier.padding(top = 45.dp, bottom = 15.dp),
+        modifier = Modifier
+            .padding(top = 45.dp, bottom = 15.dp, start = 30.dp, end = 30.dp),
         fontSize = 25.sp,
         fontWeight = FontWeight.Bold
     )
@@ -62,10 +63,12 @@ fun WhatsAppBox() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 20.dp)
+            .padding(bottom = 20.dp, start = 30.dp, end = 30.dp)
             .clip(shape = RoundedCornerShape(15.dp))
             .background(secondaryColor)
+            .clickable {  }
             .padding(20.dp)
+
 
     ) {
         Icon(
@@ -143,13 +146,15 @@ fun ChaletOptionComponent(
         color = Color.White,
         thickness = 1.dp,
         modifier = Modifier
-//            .padding(vertical = 20.dp)
             .alpha(0.5f)
+            .padding(horizontal = 30.dp)
     )
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp)
+            .clickable { }
+            .padding(vertical = 20.dp, horizontal = 30.dp)
+
     ) {
         Icon(
             painter = painterResource(id = chaletOption.optionIcon),
