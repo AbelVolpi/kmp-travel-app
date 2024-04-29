@@ -10,13 +10,15 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,15 +50,16 @@ import com.abelvolpi.kmptravelapp.android.presentation.theme.tertiaryColor
 
 @Composable
 fun ExploreScreen() {
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
-        item { SearchBarComponent() }
-        item { CategoriesTitle() }
-        item { CategoriesList() }
-        item { RecommendationsTitle() }
-        item { RecommendationsGrid() }
+        SearchBarComponent()
+        CategoriesTitle()
+        CategoriesList()
+        RecommendationsTitle()
+        RecommendationsGrid()
     }
 }
 
@@ -67,6 +71,7 @@ fun SearchBarComponent() {
     SearchBar(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(0.dp, LocalConfiguration.current.screenHeightDp.dp)
             .padding(top = 45.dp, start = 30.dp, end = 30.dp),
         shape = RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp),
         colors = SearchBarDefaults.colors(
@@ -225,7 +230,8 @@ fun RecommendationItem() {
 @Composable
 fun RecommendationsGrid() {
     FlowRow(
-        modifier = Modifier.padding(horizontal = 30.dp),
+        modifier = Modifier
+            .padding(horizontal = 30.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         maxItemsInEachRow = 2
