@@ -58,6 +58,7 @@ fun ChaletTitle() {
     )
 }
 
+//TODO (move to single component with accommodation screen)
 @Composable
 fun WhatsAppBox() {
     Row(
@@ -84,7 +85,7 @@ fun WhatsAppBox() {
             color = Color.White,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .align(Alignment.Top)
+                .align(Alignment.CenterVertically)
                 .padding(start = 10.dp)
         )
     }
