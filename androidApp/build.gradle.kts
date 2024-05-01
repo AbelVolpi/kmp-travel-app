@@ -54,4 +54,5 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation (libs.androidx.navigation.compose)
     implementation(libs.androidx.material)
+    implementation(libs.androidx.core.splashscreen)
 }

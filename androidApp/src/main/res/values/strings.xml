@@ -2,4 +2,5 @@
 <resources>
     <string name="explore">Explore</string>
     <string name="chalet">Chalés</string>
+    <string name="app_name">Lua Cheia</string>
 </resources>
