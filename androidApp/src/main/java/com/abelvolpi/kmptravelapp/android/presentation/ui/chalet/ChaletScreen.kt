@@ -67,10 +67,8 @@ fun WhatsAppBox() {
             .padding(bottom = 20.dp, start = 30.dp, end = 30.dp)
             .clip(shape = RoundedCornerShape(15.dp))
             .background(secondaryColor)
-            .clickable {  }
+            .clickable { }
             .padding(20.dp)
-
-
     ) {
         Icon(
             painter = painterResource(id = R.drawable.whatsapp_icon),

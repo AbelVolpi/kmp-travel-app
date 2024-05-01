@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -54,6 +56,7 @@ fun ExploreScreen() {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .padding(top = 45.dp)
     ) {
         SearchBarComponent()
         CategoriesTitle()
@@ -63,6 +66,7 @@ fun ExploreScreen() {
     }
 }
 
+//TODO move to shared components
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBarComponent() {
@@ -72,7 +76,7 @@ fun SearchBarComponent() {
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(0.dp, LocalConfiguration.current.screenHeightDp.dp)
-            .padding(top = 45.dp, start = 30.dp, end = 30.dp),
+            .padding(horizontal = 20.dp),
         shape = RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp),
         colors = SearchBarDefaults.colors(
             containerColor = secondaryColor,
@@ -123,7 +127,7 @@ fun CategoriesTitle() {
     Text(
         text = "Categorias",
         color = Color.White,
-        modifier = Modifier.padding(top = 20.dp, bottom = 15.dp, end = 30.dp, start = 30.dp),
+        modifier = Modifier.padding(top = 20.dp, bottom = 15.dp, end = 20.dp, start = 20.dp),
         fontSize = 25.sp,
         fontWeight = FontWeight.Bold
     )
@@ -152,7 +156,7 @@ fun CategoryItem(resourceId: Int, position: Int, lastIndex: Int) {
     Column(
         modifier = Modifier
             .padding(
-                start = if (position == 0) 30.dp else 0.dp,
+                start = if (position == 0) 20.dp else 0.dp,
                 end = if (position == lastIndex) 30.dp else 0.dp,
             )
     ) {
@@ -187,17 +191,19 @@ fun RecommendationsTitle() {
     Text(
         text = "Recomendações dos Anfitriões",
         color = Color.White,
-        modifier = Modifier.padding(top = 20.dp, bottom = 15.dp, end = 30.dp, start = 30.dp),
+        modifier = Modifier.padding(top = 20.dp, bottom = 15.dp, end = 20.dp, start = 20.dp),
         fontSize = 21.sp,
         fontWeight = FontWeight.Bold
     )
 }
 
 @Composable
-fun RecommendationItem() {
+fun RowScope.RecommendationItem() {
     Box(
         modifier = Modifier
-            .size(150.dp)
+            .aspectRatio(1f)
+            .weight(1f)
+            .padding(horizontal = 4.dp)
             .clip(shape = RoundedCornerShape(30.dp))
             .clickable { }
     ) {
@@ -231,10 +237,11 @@ fun RecommendationItem() {
 fun RecommendationsGrid() {
     FlowRow(
         modifier = Modifier
-            .padding(horizontal = 30.dp),
-        horizontalArrangement = Arrangement.spacedBy(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         maxItemsInEachRow = 2
+
     ) {
         repeat(6) {
             RecommendationItem()
