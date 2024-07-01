@@ -4,15 +4,28 @@ import shared
 
 @main
 struct iOSApp: App {
-    
-    init(){
-        FirebaseApp.configure()
-        InitDIHelperKt.doInitKoin()
-    }
-    
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: ContentView.ViewModel())
+            TabView {
+                NavigationStack {
+                    ContentView()
+                }
+                .tabItem {
+                    Label("", systemImage: "safari")
+                }
+                NavigationStack {
+                    InformationsView()
+                }
+                .tabItem {
+                    Label("", systemImage: "house")
+                }
+            }
+            .preferredColorScheme(.dark)
+            .accentColor(.white)
+            .onAppear {
+                UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
+                UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            }
         }
-    }
+	}
 }
