@@ -1,10 +1,39 @@
-*.iml
-.gradle
-.idea
 .DS_Store
-build
 captures
 .externalNativeBuild
 .cxx
-local.properties
 xcuserdata
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Xcode
+## User settings
+xcuserdata/
+
+/iosApp/iosApp.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+/iosApp/iosApp.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
