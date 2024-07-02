@@ -6,6 +6,10 @@ struct ContentView: View {
     @State private var searchText = ""
     @State private var aboutUsViewIsPresented = false
     
+    init() {
+        ViewModel().startObserving()
+    }
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
@@ -116,10 +120,26 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            ContentView()
+extension ContentView {
+    
+    class ViewModel: ObservableObject {
+        @Published var greetings: [String] = []
+
+        func startObserving() {
+            Task {
+//                for await phrase in DIHelper().placeRepository.fetchPlaces() {
+//                    for place in phrase {
+//                        self.greetings.append(place.name)
+//                    }
+//                }
+                
+                try? await DIHelper().categoryRepository.fetchCategories()
+                for await phrase in DIHelper().categoryRepository.getCategories() {
+                    for category in phrase {
+                        self.greetings.append(category.name)
+                    }
+                }
+            }
         }
     }
 }
