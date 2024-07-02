@@ -45,10 +45,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.abelvolpi.kmptravelapp.android.R
-import com.abelvolpi.kmptravelapp.android.app.HomeScreen
 import com.abelvolpi.kmptravelapp.android.presentation.theme.MyApplicationTheme
 import com.abelvolpi.kmptravelapp.android.presentation.theme.secondaryColor
 import com.abelvolpi.kmptravelapp.android.presentation.theme.tertiaryColor
+import com.abelvolpi.kmptravelapp.android.presentation.ui.home.HomeScreen
 
 @Composable
 fun ExploreScreen() {

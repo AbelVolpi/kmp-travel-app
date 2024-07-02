@@ -2,7 +2,6 @@ package com.abelvolpi.kmptravelapp.android.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abelvolpi.kmptravelapp.data.model.Category
 import com.abelvolpi.kmptravelapp.data.model.Place
 import com.abelvolpi.kmptravelapp.data.repository.CategoryRepository
 import com.abelvolpi.kmptravelapp.data.repository.PlaceRepository
@@ -11,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MainViewModel(
+class HomeViewModel(
     private val categoryRepository: CategoryRepository,
     private val placeRepository: PlaceRepository
 ) : ViewModel() {
