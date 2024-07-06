@@ -55,4 +55,6 @@ dependencies {
     implementation (libs.androidx.navigation.compose)
     implementation(libs.androidx.material)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
 }
