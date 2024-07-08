@@ -1,6 +1,5 @@
 package com.abelvolpi.kmptravelapp.android.presentation.ui.explore
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SearchBar
@@ -39,19 +39,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.abelvolpi.kmptravelapp.android.R
 import com.abelvolpi.kmptravelapp.android.presentation.theme.MyApplicationTheme
 import com.abelvolpi.kmptravelapp.android.presentation.theme.secondaryColor
 import com.abelvolpi.kmptravelapp.android.presentation.theme.tertiaryColor
 import com.abelvolpi.kmptravelapp.android.presentation.ui.home.HomeScreen
+import com.abelvolpi.kmptravelapp.data.model.Category
+import com.abelvolpi.kmptravelapp.data.model.Place
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ExploreScreen() {
+fun ExploreScreen(
+    exploreViewModel: ExploreViewModel = koinViewModel()
+) {
+    val exploreUIData = exploreViewModel.exploreModel.collectAsStateWithLifecycle().value
+
+    if (exploreUIData != null) {
+        ExploreUI(exploreUIData)
+    } else {
+        LoadingIndicator()
+    }
+}
+
+@Composable
+fun ExploreUI(
+    exploreUIData: ExploreModel
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,9 +85,18 @@ fun ExploreScreen() {
     ) {
         SearchBarComponent()
         CategoriesTitle()
-        CategoriesList()
+        CategoriesList(exploreUIData.categories)
         RecommendationsTitle()
-        RecommendationsGrid()
+        RecommendationsGrid(exploreUIData.places)
+    }
+}
+
+@Composable
+fun LoadingIndicator() {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
     }
 }
 
@@ -134,25 +168,30 @@ fun CategoriesTitle() {
 }
 
 @Composable
-fun CategoriesList() {
-    val categoryList = listOf(
-        R.drawable.waterfall_icon,
-        R.drawable.restaurant_icon,
-        R.drawable.trail_icon,
-        R.drawable.trail_icon,
-        R.drawable.attraction_icon
-    )
+fun CategoriesList(
+    categories: List<Category>
+) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        itemsIndexed(categoryList) { index, item ->
-            CategoryItem(item, index, categoryList.lastIndex)
+        itemsIndexed(categories) { index, item ->
+            CategoryItem(
+                item.name,
+                item.iconUrl,
+                index,
+                categories.lastIndex
+            )
         }
     }
 }
 
 @Composable
-fun CategoryItem(resourceId: Int, position: Int, lastIndex: Int) {
+fun CategoryItem(
+    name: String,
+    iconUrl: String,
+    position: Int,
+    lastIndex: Int
+) {
     Column(
         modifier = Modifier
             .padding(
@@ -167,20 +206,27 @@ fun CategoryItem(resourceId: Int, position: Int, lastIndex: Int) {
                 .background(color = tertiaryColor)
                 .clickable { }
         ) {
-            Icon(
+            AsyncImage(
                 modifier = Modifier
                     .padding(20.dp)
-                    .size(30.dp),
-                painter = painterResource(id = resourceId),
-                contentDescription = "",
-                tint = Color.White
+                    .size(40.dp),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(iconUrl)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = null,
             )
         }
         Text(
-            text = "Cachoeiras",
+            text = name,
             fontSize = 12.sp,
             color = Color.White,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center,
+            modifier = Modifier
+                .widthIn(max = 80.dp)
+                .align(Alignment.CenterHorizontally)
+
         )
     }
 }
@@ -198,7 +244,10 @@ fun RecommendationsTitle() {
 }
 
 @Composable
-fun RowScope.RecommendationItem() {
+fun RowScope.RecommendationItem(
+    name: String,
+    iconUrl: String,
+) {
     Box(
         modifier = Modifier
             .aspectRatio(1f)
@@ -207,9 +256,9 @@ fun RowScope.RecommendationItem() {
             .clip(shape = RoundedCornerShape(30.dp))
             .clickable { }
     ) {
-        Image(
+        AsyncImage(
+            model = iconUrl,
             modifier = Modifier.fillMaxSize(),
-            painter = painterResource(id = R.drawable.recomendation),
             contentDescription = ""
         )
         Box(
@@ -221,7 +270,7 @@ fun RowScope.RecommendationItem() {
 
             ) {
             Text(
-                text = "Ponto Turístico",
+                text = name,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -234,7 +283,9 @@ fun RowScope.RecommendationItem() {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun RecommendationsGrid() {
+fun RecommendationsGrid(
+    places: List<Place>
+) {
     FlowRow(
         modifier = Modifier
             .padding(horizontal = 20.dp),
@@ -243,8 +294,11 @@ fun RecommendationsGrid() {
         maxItemsInEachRow = 2
 
     ) {
-        repeat(6) {
-            RecommendationItem()
+        places.forEach { place ->
+            RecommendationItem(
+                place.name,
+                place.imageUrls.first()
+            )
         }
     }
 }

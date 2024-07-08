@@ -21,6 +21,7 @@ class PlaceRemoteDataSource(
             emit(placesResponseData)
         } catch (error: Exception) {
             println(error)
+            emit(emptyList())
         }
     }
 

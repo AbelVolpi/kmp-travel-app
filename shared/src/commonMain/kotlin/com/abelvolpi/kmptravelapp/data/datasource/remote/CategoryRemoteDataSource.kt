@@ -15,6 +15,7 @@ class CategoryRemoteDataSource(
             emit(categoriesResponse.documents.map { it.data() })
         } catch (error: Exception) {
             println(error)
+            emit(emptyList())
         }
     }
 

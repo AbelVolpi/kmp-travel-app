@@ -25,10 +25,11 @@ class HomeViewModel(
 //            categoryRepository.getCategories().collect { newCategory ->
 //                _greetingList.update { _ -> newCategory }
 //            }
-            placeRepository.fetchPlaces()
-            placeRepository.getAllPlaces().collect { place ->
-                _greetingList.update { _ -> place }
-            }
+
+//            placeRepository.fetchPlaces()
+//            placeRepository.getAllPlaces().collect { place ->
+//                _greetingList.update { _ -> place }
+//            }
         }
     }
 }
