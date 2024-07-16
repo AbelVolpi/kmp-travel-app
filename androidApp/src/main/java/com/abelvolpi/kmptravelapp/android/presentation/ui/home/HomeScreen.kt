@@ -41,7 +41,7 @@ fun HomeScreen(
             startDestination = Section.Explore.route,
             Modifier.padding(innerPadding)
         ) {
-            navGraph()
+            navGraph(navController)
         }
     }
 }

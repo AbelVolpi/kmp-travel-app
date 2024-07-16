@@ -1,6 +1,5 @@
 package com.abelvolpi.kmptravelapp.android.presentation.ui.category
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,27 +25,60 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.abelvolpi.kmptravelapp.android.R
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
 import com.abelvolpi.kmptravelapp.android.presentation.ui.explore.SearchBarComponent
+import com.abelvolpi.kmptravelapp.data.model.Place
+import org.koin.androidx.compose.koinViewModel
 
-@Preview
+@Composable
+fun CategoryScreen(
+    categoryViewModel: CategoryViewModel = koinViewModel(),
+    categoryId: String,
+    categoryName: String,
+    onPlaceClicked: (String) -> Unit,
+    onBackButtonClicked: () -> Unit
+) {
+    val categoryUIData = categoryViewModel.placesModel.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(Unit){
+        categoryViewModel.getPlacesByCategory(categoryId)
+    }
+
+    if (categoryUIData != null) {
+        CategoryUI(
+            categoryName,
+            categoryUIData,
+            onPlaceClicked,
+            onBackButtonClicked
+        )
+    } else {
+        LoadingIndicator()
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryScreen() {
+fun CategoryUI(
+    categoryName: String,
+    places: List<Place>,
+    onPlaceClicked: (String) -> Unit,
+    onBackButtonClicked: () -> Unit
+) {
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
@@ -61,7 +93,7 @@ fun CategoryScreen() {
                 ),
                 title = {
                     Text(
-                        "Pontos Turísticos",
+                        text = categoryName,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         color = Color.White,
@@ -69,7 +101,7 @@ fun CategoryScreen() {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = { onBackButtonClicked.invoke() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",
@@ -88,13 +120,15 @@ fun CategoryScreen() {
                 .padding(top = padding.calculateTopPadding())
         ) {
             item { SearchBarComponent() }
-            repeat(6) {
+            places.forEach { place ->
                 item { Spacer(modifier = Modifier.padding(10.dp)) }
                 item {
                     PlaceComponent(
-                        R.drawable.recomendation,
-                        "Morro da Igreja",
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+                        placeId = place.id,
+                        placeTitle = place.name,
+                        placeDescription = place.description,
+                        imageUrl = place.imageUrls.first(),
+                        onPlaceClicked = onPlaceClicked
                     )
                 }
             }
@@ -104,9 +138,11 @@ fun CategoryScreen() {
 
 @Composable
 fun PlaceComponent(
-    imageLocation: Int,
+    placeId: String,
     placeTitle: String,
-    placeDescription: String
+    placeDescription: String,
+    imageUrl: String,
+    onPlaceClicked: (String) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -119,20 +155,23 @@ fun PlaceComponent(
                 shape = RoundedCornerShape(20.dp)
             )
             .clip(shape = RoundedCornerShape(20.dp))
-            .clickable { }
+            .clickable {
+                onPlaceClicked.invoke(placeId)
+            }
             .padding(10.dp)
 
     ) {
-        Image(
+        AsyncImage(
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f)
                 .align(Alignment.CenterVertically)
                 .clip(shape = RoundedCornerShape(20.dp)),
-            painter = painterResource(id = imageLocation),
+            model = imageUrl,
             contentDescription = null,
-            contentScale = ContentScale.Crop
-        )
+            contentScale = ContentScale.Crop,
+
+            )
         Column(
             modifier = Modifier
                 .padding(start = 10.dp)

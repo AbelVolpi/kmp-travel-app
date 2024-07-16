@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SearchBar
@@ -52,6 +51,7 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.abelvolpi.kmptravelapp.android.R
+import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.abelvolpi.kmptravelapp.android.presentation.theme.MyApplicationTheme
 import com.abelvolpi.kmptravelapp.android.presentation.theme.secondaryColor
 import com.abelvolpi.kmptravelapp.android.presentation.theme.tertiaryColor
@@ -62,12 +62,18 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ExploreScreen(
-    exploreViewModel: ExploreViewModel = koinViewModel()
+    exploreViewModel: ExploreViewModel = koinViewModel(),
+    onCategoryClicked: (String, String) -> Unit,
+    onPlaceClicked: (String) -> Unit
 ) {
     val exploreUIData = exploreViewModel.exploreModel.collectAsStateWithLifecycle().value
 
     if (exploreUIData != null) {
-        ExploreUI(exploreUIData)
+        ExploreUI(
+            exploreUIData,
+            onCategoryClicked,
+            onPlaceClicked
+        )
     } else {
         LoadingIndicator()
     }
@@ -75,7 +81,9 @@ fun ExploreScreen(
 
 @Composable
 fun ExploreUI(
-    exploreUIData: ExploreModel
+    exploreUIData: ExploreModel,
+    onCategoryClicked: (String, String) -> Unit,
+    onPlaceClicked: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -85,20 +93,19 @@ fun ExploreUI(
     ) {
         SearchBarComponent()
         CategoriesTitle()
-        CategoriesList(exploreUIData.categories)
+        CategoriesList(
+            categories = exploreUIData.categories,
+            onCategoryClicked = onCategoryClicked
+        )
         RecommendationsTitle()
-        RecommendationsGrid(exploreUIData.places)
+        RecommendationsGrid(
+            places = exploreUIData.places,
+            onPlaceClicked = onPlaceClicked
+        )
     }
 }
 
-@Composable
-fun LoadingIndicator() {
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-    }
-}
+
 
 //TODO move to shared components
 @OptIn(ExperimentalMaterial3Api::class)
@@ -169,17 +176,20 @@ fun CategoriesTitle() {
 
 @Composable
 fun CategoriesList(
-    categories: List<Category>
+    categories: List<Category>,
+    onCategoryClicked: (String, String) -> Unit,
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         itemsIndexed(categories) { index, item ->
             CategoryItem(
+                item.id,
                 item.name,
                 item.iconUrl,
                 index,
-                categories.lastIndex
+                categories.lastIndex,
+                onCategoryClicked
             )
         }
     }
@@ -187,10 +197,12 @@ fun CategoriesList(
 
 @Composable
 fun CategoryItem(
+    id: String,
     name: String,
     iconUrl: String,
     position: Int,
-    lastIndex: Int
+    lastIndex: Int,
+    onCategoryClicked: (String, String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -204,7 +216,9 @@ fun CategoryItem(
                 .padding(bottom = 10.dp)
                 .clip(shape = RoundedCornerShape(15.dp))
                 .background(color = tertiaryColor)
-                .clickable { }
+                .clickable {
+                    onCategoryClicked.invoke(id, name)
+                }
         ) {
             AsyncImage(
                 modifier = Modifier
@@ -245,8 +259,10 @@ fun RecommendationsTitle() {
 
 @Composable
 fun RowScope.RecommendationItem(
+    id: String,
     name: String,
     iconUrl: String,
+    onPlaceClicked: (String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -254,7 +270,9 @@ fun RowScope.RecommendationItem(
             .weight(1f)
             .padding(horizontal = 4.dp)
             .clip(shape = RoundedCornerShape(30.dp))
-            .clickable { }
+            .clickable {
+                onPlaceClicked.invoke(id)
+            }
     ) {
         AsyncImage(
             model = iconUrl,
@@ -284,7 +302,8 @@ fun RowScope.RecommendationItem(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RecommendationsGrid(
-    places: List<Place>
+    places: List<Place>,
+    onPlaceClicked: (String) -> Unit
 ) {
     FlowRow(
         modifier = Modifier
@@ -296,8 +315,10 @@ fun RecommendationsGrid(
     ) {
         places.forEach { place ->
             RecommendationItem(
+                place.id,
                 place.name,
-                place.imageUrls.first()
+                place.imageUrls.first(),
+                onPlaceClicked
             )
         }
     }

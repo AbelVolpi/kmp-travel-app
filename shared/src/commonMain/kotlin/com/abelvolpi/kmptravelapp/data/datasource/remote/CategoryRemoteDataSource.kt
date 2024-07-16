@@ -12,7 +12,15 @@ class CategoryRemoteDataSource(
     fun getCategories(): Flow<List<Category>> = flow {
         try {
             val categoriesResponse = firebaseFirestore.collection(CATEGORIES).get()
-            emit(categoriesResponse.documents.map { it.data() })
+            val categoriesResponseCategoriesIds = categoriesResponse.documents.map { it.id }
+            val categoriesResponseData: List<Category> =
+                categoriesResponse.documents.map { documentSnapshot ->
+                    documentSnapshot.data()
+                }
+            categoriesResponseData.forEachIndexed { index, category ->
+                category.id = categoriesResponseCategoriesIds[index]
+            }
+            emit(categoriesResponseData)
         } catch (error: Exception) {
             println(error)
             emit(emptyList())

@@ -1,7 +1,6 @@
 package com.abelvolpi.kmptravelapp.android.presentation.ui.place
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,25 +33,58 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.abelvolpi.kmptravelapp.android.R
+import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
+import com.abelvolpi.kmptravelapp.data.model.Place
+import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalFoundationApi::class)
-@Preview
 @Composable
-fun PlaceScreen() {
-    val pagerState = rememberPagerState(pageCount = { 3 })
+fun PlaceScreen(
+    placeId: String,
+    placeViewModel: PlaceViewModel = koinViewModel(),
+    onBackButtonClicked: () -> Unit
+) {
+    val placeData = placeViewModel.placeModel.collectAsStateWithLifecycle().value
+    placeViewModel.getPlace(placeId)
+
+    if (placeData != null) {
+        PlaceUI(placeData, onBackButtonClicked)
+    } else {
+        LoadingIndicator()
+    }
+}
+
+@Composable
+fun PlaceUI(
+    place: Place,
+    onBackButtonClicked: () -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        item { ImagesPagerComponent(pagerState = pagerState) }
-        item { PlaceTitle("Morro da Igreja") }
-        item { PlaceDescription(example_text) }
+        item {
+            ImagesPagerComponent(
+                imageUrls = place.imageUrls,
+                onBackButtonClicked = onBackButtonClicked
+            )
+        }
+        item {
+            PlaceTitle(
+                title = place.name
+            )
+        }
+        item {
+            PlaceDescription(
+                description = place.description
+            )
+        }
         item { TraceRoute() }
     }
 }
@@ -77,7 +109,13 @@ fun PageIndicator(pagerState: PagerState, modifier: Modifier) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ImagesPagerComponent(pagerState: PagerState) {
+fun ImagesPagerComponent(
+    imageUrls: List<String>,
+    onBackButtonClicked: () -> Unit
+) {
+    val pagerState = rememberPagerState(
+        pageCount = { imageUrls.size }
+    )
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -89,11 +127,11 @@ fun ImagesPagerComponent(pagerState: PagerState) {
             pageSize = PageSize.Fill,
             modifier = Modifier.fillMaxSize()
         ) { index ->
-            Image(
-                painter = painterResource(id = R.drawable.recomendation),
+            AsyncImage(
+                model = imageUrls[index],
+                modifier = Modifier.fillMaxSize(),
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                contentScale = ContentScale.Crop
             )
         }
         PageIndicator(
@@ -109,7 +147,7 @@ fun ImagesPagerComponent(pagerState: PagerState) {
                 .align(Alignment.BottomCenter)
         )
         IconButton(
-            onClick = { /* Handle back button click */ },
+            onClick = { onBackButtonClicked.invoke() },
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(16.dp)
@@ -159,7 +197,7 @@ fun TraceRoute() {
             .fillMaxWidth()
             .wrapContentWidth(Alignment.CenterHorizontally)
             .padding(vertical = 40.dp)
-            .border(width = 2.dp, color = Color.White, shape =  RoundedCornerShape(50.dp))
+            .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(50.dp))
             .clip(shape = RoundedCornerShape(50.dp))
             .padding(horizontal = 10.dp, vertical = 10.dp)
             .clickable { }
@@ -183,7 +221,3 @@ fun TraceRoute() {
         )
     }
 }
-
-
-const val example_text =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry."

@@ -24,10 +24,14 @@ class PlaceRepository(
     }
 
     fun getPlaceById(id: String): Flow<Place> = flow {
-        emit(localDataSource.getPlaceById(id))
+        remoteDataSource.getPlaceById(id).collect { place ->
+            emit(place)
+        }
     }
 
     fun getPlacesByCategory(categoryId: String): Flow<List<Place>> = flow {
-        emit(localDataSource.getPlacesByCategory(categoryId))
+        remoteDataSource.getPlacesByCategory(categoryId).collect { places ->
+            emit(places)
+        }
     }
 }
