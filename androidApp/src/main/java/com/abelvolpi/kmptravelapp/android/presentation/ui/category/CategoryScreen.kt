@@ -40,8 +40,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
+import com.abelvolpi.kmptravelapp.android.presentation.components.SearchBarComponent
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
-import com.abelvolpi.kmptravelapp.android.presentation.ui.explore.SearchBarComponent
 import com.abelvolpi.kmptravelapp.data.model.Place
 import org.koin.androidx.compose.koinViewModel
 
