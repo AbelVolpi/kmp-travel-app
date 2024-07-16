@@ -18,16 +18,12 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.abelvolpi.kmptravelapp.android.app.HomeViewModel
 import com.abelvolpi.kmptravelapp.android.presentation.navigation.navGraph
 import com.abelvolpi.kmptravelapp.android.presentation.navigation.Section
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeScreen(
-    homeViewModel: HomeViewModel = koinViewModel()
-) {
+fun HomeScreen() {
     val items = listOf(Section.Explore, Section.Chalet)
     val navController = rememberNavController()
 
