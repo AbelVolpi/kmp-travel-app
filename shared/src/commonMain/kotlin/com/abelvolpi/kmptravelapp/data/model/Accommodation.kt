@@ -1,5 +1,8 @@
 package com.abelvolpi.kmptravelapp.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Accommodation(
     var id: String,
     val title: String,
