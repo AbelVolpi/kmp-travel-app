@@ -1,14 +1,10 @@
 package com.abelvolpi.kmptravelapp.android.presentation.ui.accommodation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -21,25 +17,48 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.abelvolpi.kmptravelapp.android.R
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.abelvolpi.kmptravelapp.android.presentation.components.IconSource
+import com.abelvolpi.kmptravelapp.android.presentation.components.InfoBox
+import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
-import com.abelvolpi.kmptravelapp.android.presentation.theme.secondaryColor
+import com.abelvolpi.kmptravelapp.data.model.Accommodation
+import org.koin.androidx.compose.koinViewModel
 
-@Preview
+@Composable
+fun AccommodationScreen(
+    accommodationViewModel: AccommodationViewModel = koinViewModel(),
+    onAccommodationClicked: () -> Unit,
+    onBackButtonClicked: () -> Unit
+) {
+    val accommodationUIData =
+        accommodationViewModel.accommodationsModel.collectAsStateWithLifecycle().value
+
+    if (accommodationUIData != null) {
+        AccommodationUI(
+            accommodations = accommodationUIData,
+            onAccommodationClicked = onAccommodationClicked,
+            onBackButtonClicked = onBackButtonClicked
+        )
+    } else {
+        LoadingIndicator()
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccommodationScreen() {
+fun AccommodationUI(
+    accommodations: List<Accommodation>,
+    onAccommodationClicked: () -> Unit,
+    onBackButtonClicked: () -> Unit
+) {
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
@@ -63,7 +82,9 @@ fun AccommodationScreen() {
 
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = {
+                        onBackButtonClicked.invoke()
+                    }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",
@@ -90,39 +111,26 @@ fun AccommodationScreen() {
                     .padding(start = 30.dp, end = 30.dp, bottom = 30.dp)
 
             )
-            repeat(3) {
-                AccommodationBox()
+            accommodations.forEach {
+                AccommodationInfoBox(
+                    title = it.title,
+                    iconUrl = it.iconUrl,
+                    onAccommodationClicked = onAccommodationClicked
+                )
             }
         }
     }
 }
 
 @Composable
-fun AccommodationBox() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 20.dp, start = 30.dp, end = 30.dp)
-            .clip(shape = RoundedCornerShape(15.dp))
-            .background(secondaryColor)
-            .clickable { }
-            .padding(20.dp)
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.airbnb_icon),
-            contentDescription = "WhatsApp",
-            tint = Color.White,
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-        )
-        Text(
-            text = "Casa para 6 pessoas",
-            fontSize = 18.sp,
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(start = 10.dp)
-        )
-    }
+fun AccommodationInfoBox(
+    title: String,
+    iconUrl: String,
+    onAccommodationClicked: () -> Unit
+) {
+    InfoBox(
+        title = title,
+        iconSource = IconSource.Remote(iconUrl),
+        onInfoBoxClicked = onAccommodationClicked
+    )
 }

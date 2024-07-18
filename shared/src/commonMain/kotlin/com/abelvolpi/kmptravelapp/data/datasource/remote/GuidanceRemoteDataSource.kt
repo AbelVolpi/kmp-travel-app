@@ -12,14 +12,13 @@ class GuidanceRemoteDataSource(
     fun getGuidances(): Flow<List<Guidance>> = flow {
         try {
             val guidancesResponse = firebaseFirestore.collection(GUIDANCES).get()
-            val guidancesResponseGuidancesIds =
-                guidancesResponse.documents.map { it.id }
+            val guidancesResponseGuidancesIds = guidancesResponse.documents.map { it.id }
             val guidancesResponseData: List<Guidance> =
                 guidancesResponse.documents.map { documentSnapshot ->
                     documentSnapshot.data()
                 }
-            guidancesResponseData.forEachIndexed { index, accommodation ->
-                accommodation.id = guidancesResponseGuidancesIds[index]
+            guidancesResponseData.forEachIndexed { index, guidance ->
+                guidance.id = guidancesResponseGuidancesIds[index]
             }
             emit(guidancesResponseData)
         } catch (error: Exception) {

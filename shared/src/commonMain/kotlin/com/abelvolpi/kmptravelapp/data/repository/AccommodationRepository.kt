@@ -9,7 +9,7 @@ class AccommodationRepository(
     private val remoteDataSource: AccommodationRemoteDataSource
 ) {
 
-    fun getCategories(): Flow<List<Accommodation>> = flow {
+    fun getAccommodations(): Flow<List<Accommodation>> = flow {
         remoteDataSource.getAccommodations().collect { accommodations ->
             emit(accommodations)
         }

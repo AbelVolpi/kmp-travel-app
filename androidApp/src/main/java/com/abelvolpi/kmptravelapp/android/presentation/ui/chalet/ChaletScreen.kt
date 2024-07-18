@@ -1,14 +1,13 @@
 package com.abelvolpi.kmptravelapp.android.presentation.ui.chalet
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -17,32 +16,67 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.abelvolpi.kmptravelapp.android.R
-import com.abelvolpi.kmptravelapp.android.presentation.theme.secondaryColor
+import com.abelvolpi.kmptravelapp.android.presentation.components.IconSource
+import com.abelvolpi.kmptravelapp.android.presentation.components.InfoBox
+import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
+import com.abelvolpi.kmptravelapp.data.model.Guidance
+import org.koin.androidx.compose.koinViewModel
 
-@Preview
 @Composable
-fun ChaletScreenPreview() {
-    ChaletScreen()
+fun ChaletScreen(
+    chaletViewModel: ChaletViewModel = koinViewModel(),
+    onWhatsAppInfoClicked: () -> Unit,
+    onAccommodationsClicked: () -> Unit,
+    onGuidanceClicked: (String) -> Unit,
+) {
+    val chaletUIData = chaletViewModel.chaletModel.collectAsStateWithLifecycle().value
+
+    if (chaletUIData != null) {
+        ChaletUI(
+            chaletUIData,
+            onWhatsAppInfoClicked,
+            onAccommodationsClicked,
+            onGuidanceClicked
+        )
+    } else {
+        LoadingIndicator()
+    }
 }
 
 @Composable
-fun ChaletScreen() {
+fun ChaletUI(
+    chaletUIData: ChaletModel,
+    onWhatsAppInfoClicked: () -> Unit,
+    onAccommodationsClicked: () -> Unit,
+    onGuidanceClicked: (String) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
         ChaletTitle()
-        WhatsAppBox()
-        ChaletOptionsList()
+        WhatsAppInfoBox(
+            onWhatsAppInfoClicked = onWhatsAppInfoClicked
+        )
+        AccommodationsComponent(
+            onAccommodationsClicked = onAccommodationsClicked
+        )
+        GuidancesOptionsList(
+            guidancesList = chaletUIData.guidances,
+            onGuidanceClicked = onGuidanceClicked
+        )
     }
 }
 
@@ -58,88 +92,72 @@ fun ChaletTitle() {
     )
 }
 
-//TODO (move to single component with accommodation screen)
 @Composable
-fun WhatsAppBox() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 20.dp, start = 30.dp, end = 30.dp)
-            .clip(shape = RoundedCornerShape(15.dp))
-            .background(secondaryColor)
-            .clickable { }
-            .padding(20.dp)
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.whatsapp_icon),
-            contentDescription = "WhatsApp",
-            tint = Color.White,
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-        )
-        Text(
-            text = "Entre em contato conosco através do WhatsApp",
-            fontSize = 18.sp,
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(start = 10.dp)
-        )
-    }
+fun WhatsAppInfoBox(
+    onWhatsAppInfoClicked: () -> Unit
+) {
+    InfoBox(
+        title = "Entre em contato conosco através do WhatsApp",
+        iconSource = IconSource.Local(R.drawable.whatsapp_icon),
+        onInfoBoxClicked = onWhatsAppInfoClicked
+    )
 }
 
 @Composable
-fun ChaletOptionsList() {
-    val chaletOptions = listOf(
-        ChaletOption(
-            R.drawable.chalet_2_icon,
-            "Acomodações",
-            "Veja outras acomodações dos Chalés Lua Cheia"
-        ),
-        ChaletOption(
-            R.drawable.wind_icon,
-            "Ar-condicionado",
-            "Cuidados com o ar-condicionado"
-        ),
-        ChaletOption(
-            R.drawable.trash_icon,
-            "Lixo",
-            "Instruções de como lidar com o lixo do chalé"
-        ),
-        ChaletOption(
-            R.drawable.fireplace_icon,
-            "Lareira",
-            "Instruções e cuidados sobre o uso da lareira"
-        ),
-        ChaletOption(
-            R.drawable.cooker_icon,
-            "Fogão",
-            "Instruções e cuidados sobre o uso do fogão"
-        ),
-        ChaletOption(
-            R.drawable.pet_icon,
-            "Pet Friendly",
-            "Instruções e cuidados com o seu pet dentro do chalé"
-        )
-    )
+fun GuidancesOptionsList(
+    guidancesList: List<Guidance>,
+    onGuidanceClicked: (String) -> Unit
+) {
     Column {
-        chaletOptions.forEach {
-            ChaletOptionComponent(it)
+        guidancesList.forEach { guidance ->
+            GuidanceComponent(
+                guidance.id,
+                guidance.title,
+                guidance.subtitle,
+                guidance.iconUrl,
+                onGuidanceClicked
+            )
         }
     }
-
 }
 
-data class ChaletOption(
-    val optionIcon: Int,
-    val optionTitle: String,
-    val optionDescription: String
-)
+@Composable
+fun GuidanceComponent(
+    id: String,
+    title: String,
+    subtitle: String,
+    iconUrl: String,
+    onGuidanceClicked: (String) -> Unit
+) {
+    ChaletAbstractComponent(
+        id = id,
+        title = title,
+        subtitle = subtitle,
+        iconSource = IconSource.Remote(iconUrl),
+        onGuidanceClicked = ChaletOptionAction.Guidance(onGuidanceClicked)
+    )
+}
 
 @Composable
-fun ChaletOptionComponent(
-    chaletOption: ChaletOption
+fun AccommodationsComponent(
+    onAccommodationsClicked: () -> Unit
+) {
+    ChaletAbstractComponent(
+        id = "",
+        title = "Acomodações",
+        subtitle = "Veja outras acomodações dos Chalés Lua Cheia",
+        iconSource = IconSource.Local(R.drawable.chalet_2_icon),
+        onGuidanceClicked = ChaletOptionAction.Accommodations(onAccommodationsClicked)
+    )
+}
+
+@Composable
+private fun ChaletAbstractComponent(
+    id: String,
+    title: String,
+    subtitle: String,
+    iconSource: IconSource,
+    onGuidanceClicked: ChaletOptionAction
 ) {
     Divider(
         color = Color.White,
@@ -151,24 +169,52 @@ fun ChaletOptionComponent(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { }
+            .clickable {
+                when (onGuidanceClicked) {
+                    is ChaletOptionAction.Accommodations -> {
+                        onGuidanceClicked.action.invoke()
+                    }
+
+                    is ChaletOptionAction.Guidance -> {
+                        onGuidanceClicked.action.invoke(id)
+                    }
+                }
+            }
             .padding(vertical = 20.dp, horizontal = 30.dp)
 
     ) {
-        Icon(
-            painter = painterResource(id = chaletOption.optionIcon),
-            contentDescription = "WhatsApp",
-            tint = Color.White,
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-        )
+        when (iconSource) {
+            is IconSource.Local -> {
+                Icon(
+                    painter = painterResource(id = iconSource.resId),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(34.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
+
+            is IconSource.Remote -> {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(iconSource.url)
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(34.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
+        }
         Column(
             modifier = Modifier
-                .padding(start = 10.dp, end = 20.dp)
+                .padding(start = 20.dp, end = 20.dp)
                 .weight(1f)
         ) {
             Text(
-                text = chaletOption.optionTitle,
+                text = title,
                 fontSize = 18.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
@@ -176,7 +222,7 @@ fun ChaletOptionComponent(
                     .align(Alignment.Start)
             )
             Text(
-                text = chaletOption.optionDescription,
+                text = subtitle,
                 maxLines = 2,
                 fontSize = 14.sp,
                 color = Color.White,
@@ -192,4 +238,9 @@ fun ChaletOptionComponent(
                 .align(Alignment.CenterVertically)
         )
     }
+}
+
+sealed class ChaletOptionAction {
+    data class Accommodations(val action: () -> Unit) : ChaletOptionAction()
+    data class Guidance(val action: (String) -> Unit) : ChaletOptionAction()
 }
