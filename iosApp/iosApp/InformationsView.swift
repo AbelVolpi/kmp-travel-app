@@ -150,7 +150,7 @@ extension InformationsView {
 }
 
 enum InformationType: Identifiable {
-    var id: UUID = UUID()
+    var id: UUID { UUID() }
     
     case accommodations
     case airConditioning
