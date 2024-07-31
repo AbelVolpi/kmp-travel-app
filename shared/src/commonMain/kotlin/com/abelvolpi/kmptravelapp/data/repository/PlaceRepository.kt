@@ -2,7 +2,6 @@ package com.abelvolpi.kmptravelapp.data.repository
 
 import com.abelvolpi.kmptravelapp.data.datasource.local.PlaceLocalDataSource
 import com.abelvolpi.kmptravelapp.data.datasource.remote.PlaceRemoteDataSource
-import com.abelvolpi.kmptravelapp.data.model.Category
 import com.abelvolpi.kmptravelapp.data.model.Place
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,14 +18,20 @@ class PlaceRepository(
     }
 
     fun getAllPlaces(): Flow<List<Place>> = flow {
-        emit(localDataSource.getAllPlaces())
+        remoteDataSource.getPlaces().collect { places ->
+            emit(places)
+        }
     }
 
     fun getPlaceById(id: String): Flow<Place> = flow {
-        emit(localDataSource.getPlaceById(id))
+        remoteDataSource.getPlaceById(id).collect { place ->
+            emit(place)
+        }
     }
 
     fun getPlacesByCategory(categoryId: String): Flow<List<Place>> = flow {
-        emit(localDataSource.getPlacesByCategory(categoryId))
+        remoteDataSource.getPlacesByCategory(categoryId).collect { places ->
+            emit(places)
+        }
     }
 }
