@@ -10,14 +10,14 @@ class GuidanceRepository(
 ) {
 
     fun getAllGuidances(): Flow<List<Guidance>> = flow {
-        remoteDataSource.getGuidances().collect { guidances ->
+        remoteDataSource.getItems().collect { guidances ->
             emit(guidances)
         }
     }
 
     fun getGuidanceById(id: String): Flow<Guidance> = flow {
-        remoteDataSource.getGuidanceById(id).collect { guidance ->
-            emit(guidance)
+        remoteDataSource.getItemById(id).collect { guidance ->
+            emit(guidance ?: Guidance())
         }
     }
 }

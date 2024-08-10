@@ -10,7 +10,7 @@ class AccommodationRepository(
 ) {
 
     fun getAccommodations(): Flow<List<Accommodation>> = flow {
-        remoteDataSource.getAccommodations().collect { accommodations ->
+        remoteDataSource.getItems().collect { accommodations ->
             emit(accommodations)
         }
     }

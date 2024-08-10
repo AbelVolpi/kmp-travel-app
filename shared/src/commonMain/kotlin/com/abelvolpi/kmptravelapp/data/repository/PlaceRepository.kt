@@ -11,21 +11,21 @@ class PlaceRepository(
     private val localDataSource: PlaceLocalDataSource
 ) {
     suspend fun fetchPlaces() {
-        remoteDataSource.getPlaces().collect { places ->
+        remoteDataSource.getItems().collect { places ->
             localDataSource.deleteAllPlaces()
             localDataSource.savePlaces(places)
         }
     }
 
     fun getAllPlaces(): Flow<List<Place>> = flow {
-        remoteDataSource.getPlaces().collect { places ->
+        remoteDataSource.getItems().collect { places ->
             emit(places)
         }
     }
 
     fun getPlaceById(id: String): Flow<Place> = flow {
-        remoteDataSource.getPlaceById(id).collect { place ->
-            emit(place)
+        remoteDataSource.getItemById(id).collect { place ->
+            emit(place ?: Place())
         }
     }
 

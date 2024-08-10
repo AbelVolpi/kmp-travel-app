@@ -1,27 +1,31 @@
 package com.abelvolpi.kmptravelapp.data.datasource.remote
 
 import com.abelvolpi.kmptravelapp.data.model.Info
+import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class InfoRemoteDataSource(
-    private val firebaseFirestore: FirebaseFirestore
-) {
+    firebaseFirestore: FirebaseFirestore
+) : BaseRemoteDataSource<Info>(firebaseFirestore, INFOS) {
 
-    fun getInfo(
-        field: String,
-        value: String
-    ): Flow<Info> = flow {
+    override fun parseDocument(document: DocumentSnapshot): Info {
+        return document.data(Info.serializer()).apply {
+            id = document.id
+        }
+    }
+
+    fun getInfo(field: String, value: String): Flow<Info?> = flow {
         try {
-            val infosCollectionReference = firebaseFirestore.collection(INFOS)
+            val infosCollectionReference = firebaseFirestore.collection(collectionName)
             val infosResponse = infosCollectionReference.where(field, value).get()
-            val infosResponseData: Info = infosResponse.documents.first().data()
-            emit(infosResponseData)
+            val info = infosResponse.documents.firstOrNull()?.let { parseDocument(it) }
+            emit(info)
         } catch (error: Exception) {
             println(error)
-            emit(Info())
+            emit(null)
         }
     }
 

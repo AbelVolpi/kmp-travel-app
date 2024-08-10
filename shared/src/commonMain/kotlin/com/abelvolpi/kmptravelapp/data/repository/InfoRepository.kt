@@ -10,14 +10,14 @@ class InfoRepository(
 ) {
 
     fun getWhatsAppLink(): Flow<Info> = flow {
-        remoteDataSource.getInfo(KEY_FIELD, WHATSAPP_VALUE).collect { accommodations ->
-            emit(accommodations)
+        remoteDataSource.getInfo(KEY_FIELD, WHATSAPP_VALUE).collect { info ->
+            emit(info ?: Info())
         }
     }
 
     fun getProjectDescription(): Flow<Info> = flow {
-        remoteDataSource.getInfo(KEY_FIELD, ABOUT_US_VALUE).collect { accommodations ->
-            emit(accommodations)
+        remoteDataSource.getInfo(KEY_FIELD, ABOUT_US_VALUE).collect { info ->
+            emit(info ?: Info())
         }
     }
 
