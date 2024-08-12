@@ -13,13 +13,15 @@ class CategoryRepository(
 
     // call in init or when fetch in menu
     suspend fun fetchCategories() {
-        remoteDataSource.getCategories().collect { categories ->
+        remoteDataSource.getItems().collect { categories ->
             localDataSource.deleteAllCategories()
             localDataSource.saveCategories(categories)
         }
     }
 
     fun getCategories(): Flow<List<Category>> = flow {
-        emit(localDataSource.getAllCategories())
+        remoteDataSource.getItems().collect { categories ->
+            emit(categories)
+        }
     }
 }
