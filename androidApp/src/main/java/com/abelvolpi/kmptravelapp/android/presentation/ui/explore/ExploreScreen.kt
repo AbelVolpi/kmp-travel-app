@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -154,7 +155,7 @@ fun CategoryItem(
                     .data(iconUrl)
                     .decoderFactory(SvgDecoder.Factory())
                     .build(),
-                contentDescription = null,
+                contentDescription = null
             )
         }
         Text(
@@ -203,7 +204,8 @@ fun RowScope.RecommendationItem(
         AsyncImage(
             model = iconUrl,
             modifier = Modifier.fillMaxSize(),
-            contentDescription = ""
+            contentDescription = "",
+            contentScale = ContentScale.Crop
         )
         Box(
             modifier = Modifier
@@ -217,6 +219,8 @@ fun RowScope.RecommendationItem(
                 text = name,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .padding(horizontal = 5.dp, vertical = 2.dp)
                     .align(Alignment.Center)
@@ -237,7 +241,6 @@ fun RecommendationsGrid(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         maxItemsInEachRow = 2
-
     ) {
         places.forEach { place ->
             RecommendationItem(

@@ -41,6 +41,7 @@ import coil.compose.AsyncImage
 import com.abelvolpi.kmptravelapp.android.R
 import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
+import com.abelvolpi.kmptravelapp.android.presentation.utils.formatBreakLines
 import com.abelvolpi.kmptravelapp.data.model.Place
 import org.koin.androidx.compose.koinViewModel
 
@@ -86,7 +87,7 @@ fun PlaceUI(
         }
         item {
             PlaceDescription(
-                description = place.description
+                description = place.description.formatBreakLines()
             )
         }
         item { TraceRoute() }
@@ -203,7 +204,7 @@ fun TraceRoute() {
             .padding(vertical = 40.dp)
             .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(50.dp))
             .clip(shape = RoundedCornerShape(50.dp))
-            .padding(horizontal = 10.dp, vertical = 10.dp)
+            .padding(horizontal = 20.dp, vertical = 15.dp)
             .clickable { }
     ) {
         Icon(

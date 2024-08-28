@@ -169,8 +169,7 @@ fun PlaceComponent(
                 .clip(shape = RoundedCornerShape(20.dp)),
             model = imageUrl,
             contentDescription = null,
-            contentScale = ContentScale.Crop,
-
+            contentScale = ContentScale.Crop
             )
         Column(
             modifier = Modifier
@@ -189,7 +188,7 @@ fun PlaceComponent(
                 fontSize = 15.sp,
                 color = Color.White,
                 overflow = TextOverflow.Ellipsis,
-                textAlign = TextAlign.Justify
+                textAlign = TextAlign.Start
             )
         }
     }
