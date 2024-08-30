@@ -96,7 +96,10 @@ fun PlaceUI(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PageIndicator(pagerState: PagerState, modifier: Modifier) {
+fun PageIndicator(
+    pagerState: PagerState,
+    modifier: Modifier
+) {
     Row(modifier = modifier) {
         repeat(pagerState.pageCount) { iteration ->
             val color =
@@ -124,7 +127,7 @@ fun ImagesPagerComponent(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(350.dp),
+            .height(350.dp)
     ) {
         HorizontalPager(
             state = pagerState,
@@ -156,7 +159,7 @@ fun ImagesPagerComponent(
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(16.dp)
-                .background(Color.Black.copy(0.3f), CircleShape),
+                .background(Color.Black.copy(0.3f), CircleShape)
         ) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowBack,

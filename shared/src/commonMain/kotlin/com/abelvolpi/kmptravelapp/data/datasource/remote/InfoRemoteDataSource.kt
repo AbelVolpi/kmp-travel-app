@@ -11,11 +11,10 @@ class InfoRemoteDataSource(
     firebaseFirestore: FirebaseFirestore
 ) : BaseRemoteDataSource<Info>(firebaseFirestore, INFOS) {
 
-    override fun parseDocument(document: DocumentSnapshot): Info {
-        return document.data(Info.serializer()).apply {
+    override fun parseDocument(document: DocumentSnapshot): Info =
+        document.data(Info.serializer()).apply {
             id = document.id
         }
-    }
 
     fun getInfo(field: String, value: String): Flow<Info?> = flow {
         try {

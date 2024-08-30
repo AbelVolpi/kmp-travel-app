@@ -59,7 +59,6 @@ fun GuidanceUI(
     guidance: Guidance,
     onBackButtonClicked: () -> Unit
 ) {
-
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
@@ -70,7 +69,7 @@ fun GuidanceUI(
         topBar = {
             LargeTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = backgroundColor,
+                    containerColor = backgroundColor
                 ),
                 title = {
                     Text(
@@ -80,7 +79,6 @@ fun GuidanceUI(
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
-
                 },
                 navigationIcon = {
                     IconButton(onClick = { onBackButtonClicked.invoke() }) {
@@ -93,9 +91,9 @@ fun GuidanceUI(
                 },
                 scrollBehavior = scrollBehavior
             )
-        },
+        }
     ) { padding ->
-       val descriptionFormatted =  guidance.description.formatBreakLines()
+        val descriptionFormatted = guidance.description.formatBreakLines()
         Text(
             text = descriptionFormatted,
             color = Color.White,

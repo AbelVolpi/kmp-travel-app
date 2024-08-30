@@ -76,7 +76,7 @@ fun NavGraphBuilder.navGraph(navController: NavController) {
                 },
                 onGuidanceClicked = { guidanceId ->
                     navController.navigate(
-                        route = "${Screen.Guidance.route}/$guidanceId",
+                        route = "${Screen.Guidance.route}/$guidanceId"
                     )
                 }
             )
@@ -94,7 +94,7 @@ fun NavGraphBuilder.navGraph(navController: NavController) {
         composable(
             route = "${Screen.Guidance.route}/{$GUIDANCE_ID}",
             arguments = listOf(
-                navArgument(GUIDANCE_ID) { type = NavType.StringType },
+                navArgument(GUIDANCE_ID) { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val guidanceId = backStackEntry.arguments?.getString(GUIDANCE_ID) ?: return@composable
@@ -110,15 +110,13 @@ fun NavGraphBuilder.navGraph(navController: NavController) {
 
 sealed class Section(
     val route: String,
-    @DrawableRes val navigationIcon: Int,
+    @DrawableRes val navigationIcon: Int
 ) {
     data object Explore : Section("explore-section", R.drawable.explore_icon)
     data object Chalet : Section("chalet-section", R.drawable.chalet_icon)
 }
 
-sealed class Screen(
-    val route: String
-) {
+sealed class Screen(val route: String) {
     data object Explore : Screen("explore")
     data object Category : Screen("category")
     data object Place : Screen("place")

@@ -8,7 +8,7 @@ import io.realm.kotlin.ext.toRealmList
 import io.realm.kotlin.query.RealmResults
 
 class PlaceLocalDataSource(
-    private val realm: Realm,
+    private val realm: Realm
 ) {
     suspend fun deleteAllPlaces() {
         realm.write {

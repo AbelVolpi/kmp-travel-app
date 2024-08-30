@@ -5,5 +5,5 @@ import com.abelvolpi.kmptravelapp.data.model.Place
 
 data class ExploreModel(
     var categories: List<Category>,
-    var places: List<Place>,
+    var places: List<Place>
 )

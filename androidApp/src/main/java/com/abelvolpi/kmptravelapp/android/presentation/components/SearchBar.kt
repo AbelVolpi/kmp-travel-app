@@ -43,7 +43,7 @@ fun SearchBarComponent() {
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
                 unfocusedPlaceholderColor = Color.White,
-                focusedPlaceholderColor = Color.White,
+                focusedPlaceholderColor = Color.White
             )
         ),
         query = text,

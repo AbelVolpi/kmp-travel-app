@@ -38,7 +38,7 @@ fun ChaletScreen(
     chaletViewModel: ChaletViewModel = koinViewModel(),
     onWhatsAppInfoClicked: () -> Unit,
     onAccommodationsClicked: () -> Unit,
-    onGuidanceClicked: (String) -> Unit,
+    onGuidanceClicked: (String) -> Unit
 ) {
     val chaletUIData = chaletViewModel.chaletModel.collectAsStateWithLifecycle().value
 
@@ -59,7 +59,7 @@ fun ChaletUI(
     chaletUIData: ChaletModel,
     onWhatsAppInfoClicked: () -> Unit,
     onAccommodationsClicked: () -> Unit,
-    onGuidanceClicked: (String) -> Unit,
+    onGuidanceClicked: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -197,7 +197,8 @@ private fun ChaletAbstractComponent(
 
             is IconSource.Remote -> {
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
+                    model = ImageRequest
+                        .Builder(LocalContext.current)
                         .data(iconSource.url)
                         .decoderFactory(SvgDecoder.Factory())
                         .build(),

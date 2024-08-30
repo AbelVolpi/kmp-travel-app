@@ -55,6 +55,7 @@ fun MyApplicationTheme(
         content = content
     )
 }
+
 val backgroundColor = Color(0xFF161616)
 val secondaryColor = Color(0xFF3C3C3F)
 val tertiaryColor = Color(0xFF282828)

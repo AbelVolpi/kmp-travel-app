@@ -11,10 +11,8 @@ class PlaceRemoteDataSource(
     firebaseFirestore: FirebaseFirestore
 ) : BaseRemoteDataSource<Place>(firebaseFirestore, PLACES) {
 
-    override fun parseDocument(document: DocumentSnapshot): Place {
-        return document.data(Place.serializer()).apply {
-            id = document.id
-        }
+    override fun parseDocument(document: DocumentSnapshot): Place = document.data(Place.serializer()).apply {
+        id = document.id
     }
 
     fun getPlacesByCategory(categoryId: String): Flow<List<Place>> = flow {

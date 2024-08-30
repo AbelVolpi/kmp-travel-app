@@ -46,5 +46,5 @@ so the app can be used offline and we can save network resources:
 
 In this project we are using the [Karma](https://karma-runner.github.io/6.4/dev/git-commit-msg.html) commit convention to keep project readability
 
-
-
+## 🔍 Static Code Analysis
+- [Ktlint](https://github.com/pinterest/ktlint) - Format Kotlin code
