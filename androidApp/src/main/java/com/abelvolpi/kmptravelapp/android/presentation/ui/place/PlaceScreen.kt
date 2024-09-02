@@ -49,7 +49,8 @@ import org.koin.androidx.compose.koinViewModel
 fun PlaceScreen(
     placeId: String,
     placeViewModel: PlaceViewModel = koinViewModel(),
-    onBackButtonClicked: () -> Unit
+    onBackButtonClicked: () -> Unit,
+    onTraceRouteClicked: (String) -> Unit
 ) {
     val placeData = placeViewModel.placeModel.collectAsStateWithLifecycle().value
 
@@ -58,7 +59,7 @@ fun PlaceScreen(
     }
 
     if (placeData != null) {
-        PlaceUI(placeData, onBackButtonClicked)
+        PlaceUI(placeData, onBackButtonClicked, onTraceRouteClicked)
     } else {
         LoadingIndicator()
     }
@@ -67,7 +68,8 @@ fun PlaceScreen(
 @Composable
 fun PlaceUI(
     place: Place,
-    onBackButtonClicked: () -> Unit
+    onBackButtonClicked: () -> Unit,
+    onTraceRouteClicked: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -90,7 +92,12 @@ fun PlaceUI(
                 description = place.description.formatBreakLines()
             )
         }
-        item { TraceRoute() }
+        item {
+            TraceRoute(
+                onTraceRouteClicked = onTraceRouteClicked,
+                routeAddress = place.address
+            )
+        }
     }
 }
 
@@ -199,7 +206,10 @@ fun PlaceDescription(description: String) {
 }
 
 @Composable
-fun TraceRoute() {
+fun TraceRoute(
+    onTraceRouteClicked: (String) -> Unit,
+    routeAddress: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -208,7 +218,9 @@ fun TraceRoute() {
             .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(50.dp))
             .clip(shape = RoundedCornerShape(50.dp))
             .padding(horizontal = 20.dp, vertical = 15.dp)
-            .clickable { }
+            .clickable {
+                onTraceRouteClicked.invoke(routeAddress)
+            }
     ) {
         Icon(
             painter = painterResource(id = R.drawable.route_icon),

@@ -1,6 +1,10 @@
 package com.abelvolpi.kmptravelapp.android.presentation.navigation
 
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -8,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.abelvolpi.kmptravelapp.android.R
+import com.abelvolpi.kmptravelapp.android.app.utils.checkAppIsInstalled
 import com.abelvolpi.kmptravelapp.android.presentation.navigation.Constants.Arguments.CATEGORY_ID
 import com.abelvolpi.kmptravelapp.android.presentation.navigation.Constants.Arguments.CATEGORY_NAME
 import com.abelvolpi.kmptravelapp.android.presentation.navigation.Constants.Arguments.GUIDANCE_ID
@@ -57,10 +62,24 @@ fun NavGraphBuilder.navGraph(navController: NavController) {
             arguments = listOf(navArgument(PLACE_ID) { type = NavType.StringType })
         ) { backStackEntry ->
             val placeId = backStackEntry.arguments?.getString(PLACE_ID) ?: return@composable
+            val context = LocalContext.current
+
             PlaceScreen(
                 placeId = placeId,
                 onBackButtonClicked = {
                     navController.popBackStack()
+                },
+                onTraceRouteClicked = { address ->
+                    val appPackage = "com.google.android.apps.maps"
+                    if (context.checkAppIsInstalled(appPackage)) {
+                        val uri = Uri.parse("google.navigation:q=$address")
+                        val mapsIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+                            setPackage(appPackage)
+                        }
+                        context.startActivity(mapsIntent)
+                    } else {
+                        Toast.makeText(context, "Instale o aplicativo do Maps", Toast.LENGTH_LONG).show()
+                    }
                 }
             )
         }
