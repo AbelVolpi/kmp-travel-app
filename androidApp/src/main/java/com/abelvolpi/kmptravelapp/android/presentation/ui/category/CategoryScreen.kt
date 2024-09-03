@@ -55,7 +55,7 @@ fun CategoryScreen(
 ) {
     val categoryUIData = categoryViewModel.placesModel.collectAsStateWithLifecycle().value
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         categoryViewModel.getPlacesByCategory(categoryId)
     }
 
@@ -89,7 +89,7 @@ fun CategoryUI(
         topBar = {
             MediumTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = backgroundColor,
+                    containerColor = backgroundColor
                 ),
                 title = {
                     Text(
@@ -111,7 +111,7 @@ fun CategoryUI(
                 },
                 scrollBehavior = scrollBehavior
             )
-        },
+        }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
@@ -169,9 +169,8 @@ fun PlaceComponent(
                 .clip(shape = RoundedCornerShape(20.dp)),
             model = imageUrl,
             contentDescription = null,
-            contentScale = ContentScale.Crop,
-
-            )
+            contentScale = ContentScale.Crop
+        )
         Column(
             modifier = Modifier
                 .padding(start = 10.dp)
@@ -189,7 +188,7 @@ fun PlaceComponent(
                 fontSize = 15.sp,
                 color = Color.White,
                 overflow = TextOverflow.Ellipsis,
-                textAlign = TextAlign.Justify
+                textAlign = TextAlign.Start
             )
         }
     }

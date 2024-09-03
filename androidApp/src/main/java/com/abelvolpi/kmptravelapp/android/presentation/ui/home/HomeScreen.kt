@@ -18,8 +18,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.abelvolpi.kmptravelapp.android.presentation.navigation.navGraph
 import com.abelvolpi.kmptravelapp.android.presentation.navigation.Section
+import com.abelvolpi.kmptravelapp.android.presentation.navigation.navGraph
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
 
 @Composable
@@ -48,7 +48,7 @@ fun BottomNavigationBar(
     navController: NavController
 ) {
     BottomNavigation(
-        backgroundColor = backgroundColor,
+        backgroundColor = backgroundColor
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
@@ -59,7 +59,7 @@ fun BottomNavigationBar(
                         painter = painterResource(id = section.navigationIcon),
                         contentDescription = "Localized description",
                         modifier = Modifier.size(30.dp),
-                        tint = Color.White,
+                        tint = Color.White
                     )
                 },
                 selected = currentDestination?.hierarchy?.any { it.route == section.route } == true,
@@ -76,4 +76,3 @@ fun BottomNavigationBar(
         }
     }
 }
-

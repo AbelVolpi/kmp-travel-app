@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -103,7 +104,7 @@ fun CategoriesTitle() {
 @Composable
 fun CategoriesList(
     categories: List<Category>,
-    onCategoryClicked: (String, String) -> Unit,
+    onCategoryClicked: (String, String) -> Unit
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(15.dp)
@@ -128,13 +129,13 @@ fun CategoryItem(
     iconUrl: String,
     position: Int,
     lastIndex: Int,
-    onCategoryClicked: (String, String) -> Unit,
+    onCategoryClicked: (String, String) -> Unit
 ) {
     Column(
         modifier = Modifier
             .padding(
                 start = if (position == 0) 20.dp else 0.dp,
-                end = if (position == lastIndex) 30.dp else 0.dp,
+                end = if (position == lastIndex) 30.dp else 0.dp
             )
     ) {
         Box(
@@ -150,11 +151,12 @@ fun CategoryItem(
                 modifier = Modifier
                     .padding(20.dp)
                     .size(40.dp),
-                model = ImageRequest.Builder(LocalContext.current)
+                model = ImageRequest
+                    .Builder(LocalContext.current)
                     .data(iconUrl)
                     .decoderFactory(SvgDecoder.Factory())
                     .build(),
-                contentDescription = null,
+                contentDescription = null
             )
         }
         Text(
@@ -162,15 +164,14 @@ fun CategoryItem(
             fontSize = 12.sp,
             color = Color.White,
             maxLines = 2,
-            overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .widthIn(max = 80.dp)
                 .align(Alignment.CenterHorizontally)
-
         )
     }
 }
-
 
 @Composable
 fun RecommendationsTitle() {
@@ -203,20 +204,22 @@ fun RowScope.RecommendationItem(
         AsyncImage(
             model = iconUrl,
             modifier = Modifier.fillMaxSize(),
-            contentDescription = ""
+            contentDescription = "",
+            contentScale = ContentScale.Crop
         )
         Box(
             modifier = Modifier
                 .widthIn(100.dp, 120.dp)
                 .padding(top = 10.dp, start = 10.dp)
                 .clip(shape = RoundedCornerShape(15.dp))
-                .background(Color.White),
-
-            ) {
+                .background(Color.White)
+        ) {
             Text(
                 text = name,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .padding(horizontal = 5.dp, vertical = 2.dp)
                     .align(Alignment.Center)
@@ -237,7 +240,6 @@ fun RecommendationsGrid(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         maxItemsInEachRow = 2
-
     ) {
         places.forEach { place ->
             RecommendationItem(

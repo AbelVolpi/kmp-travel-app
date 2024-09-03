@@ -47,7 +47,8 @@ fun InfoBox(
         when (iconSource) {
             is IconSource.Remote -> {
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
+                    model = ImageRequest
+                        .Builder(LocalContext.current)
                         .data(iconSource.url)
                         .decoderFactory(SvgDecoder.Factory())
                         .build(),

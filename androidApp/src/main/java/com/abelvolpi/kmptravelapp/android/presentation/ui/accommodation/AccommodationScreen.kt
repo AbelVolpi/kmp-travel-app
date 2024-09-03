@@ -69,7 +69,7 @@ fun AccommodationUI(
         topBar = {
             LargeTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = backgroundColor,
+                    containerColor = backgroundColor
                 ),
                 title = {
                     Text(
@@ -79,7 +79,6 @@ fun AccommodationUI(
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
-
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -94,7 +93,7 @@ fun AccommodationUI(
                 },
                 scrollBehavior = scrollBehavior
             )
-        },
+        }
     ) { padding ->
         Column(
             modifier = Modifier

@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
+import com.abelvolpi.kmptravelapp.android.presentation.utils.formatBreakLines
 import com.abelvolpi.kmptravelapp.data.model.Guidance
 import org.koin.androidx.compose.koinViewModel
 
@@ -58,7 +59,6 @@ fun GuidanceUI(
     guidance: Guidance,
     onBackButtonClicked: () -> Unit
 ) {
-
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
@@ -69,7 +69,7 @@ fun GuidanceUI(
         topBar = {
             LargeTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = backgroundColor,
+                    containerColor = backgroundColor
                 ),
                 title = {
                     Text(
@@ -79,7 +79,6 @@ fun GuidanceUI(
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
-
                 },
                 navigationIcon = {
                     IconButton(onClick = { onBackButtonClicked.invoke() }) {
@@ -92,9 +91,9 @@ fun GuidanceUI(
                 },
                 scrollBehavior = scrollBehavior
             )
-        },
+        }
     ) { padding ->
-       val descriptionFormatted =  guidance.description.replace("\\n", "\n")
+        val descriptionFormatted = guidance.description.formatBreakLines()
         Text(
             text = descriptionFormatted,
             color = Color.White,

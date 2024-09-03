@@ -5,7 +5,7 @@ import com.abelvolpi.kmptravelapp.data.model.Category
 import io.realm.kotlin.Realm
 
 class CategoryLocalDataSource(
-    private val realm: Realm,
+    private val realm: Realm
 ) {
 
     suspend fun saveCategories(categories: List<Category>) {

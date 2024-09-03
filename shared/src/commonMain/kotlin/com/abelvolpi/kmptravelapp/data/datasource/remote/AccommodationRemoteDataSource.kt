@@ -8,11 +8,10 @@ class AccommodationRemoteDataSource(
     firebaseFirestore: FirebaseFirestore
 ) : BaseRemoteDataSource<Accommodation>(firebaseFirestore, ACCOMMODATIONS) {
 
-    override fun parseDocument(document: DocumentSnapshot): Accommodation {
-        return document.data(Accommodation.serializer()).apply {
+    override fun parseDocument(document: DocumentSnapshot): Accommodation =
+        document.data(Accommodation.serializer()).apply {
             id = document.id
         }
-    }
 
     companion object {
         private const val ACCOMMODATIONS = "accommodations"

@@ -8,11 +8,10 @@ class GuidanceRemoteDataSource(
     firebaseFirestore: FirebaseFirestore
 ) : BaseRemoteDataSource<Guidance>(firebaseFirestore, GUIDANCES) {
 
-    override fun parseDocument(document: DocumentSnapshot): Guidance {
-        return document.data(Guidance.serializer()).apply {
+    override fun parseDocument(document: DocumentSnapshot): Guidance =
+        document.data(Guidance.serializer()).apply {
             id = document.id
         }
-    }
 
     companion object {
         private const val GUIDANCES = "guidances"

@@ -41,6 +41,7 @@ import coil.compose.AsyncImage
 import com.abelvolpi.kmptravelapp.android.R
 import com.abelvolpi.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.abelvolpi.kmptravelapp.android.presentation.theme.backgroundColor
+import com.abelvolpi.kmptravelapp.android.presentation.utils.formatBreakLines
 import com.abelvolpi.kmptravelapp.data.model.Place
 import org.koin.androidx.compose.koinViewModel
 
@@ -86,7 +87,7 @@ fun PlaceUI(
         }
         item {
             PlaceDescription(
-                description = place.description
+                description = place.description.formatBreakLines()
             )
         }
         item { TraceRoute() }
@@ -95,7 +96,10 @@ fun PlaceUI(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PageIndicator(pagerState: PagerState, modifier: Modifier) {
+fun PageIndicator(
+    pagerState: PagerState,
+    modifier: Modifier
+) {
     Row(modifier = modifier) {
         repeat(pagerState.pageCount) { iteration ->
             val color =
@@ -123,7 +127,7 @@ fun ImagesPagerComponent(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(350.dp),
+            .height(350.dp)
     ) {
         HorizontalPager(
             state = pagerState,
@@ -155,7 +159,7 @@ fun ImagesPagerComponent(
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(16.dp)
-                .background(Color.Black.copy(0.3f), CircleShape),
+                .background(Color.Black.copy(0.3f), CircleShape)
         ) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowBack,
@@ -203,7 +207,7 @@ fun TraceRoute() {
             .padding(vertical = 40.dp)
             .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(50.dp))
             .clip(shape = RoundedCornerShape(50.dp))
-            .padding(horizontal = 10.dp, vertical = 10.dp)
+            .padding(horizontal = 20.dp, vertical = 15.dp)
             .clickable { }
     ) {
         Icon(
