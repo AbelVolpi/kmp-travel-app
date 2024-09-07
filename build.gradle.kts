@@ -1,3 +1,5 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     alias(libs.plugins.androidApplication).apply(false)
     alias(libs.plugins.androidLibrary).apply(false)
@@ -11,5 +13,8 @@ allprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
     ktlint {
         version = "1.3.1"
+        reporters {
+            reporter(ReporterType.CHECKSTYLE)
+        }
     }
 }
