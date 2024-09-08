@@ -89,7 +89,6 @@ fun NavGraphBuilder.navGraph(navController: NavController) {
 
             ChaletScreen(
                 onWhatsAppInfoClicked = { number, message ->
-
                     if (context.checkAppIsInstalled(WHATSAPP_PACKAGE)) {
                         openWhatsApp(context, message, number)
                     } else {
@@ -107,9 +106,11 @@ fun NavGraphBuilder.navGraph(navController: NavController) {
             )
         }
         composable(Screen.Accommodation.route) {
+            val context = LocalContext.current
+
             AccommodationScreen(
-                onAccommodationClicked = {
-                    // TODO()
+                onAccommodationClicked = { link ->
+                    openAccommodation(context, link)
                 },
                 onBackButtonClicked = {
                     navController.popBackStack()
@@ -149,6 +150,14 @@ private fun openMaps(context: Context, address: String) {
     val uri = Uri.parse("google.navigation:q=$address")
     val mapsIntent = Intent(Intent.ACTION_VIEW).apply {
         setPackage(MAPS_PACKAGE)
+        setData(uri)
+    }
+    context.startActivity(mapsIntent)
+}
+
+private fun openAccommodation(context: Context, link: String) {
+    val uri = Uri.parse(link)
+    val mapsIntent = Intent(Intent.ACTION_VIEW).apply {
         setData(uri)
     }
     context.startActivity(mapsIntent)

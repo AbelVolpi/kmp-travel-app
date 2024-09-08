@@ -100,9 +100,7 @@ fun WhatsAppInfoBox(
     whatsAppNumber: String,
     whatsAppMessage: String
 ) {
-    val onInfoBoxClicked = {
-        onWhatsAppInfoClicked.invoke(whatsAppNumber, whatsAppMessage)
-    }
+    val onInfoBoxClicked = { onWhatsAppInfoClicked.invoke(whatsAppNumber, whatsAppMessage) }
 
     InfoBox(
         title = "Entre em contato conosco através do WhatsApp",
