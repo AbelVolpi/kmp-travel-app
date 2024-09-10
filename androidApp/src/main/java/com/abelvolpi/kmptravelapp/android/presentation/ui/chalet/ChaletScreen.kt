@@ -36,7 +36,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ChaletScreen(
     chaletViewModel: ChaletViewModel = koinViewModel(),
-    onWhatsAppInfoClicked: () -> Unit,
+    onWhatsAppInfoClicked: (String, String) -> Unit,
     onAccommodationsClicked: () -> Unit,
     onGuidanceClicked: (String) -> Unit
 ) {
@@ -57,7 +57,7 @@ fun ChaletScreen(
 @Composable
 fun ChaletUI(
     chaletUIData: ChaletModel,
-    onWhatsAppInfoClicked: () -> Unit,
+    onWhatsAppInfoClicked: (String, String) -> Unit,
     onAccommodationsClicked: () -> Unit,
     onGuidanceClicked: (String) -> Unit
 ) {
@@ -68,7 +68,9 @@ fun ChaletUI(
     ) {
         ChaletTitle()
         WhatsAppInfoBox(
-            onWhatsAppInfoClicked = onWhatsAppInfoClicked
+            onWhatsAppInfoClicked = onWhatsAppInfoClicked,
+            whatsAppMessage = chaletUIData.whatsAppInfo.message.value,
+            whatsAppNumber = chaletUIData.whatsAppInfo.number.value
         )
         AccommodationsComponent(
             onAccommodationsClicked = onAccommodationsClicked
@@ -94,12 +96,16 @@ fun ChaletTitle() {
 
 @Composable
 fun WhatsAppInfoBox(
-    onWhatsAppInfoClicked: () -> Unit
+    onWhatsAppInfoClicked: (String, String) -> Unit,
+    whatsAppNumber: String,
+    whatsAppMessage: String
 ) {
+    val onInfoBoxClicked = { onWhatsAppInfoClicked.invoke(whatsAppNumber, whatsAppMessage) }
+
     InfoBox(
         title = "Entre em contato conosco através do WhatsApp",
         iconSource = IconSource.Local(R.drawable.whatsapp_icon),
-        onInfoBoxClicked = onWhatsAppInfoClicked
+        onInfoBoxClicked = onInfoBoxClicked
     )
 }
 

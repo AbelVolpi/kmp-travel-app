@@ -35,3 +35,6 @@ ktlint_class_signature_rule_force_multiline_when_parameter_count_greater_or_equa
 # No blank line between sealed classes
 ktlint_standard_blank-line-before-declaration = disabled
 ktlint_standard_class-signature = disabled
+
+# Allows use curly braces with strings
+ktlint_standard_string-template=disabled

@@ -25,21 +25,29 @@ class ChaletViewModel(
 
     fun getChaletScreenData() {
         viewModelScope.launch {
-            val whatsAppInfoDeferred = async {
+            val whatsAppNumberInfoDeferred = async {
                 var info = Info()
-                infoRepository.getWhatsAppLink().collect { info = it }
+                infoRepository.getWhatsAppNumber().collect { info = it }
                 info
             }
+            val whatsAppMessageInfoDeferred = async {
+                var info = Info()
+                infoRepository.getWhatsAppMessage().collect { info = it }
+                info
+            }
+
             val guidancesDeferred = async {
                 var guidances = listOf<Guidance>()
                 guidanceRepository.getAllGuidances().collect { guidances = it }
                 guidances
             }
 
-            val info = whatsAppInfoDeferred.await()
+            val numberInfo = whatsAppNumberInfoDeferred.await()
+            val messageInfo = whatsAppMessageInfoDeferred.await()
             val guidances = guidancesDeferred.await()
 
-            _chaletModel.value = ChaletModel(info, true, guidances)
+            val whatsAppInfo = WhatsAppInfo(numberInfo, messageInfo)
+            _chaletModel.value = ChaletModel(whatsAppInfo, true, guidances)
         }
     }
 }

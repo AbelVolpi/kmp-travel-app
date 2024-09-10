@@ -35,7 +35,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun AccommodationScreen(
     accommodationViewModel: AccommodationViewModel = koinViewModel(),
-    onAccommodationClicked: () -> Unit,
+    onAccommodationClicked: (String) -> Unit,
     onBackButtonClicked: () -> Unit
 ) {
     val accommodationUIData =
@@ -56,7 +56,7 @@ fun AccommodationScreen(
 @Composable
 fun AccommodationUI(
     accommodations: List<Accommodation>,
-    onAccommodationClicked: () -> Unit,
+    onAccommodationClicked: (String) -> Unit,
     onBackButtonClicked: () -> Unit
 ) {
     val scrollBehavior =
@@ -81,9 +81,11 @@ fun AccommodationUI(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        onBackButtonClicked.invoke()
-                    }) {
+                    IconButton(
+                        onClick = {
+                            onBackButtonClicked.invoke()
+                        }
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",
@@ -114,6 +116,7 @@ fun AccommodationUI(
                 AccommodationInfoBox(
                     title = it.title,
                     iconUrl = it.iconUrl,
+                    link = it.link,
                     onAccommodationClicked = onAccommodationClicked
                 )
             }
@@ -125,11 +128,14 @@ fun AccommodationUI(
 fun AccommodationInfoBox(
     title: String,
     iconUrl: String,
-    onAccommodationClicked: () -> Unit
+    link: String,
+    onAccommodationClicked: (String) -> Unit
 ) {
+    val onInfoBoxClicked = { onAccommodationClicked.invoke(link) }
+
     InfoBox(
         title = title,
         iconSource = IconSource.Remote(iconUrl),
-        onInfoBoxClicked = onAccommodationClicked
+        onInfoBoxClicked = onInfoBoxClicked
     )
 }
