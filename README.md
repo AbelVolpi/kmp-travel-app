@@ -56,3 +56,18 @@ And to format, run:
 ./gradlew ktlintFormat
 ```
 All rules you can find in `.editorconfig` file.
+
+## 🏗️ How Build/Run the project?
+### Android
+First, build the project with the following command:
+```
+./gradlew assembleDebug
+```
+Then, install it on a connected device:
+```
+./gradlew installDebug
+```
+### iOS
+Doc in progress...
+
+
