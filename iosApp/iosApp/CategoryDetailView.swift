@@ -6,21 +6,28 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
+import shared
 import SwiftUI
 
 struct CategoryDetailView: View {
+    
+    let place: shared.Place
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
                 GeometryReader { proxy in
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 0) {
-                            ForEach(0..<5) { _ in
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor(.white)
-                                    .frame(width: proxy.size.width)
+                            ForEach(place.imageUrls, id: \.self) { stringUrl in
+                                AsyncImage(url: URL(string: stringUrl)!) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: proxy.size.width)
+                                } placeholder: {
+                                  ProgressView()
+                                }
                             }
                         }
                     }
@@ -28,12 +35,12 @@ struct CategoryDetailView: View {
                 .frame(height: 280)
                 
                 Group {
-                    Text("Morro da Igreja")
+                    Text(place.name)
                         .font(.system(size: 30, weight: .bold))
                         .foregroundColor(.white)
                         .padding(.top, 24)
                     
-                    Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.")
+                    Text(place.description_)
                         .font(.system(size: 18, weight: .regular))
                         .foregroundColor(.white)
                         .padding(.top, 15)
@@ -71,11 +78,6 @@ struct CategoryDetailView: View {
         }
         .background(Color.gray2.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-#Preview {
-    NavigationStack {
-        CategoryDetailView()
+        .navigationTitle(place.name)
     }
 }

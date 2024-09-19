@@ -11,7 +11,7 @@ import SwiftUI
 struct InformationGuideView: View {
     
     let title: String
-    let description: AttributedString
+    let description: String
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -26,11 +26,4 @@ struct InformationGuideView: View {
         }
         .padding([.horizontal, .top], 20)
     }
-}
-
-#Preview {
-    NavigationStack {
-        InformationGuideView(title: "assdas", description: "asdasdsdas")
-    }
-    .preferredColorScheme(.dark)
 }
