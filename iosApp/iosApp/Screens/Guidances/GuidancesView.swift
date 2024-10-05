@@ -38,13 +38,15 @@ struct GuidancesView: View {
                 ForEach(viewModel.guidances) { guidance in
                     createListCell(
                         image: {
-                            AsyncImage(url: .init(string: guidance.iconUrl)) { dowloadedImage in
-                                dowloadedImage
+                            AsyncImage(url: .init(string: guidance.iconUrl)) { image in
+                                image
                                     .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 34, height: 34, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 34, height: 34, alignment: .center)
+                                    .clipped()
                             } placeholder: {
                                 ProgressView()
+                                    .frame(width: 34, height: 34, alignment: .center)
                             }
                         },
                         title: guidance.title,

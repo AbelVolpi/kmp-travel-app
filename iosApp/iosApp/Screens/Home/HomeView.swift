@@ -44,6 +44,7 @@ struct HomeView: View {
             }
             .padding(.horizontal, 25)
         }
+        .navigationBarTitleDisplayMode(.inline)
         .background(Color.gray2)
         .navigationBarItems(trailing: infoButton)
         .sheet(isPresented: $viewModel.aboutUsViewIsPresented, content: AboutUsView.init)
@@ -78,6 +79,7 @@ struct HomeView: View {
                                 .foregroundColor(.white)
                         } placeholder: {
                             ProgressView()
+                                .frame(height: 35)
                         }
                     }
                 
@@ -101,7 +103,7 @@ struct HomeView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: cellWidth, height: cellWidth, alignment: .center)
                     .clipped()
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .cornerRadius(15)
                     .overlay(alignment: .topLeading) {
                         Text(viewModel.getCategoryName(categoryId: place.categoryId))
                             .foregroundColor(.black)
@@ -115,6 +117,7 @@ struct HomeView: View {
                     }
             } placeholder: {
                 ProgressView()
+                    .frame(width: cellWidth, height: cellWidth, alignment: .center)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -132,34 +135,4 @@ struct HomeView_Previews: PreviewProvider {
 extension UIScreen {
     static let screenWidth = UIScreen.main.bounds.size.width
     static let screenHeight = UIScreen.main.bounds.size.height
-    static let screenSize = UIScreen.main.bounds.size
 }
-
-//private func createRecommendationCell(place: shared.Place) -> some View {
-//    NavigationLink {
-//        CategoryDetailView(place: place)
-//            .toolbarRole(.editor)
-//    } label: {
-//        AsyncImage(url: URL(string: place.imageUrls.first!)!) { image in
-//            image
-//                .resizable()
-//                .scaledToFit()
-//                .frame(maxHeight: .infinity)
-//                .clipShape(RoundedRectangle(cornerRadius: 15))
-//                .overlay(alignment: .topLeading) {
-//                    Text(viewModel.getCategoryName(categoryId: place.categoryId))
-//                        .foregroundColor(.black)
-//                        .font(.system(size: 8, weight: .bold))
-//                        .padding(.horizontal, 8)
-//                        .background {
-//                            RoundedRectangle(cornerRadius: 25)
-//                                .foregroundColor(.white)
-//                        }
-//                        .padding(9)
-//                }
-//        } placeholder: {
-//            ProgressView()
-//        }
-//    }
-////        .frame(maxHeight: .infinity)
-//}

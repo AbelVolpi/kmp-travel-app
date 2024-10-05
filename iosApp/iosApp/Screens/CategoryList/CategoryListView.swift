@@ -43,14 +43,15 @@ struct CategoryListView: View {
                 AsyncImage(url: .init(string: place.imageUrls.first!)) { image in
                     image
                         .resizable()
-                        .foregroundColor(.white)
-                        .scaledToFit()
-                        .frame(width: 112)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 112, height: 112, alignment: .center)
+                        .clipped()
                         .cornerRadius(15)
-                        .padding(10)
                 } placeholder: {
                     ProgressView()
+                        .frame(width: 112, height: 112, alignment: .center)
                 }
+                .padding(10)
                 
                 VStack(alignment: .leading, spacing: 6) {
                     Text(place.name)
