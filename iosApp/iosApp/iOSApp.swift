@@ -11,13 +11,13 @@ struct iOSApp: App {
         WindowGroup {
             TabView {
                 NavigationStack {
-                    ContentView()
+                    HomeView()
                 }
                 .tabItem {
                     Label("", systemImage: "safari")
                 }
                 NavigationStack {
-                    InformationsView()
+                    GuidancesView()
                 }
                 .tabItem {
                     Label("", systemImage: "house")
