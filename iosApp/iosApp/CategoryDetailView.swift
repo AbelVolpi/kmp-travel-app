@@ -23,10 +23,20 @@ struct CategoryDetailView: View {
                                 AsyncImage(url: URL(string: stringUrl)!) { image in
                                     image
                                         .resizable()
-                                        .scaledToFit()
-                                        .frame(width: proxy.size.width)
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(
+                                            width: proxy.size.width,
+                                            height: proxy.size.height,
+                                            alignment: .center
+                                        )
+                                        .clipped()
                                 } placeholder: {
                                   ProgressView()
+                                        .frame(
+                                            width: proxy.size.width,
+                                            height: proxy.size.height,
+                                            alignment: .center
+                                        )
                                 }
                             }
                         }
