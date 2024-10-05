@@ -14,14 +14,22 @@ final class InfoService {
     static let shared = InfoService()
     
     private init() { }
-    
-    func getWhatsAppLink() async -> shared.Info? {
-        let whatsAppLink = await DIHelperService.shared.infoRepository
-            .getWhatsAppLink()
+    func getWhatsAppNumber() async -> shared.Info? {
+        let whatsAppNumber = await DIHelperService.shared.infoRepository
+            .getWhatsAppNumber()
             .makeAsyncIterator()
             .next()
         
-        return whatsAppLink
+        return whatsAppNumber
+    }
+    
+    func getWhatsAppMessage() async -> shared.Info? {
+        let whatsAppMessage = await DIHelperService.shared.infoRepository
+            .getWhatsAppMessage()
+            .makeAsyncIterator()
+            .next()
+        
+        return whatsAppMessage
     }
     
     func getProjectDescription() async -> shared.Info? {

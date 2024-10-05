@@ -22,7 +22,12 @@ final class GuidancesViewModel: ObservableObject {
 
 extension GuidancesViewModel {
     func getWhatsAppLink() async {
-        whatsAppLink = await InfoService.shared.getWhatsAppLink()?.value
+        let number = await InfoService.shared.getWhatsAppNumber()?.value
+        let message = await InfoService.shared.getWhatsAppMessage()?.value
+        
+        guard let number, let message else { return }
+        
+        whatsAppLink = "https://api.whatsapp.com/send?phone=\(number)&text=\(message)"
     }
     
     func getGuidances() async {
