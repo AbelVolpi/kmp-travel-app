@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
-    MyApplicationTheme {
+    MyApplicationTheme(darkTheme = false) {
         HomeScreen()
     }
 }
