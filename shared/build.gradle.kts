@@ -53,7 +53,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.abelvolpi.kmptravelapp"
+    namespace = "com.luacheia.kmptravelapp"
     compileSdk = 34
     defaultConfig {
         minSdk = 24

@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "com.abelvolpi.kmptravelapp.android"
+    namespace = "com.luacheia.kmptravelapp.android"
     compileSdk = 34
     defaultConfig {
-        applicationId = "com.abelvolpi.kmptravelapp.android"
+        applicationId = "com.luacheia.kmptravelapp.android"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
