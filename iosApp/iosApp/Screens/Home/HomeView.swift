@@ -97,7 +97,7 @@ struct HomeView: View {
             CategoryDetailView(place: place)
                 .toolbarRole(.editor)
         } label: {
-            AsyncImage(url: URL(string: place.imageUrls.first!)!) { image in
+            AsyncImage(url: URL(string: place.imageUrls.first!)) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)

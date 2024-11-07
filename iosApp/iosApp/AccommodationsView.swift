@@ -44,7 +44,16 @@ struct AccommodationsView: View {
             .frame(height: 82)
             .overlay {
                 HStack(spacing: 0) {
-                    Image("AirbnbIcon")
+                    AsyncImage(url: .init(string: accommodation.iconUrl)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 40, height: 40, alignment: .center)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width: 40, height: 40, alignment: .center)
+                    }
+                    
                     Text(accommodation.title)
                         .font(.system(size: 22, weight: .bold))
                         .multilineTextAlignment(.leading)
