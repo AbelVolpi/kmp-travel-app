@@ -22,7 +22,7 @@ enum ServiceError: Error {
     var description: String {
         switch self {
         case .genericError:
-            return "Deu ruim aqui irmão"
+            return "Um erro inesperado aconteceu, tente novamente mais tarde"
         }
     }
 }
