@@ -31,6 +31,7 @@
 		8572721B2C570DEB00619BC0 /* PlaceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8572721A2C570DEB00619BC0 /* PlaceService.swift */; };
 		858CAEDC2C49F04F00137FC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858CAEDB2C49F04F00137FC6 /* GoogleService-Info.plist */; };
 		858CAEDE2C49F10700137FC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858CAEDD2C49F10700137FC6 /* AppDelegate.swift */; };
+		859FB0DC2CD8487500385EF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859FB0DB2CD8487500385EF0 /* Launch Screen.storyboard */; };
 		85AB286E2BD6E28900D9F089 /* GuidancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AB286D2BD6E28900D9F089 /* GuidancesView.swift */; };
 		85AB287C2BD6F8CF00D9F089 /* InformationGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */; };
 		85B6DEFA2BB1C8B600C17994 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B6DEF92BB1C8B600C17994 /* Color+Extension.swift */; };
@@ -73,6 +74,7 @@
 		8572721A2C570DEB00619BC0 /* PlaceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceService.swift; sourceTree = "<group>"; };
 		858CAEDB2C49F04F00137FC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		858CAEDD2C49F10700137FC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		859FB0DB2CD8487500385EF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		85AB286D2BD6E28900D9F089 /* GuidancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidancesView.swift; sourceTree = "<group>"; };
 		85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGuideView.swift; sourceTree = "<group>"; };
 		85B6DEF92BB1C8B600C17994 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */,
 				85246FBE2C72A8E2002F6E86 /* AccommodationsView.swift */,
 				858CAEDD2C49F10700137FC6 /* AppDelegate.swift */,
+				859FB0DB2CD8487500385EF0 /* Launch Screen.storyboard */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			files = (
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				858CAEDC2C49F04F00137FC6 /* GoogleService-Info.plist in Resources */,
+				859FB0DC2CD8487500385EF0 /* Launch Screen.storyboard in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
