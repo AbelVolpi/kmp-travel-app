@@ -93,7 +93,7 @@ fun GuidanceUI(
             )
         }
     ) { padding ->
-        val descriptionFormatted = guidance.description.formatBreakLines()
+        val descriptionFormatted = guidance.description.toAnnotatedString()
         Text(
             text = descriptionFormatted,
             color = Color.White,
