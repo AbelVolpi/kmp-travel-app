@@ -20,8 +20,7 @@ struct InformationGuideView: View {
                     .font(.system(size: 33, weight: .bold))
                 Spacer()
             }
-            Text(description)
-                .multilineTextAlignment(.center)
+            Text(description.htmlAttributedString())
                 .padding(.top, 20)
         }
         .padding([.horizontal, .top], 20)
