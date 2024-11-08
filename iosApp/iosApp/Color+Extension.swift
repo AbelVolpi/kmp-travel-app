@@ -25,3 +25,25 @@ extension Color {
         Color(red: 38/255, green: 38/255, blue: 38/255)
     }
 }
+
+extension UIColor {
+    var htmlRGB: String {
+        String(
+            format: "#%02x%02x%02x",
+            Int(rgba.red * 255),
+            Int(rgba.green * 255),
+            Int(rgba.blue * 255)
+        )
+    }
+    
+    var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        
+        guard getRed(&r, green: &g, blue: &b, alpha: &a) else { return (0, 0, 0, 0) }
+        
+        return (r, g, b, a)
+    }
+}
