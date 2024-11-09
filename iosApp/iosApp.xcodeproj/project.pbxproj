@@ -37,6 +37,7 @@
 		85AB287C2BD6F8CF00D9F089 /* InformationGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */; };
 		85B2E4DC2CDFC9F600C704BC /* HomeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4DB2CDFC9F600C704BC /* HomeState.swift */; };
 		85B2E4DE2CDFCF4B00C704BC /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4DD2CDFCF4B00C704BC /* UIScreen+Extension.swift */; };
+		85B2E4E12CDFE4AE00C704BC /* CategoryListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4E02CDFE4AE00C704BC /* CategoryListState.swift */; };
 		85B6DEFA2BB1C8B600C17994 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B6DEF92BB1C8B600C17994 /* Color+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGuideView.swift; sourceTree = "<group>"; };
 		85B2E4DB2CDFC9F600C704BC /* HomeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeState.swift; sourceTree = "<group>"; };
 		85B2E4DD2CDFCF4B00C704BC /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
+		85B2E4E02CDFE4AE00C704BC /* CategoryListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListState.swift; sourceTree = "<group>"; };
 		85B6DEF92BB1C8B600C17994 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,6 +180,7 @@
 			children = (
 				8567D0452BB2044B0098A19A /* CategoryListView.swift */,
 				853A19642C6AB9970049ABEA /* CategoryListViewModel.swift */,
+				85B2E4E02CDFE4AE00C704BC /* CategoryListState.swift */,
 			);
 			path = CategoryList;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				857272162C55604400619BC0 /* HomeViewModel.swift in Sources */,
 				85B2E4DE2CDFCF4B00C704BC /* UIScreen+Extension.swift in Sources */,
 				8567D0462BB2044B0098A19A /* CategoryListView.swift in Sources */,
+				85B2E4E12CDFE4AE00C704BC /* CategoryListState.swift in Sources */,
 				850A3B622C716B7F002397E8 /* GuidancesViewModel.swift in Sources */,
 				7555FF83242A565900829871 /* HomeView.swift in Sources */,
 				858CAEDE2C49F10700137FC6 /* AppDelegate.swift in Sources */,
