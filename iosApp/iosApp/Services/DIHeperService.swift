@@ -16,10 +16,12 @@ final class DIHelperService {
     private init() { }
 }
 
-enum ServiceError: Error {
+enum ServiceError: Error, LocalizedError, Identifiable {
+    var id: UUID { UUID() }
+    
     case genericError
     
-    var description: String {
+    var errorDescription: String {
         switch self {
         case .genericError:
             return "Um erro inesperado aconteceu, tente novamente mais tarde"
