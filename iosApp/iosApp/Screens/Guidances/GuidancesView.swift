@@ -21,7 +21,7 @@ struct GuidancesView: View {
                 Divider()
                     .padding([.top, .horizontal], 20)
                 
-                if viewModel.accommodations.count > 0 {
+                if viewModel.state.accommodations.count > 0 {
                     createListCell(
                         image: {
                             Image("HouseIcon")
@@ -31,11 +31,11 @@ struct GuidancesView: View {
                         },
                         title: "Acomodações",
                         subtitle: "Veja outras acomodações dos Chalés Lua Cheia",
-                        action: { viewModel.shouldShowAccommodations.toggle() }
+                        action: { viewModel.state.shouldShowAccommodations.toggle() }
                     )
                 }
                 
-                ForEach(viewModel.guidances) { guidance in
+                ForEach(viewModel.state.guidances) { guidance in
                     createListCell(
                         image: {
                             AsyncImage(url: .init(string: guidance.iconUrl)) { image in
@@ -51,20 +51,26 @@ struct GuidancesView: View {
                         },
                         title: guidance.title,
                         subtitle: guidance.subtitle,
-                        action: { viewModel.selectedGuidance = guidance }
+                        action: { viewModel.state.selectedGuidance = guidance }
                     )
                 }
             }
         }
         .navigationTitle("Chalés Lua Cheia")
         .background(Color.gray2)
-        .sheet(isPresented: $viewModel.shouldShowAccommodations) {
-            AccommodationsView(accommodations: viewModel.accommodations)
+        .sheet(isPresented: $viewModel.state.shouldShowAccommodations) {
+            AccommodationsView(accommodations: viewModel.state.accommodations)
         }
-        .sheet(item: $viewModel.selectedGuidance) { selectedGuidance in
+        .sheet(item: $viewModel.state.selectedGuidance) { selectedGuidance in
             InformationGuideView(
                 title: selectedGuidance.title,
                 description: selectedGuidance.description_
+            )
+        }
+        .alert(item: $viewModel.state.error) {
+            Alert(
+                title: Text("Atenção"),
+                message: Text($0.errorDescription)
             )
         }
         .task {
@@ -77,7 +83,7 @@ struct GuidancesView: View {
 
 extension GuidancesView {
     private var whatsAppButton: AnyView {
-        if let whatsAppLink = viewModel.whatsAppLink, let url = URL(string: whatsAppLink), UIApplication.shared.canOpenURL(url) {
+        if let whatsAppLink = viewModel.state.whatsAppLink, let url = URL(string: whatsAppLink), UIApplication.shared.canOpenURL(url) {
             return AnyView(
                 RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(.gray1)
