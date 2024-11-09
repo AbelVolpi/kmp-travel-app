@@ -6,7 +6,8 @@ struct HomeView: View {
     
     @ObservedObject private var viewModel = HomeViewModel()
     
-    let cellWidth = (UIScreen.screenWidth - (2 * 25) - 15) / 2
+    let horizontalPadding: CGFloat = 25
+    let gridSpacing: CGFloat = 25
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -20,7 +21,7 @@ struct HomeView: View {
                 .padding(.top, 35)
                 
                 HStack(alignment: .top, spacing: 16) {
-                    ForEach(viewModel.categories) { category in
+                    ForEach(viewModel.state.categories) { category in
                         createCategoryCell(category: category)
                     }
                 }
@@ -34,20 +35,29 @@ struct HomeView: View {
                 }
                 .padding(.top, 35)
                 
-                LazyVGrid(columns: [GridItem(spacing: 15), GridItem(spacing: 15)], spacing: 15) {
-                    ForEach(viewModel.places) { place in
+                LazyVGrid(
+                    columns: [GridItem(spacing: gridSpacing), GridItem(spacing: gridSpacing)],
+                    spacing: gridSpacing
+                ) {
+                    ForEach(viewModel.state.places) { place in
                         createRecommendationCell(place: place)
                     }
                 }
                 .padding(.top, 10)
                 
             }
-            .padding(.horizontal, 25)
+            .padding(.horizontal, horizontalPadding)
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.gray2)
         .navigationBarItems(trailing: infoButton)
-        .sheet(isPresented: $viewModel.aboutUsViewIsPresented, content: AboutUsView.init)
+        .sheet(isPresented: $viewModel.state.aboutUsViewIsPresented, content: AboutUsView.init)
+        .alert(item: $viewModel.state.error) {
+            Alert(
+                title: Text("Atenção"),
+                message: Text($0.errorDescription)
+            )
+        }
         .task {
             await viewModel.getCategories()
             await viewModel.getPlaces()
@@ -57,12 +67,14 @@ struct HomeView: View {
     private var infoButton: some View {
         Image(systemName: "info.circle")
             .onTapGesture {
-                viewModel.aboutUsViewIsPresented.toggle()
+                viewModel.state.aboutUsViewIsPresented.toggle()
             }
     }
     
     private func createCategoryCell(category: shared.Category) -> some View {
-        NavigationLink {
+        let height: CGFloat = 35
+        
+        return NavigationLink {
             CategoryListView(category: category)
                 .toolbarRole(.editor)
         } label: {
@@ -75,11 +87,11 @@ struct HomeView: View {
                             image
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: 35)
+                                .frame(height: height)
                                 .foregroundColor(.white)
                         } placeholder: {
                             ProgressView()
-                                .frame(height: 35)
+                                .frame(height: height)
                         }
                     }
                 
@@ -93,46 +105,48 @@ struct HomeView: View {
     }
     
     private func createRecommendationCell(place: shared.Place) -> some View {
-        NavigationLink {
+        let size = (UIScreen.screenWidth - (2 * horizontalPadding) - gridSpacing) / 2
+        
+        return NavigationLink {
             CategoryDetailView(place: place)
                 .toolbarRole(.editor)
         } label: {
-            AsyncImage(url: URL(string: place.imageUrls.first!)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: cellWidth, height: cellWidth, alignment: .center)
-                    .clipped()
-                    .cornerRadius(15)
-                    .overlay(alignment: .topLeading) {
-                        Text(viewModel.getCategoryName(categoryId: place.categoryId))
-                            .foregroundColor(.black)
-                            .font(.system(size: 8, weight: .bold))
-                            .padding(.horizontal, 8)
-                            .background {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .foregroundColor(.white)
-                            }
-                            .padding(9)
-                    }
-            } placeholder: {
-                ProgressView()
-                    .frame(width: cellWidth, height: cellWidth, alignment: .center)
+            if let imageUrl = place.imageUrls.first, let url = URL(string: imageUrl) {
+                getAsyncImage(url: url, size: size, categoryId: place.categoryId)
+            } else {
+                getPlaceHolder(size: size)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-}
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            HomeView()
+    
+    private func getAsyncImage(url: URL, size: CGFloat, categoryId: String) -> some View {
+        AsyncImage(url: url) { image in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: size, height: size, alignment: .center)
+                .clipped()
+                .cornerRadius(15)
+                .overlay(alignment: .topLeading) {
+                    Text(viewModel.getCategoryName(categoryId: categoryId))
+                        .foregroundColor(.black)
+                        .font(.system(size: 8, weight: .bold))
+                        .padding(.horizontal, 8)
+                        .background {
+                            RoundedRectangle(cornerRadius: 25)
+                                .foregroundColor(.white)
+                        }
+                        .padding(9)
+                }
+        } placeholder: {
+            ProgressView()
+                .frame(width: size, height: size, alignment: .center)
         }
     }
-}
-
-extension UIScreen {
-    static let screenWidth = UIScreen.main.bounds.size.width
-    static let screenHeight = UIScreen.main.bounds.size.height
+    
+    private func getPlaceHolder(size: CGFloat) -> some View {
+        Image(systemName: "photo")
+            .frame(width: size, height: size)
+    }
 }
