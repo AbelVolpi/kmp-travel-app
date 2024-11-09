@@ -12,7 +12,7 @@ import shared
 @MainActor
 final class AboutUsViewModel: ObservableObject {
     
-    @Published var paragraphs: [String] = []
+    @Published var state = AboutUsState()
     
 }
 
@@ -25,7 +25,7 @@ extension AboutUsViewModel {
         
         projectDescription.forEach { paragraph in
             let paragraphCopy = paragraph.replacingOccurrences(of: sentense, with: "")
-            paragraphs.append(paragraphCopy)
+            state.paragraphs.append(paragraphCopy)
         }
     }
 }
