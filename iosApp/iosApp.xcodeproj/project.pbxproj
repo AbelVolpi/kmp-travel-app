@@ -38,6 +38,7 @@
 		85B2E4DC2CDFC9F600C704BC /* HomeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4DB2CDFC9F600C704BC /* HomeState.swift */; };
 		85B2E4DE2CDFCF4B00C704BC /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4DD2CDFCF4B00C704BC /* UIScreen+Extension.swift */; };
 		85B2E4E12CDFE4AE00C704BC /* CategoryListState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4E02CDFE4AE00C704BC /* CategoryListState.swift */; };
+		85B2E4E32CDFF28700C704BC /* AboutUsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4E22CDFF28700C704BC /* AboutUsState.swift */; };
 		85B6DEFA2BB1C8B600C17994 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B6DEF92BB1C8B600C17994 /* Color+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,7 @@
 		85B2E4DB2CDFC9F600C704BC /* HomeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeState.swift; sourceTree = "<group>"; };
 		85B2E4DD2CDFCF4B00C704BC /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		85B2E4E02CDFE4AE00C704BC /* CategoryListState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListState.swift; sourceTree = "<group>"; };
+		85B2E4E22CDFF28700C704BC /* AboutUsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsState.swift; sourceTree = "<group>"; };
 		85B6DEF92BB1C8B600C17994 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,6 +173,7 @@
 			children = (
 				8567D03F2BB1FA610098A19A /* AboutUsView.swift */,
 				85246FC12C72B6D6002F6E86 /* AboutUsViewModel.swift */,
+				85B2E4E22CDFF28700C704BC /* AboutUsState.swift */,
 			);
 			path = AboutUs;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				8567D0422BB1FAEC0098A19A /* Image+Extension.swift in Sources */,
 				8572721B2C570DEB00619BC0 /* PlaceService.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				85B2E4E32CDFF28700C704BC /* AboutUsState.swift in Sources */,
 				85246FBF2C72A8E2002F6E86 /* AccommodationsView.swift in Sources */,
 				857272122C555EBB00619BC0 /* DIHeperService.swift in Sources */,
 				850A3B682C716F5D002397E8 /* InfoService.swift in Sources */,
