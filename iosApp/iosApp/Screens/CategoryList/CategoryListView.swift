@@ -46,18 +46,11 @@ struct CategoryListView: View {
                 .toolbarRole(.editor)
         } label: {
             HStack(spacing: 0) {
-                AsyncImage(url: .init(string: place.imageUrls.first!)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 112, height: 112, alignment: .center)
-                        .clipped()
-                        .cornerRadius(15)
-                } placeholder: {
-                    ProgressView()
-                        .frame(width: 112, height: 112, alignment: .center)
+                if let imageUrl = place.imageUrls.first, let url = URL(string: imageUrl) {
+                    getAsyncImage(url: url, size: 112)
+                } else {
+                    getPlaceHolder(size: 112)
                 }
-                .padding(10)
                 
                 VStack(alignment: .leading, spacing: 6) {
                     Text(place.name)
@@ -83,5 +76,26 @@ struct CategoryListView: View {
                 .stroke(lineWidth: 1)
                 .foregroundColor(.gray4)
         }
+    }
+    
+    private func getAsyncImage(url: URL, size: CGFloat) -> some View {
+        AsyncImage(url: url) { image in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: size, height: size, alignment: .center)
+                .clipped()
+                .cornerRadius(15)
+        } placeholder: {
+            ProgressView()
+                .frame(width: size, height: size, alignment: .center)
+        }
+        .padding(10)
+    }
+    
+    private func getPlaceHolder(size: CGFloat) -> some View {
+        Image(systemName: "photo")
+            .frame(width: size, height: size)
+            .padding(10)
     }
 }
