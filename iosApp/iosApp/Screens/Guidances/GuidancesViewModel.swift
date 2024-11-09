@@ -12,11 +12,7 @@ import shared
 @MainActor
 final class GuidancesViewModel: ObservableObject {
     
-    @Published var whatsAppLink: String?
-    @Published var shouldShowAccommodations: Bool = false
-    @Published var guidances: [shared.Guidance] = []
-    @Published var accommodations: [shared.Accommodation] = []
-    @Published var selectedGuidance: shared.Guidance?
+    @Published var state = GuidancesState()
     
 }
 
@@ -27,7 +23,7 @@ extension GuidancesViewModel {
         
         guard let number, let message else { return }
         
-        whatsAppLink = "https://api.whatsapp.com/send?phone=\(number)&text=\(message)"
+        state.whatsAppLink = "https://api.whatsapp.com/send?phone=\(number)&text=\(message)"
     }
     
     func getGuidances() async {
@@ -35,9 +31,9 @@ extension GuidancesViewModel {
         
         switch response {
             case .success(let guidances):
-                self.guidances = guidances
-            case .failure(_):
-                break
+                state.guidances = guidances
+            case .failure(let error):
+                state.error = error
         }
     }
     
@@ -46,9 +42,9 @@ extension GuidancesViewModel {
         
         switch response {
             case .success(let accommodations):
-                self.accommodations = accommodations
-            case .failure(_):
-                break
+                state.accommodations = accommodations
+            case .failure(let error):
+                state.error = error
         }
     }
 }
