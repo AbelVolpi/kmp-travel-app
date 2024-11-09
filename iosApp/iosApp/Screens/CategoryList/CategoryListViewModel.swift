@@ -12,25 +12,22 @@ import shared
 @MainActor
 final class CategoryListViewModel: ObservableObject {
     
-    let category: shared.Category
-
-    @Published var searchText = ""
-    @Published var places: [shared.Place] = []
+    @Published var state: CategoryListState
     
     init(category: shared.Category) {
-        self.category = category
+        state = CategoryListState(category: category)
     }
 }
 
 extension CategoryListViewModel {
     func getPlaces() async {
-        let result = await PlaceService.shared.getPlacesBy(categoryId: category.id)
+        let result = await PlaceService.shared.getPlacesBy(categoryId: state.category.id)
         
         switch result {
-        case .success(let places):
-            self.places = places
-        case .failure(let error):
-            break
+            case .success(let places):
+                state.places = places
+            case .failure(let error):
+                state.error = error
         }
     }
 }

@@ -20,18 +20,24 @@ struct CategoryListView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 20) {
-                ForEach(viewModel.places) { place in
+                ForEach(viewModel.state.places) { place in
                     createCategoryCell(place: place)
                 }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 24)
-        .searchable(text: $viewModel.searchText)
-        .navigationTitle(viewModel.category.name)
+        .searchable(text: $viewModel.state.searchText)
+        .navigationTitle(viewModel.state.category.name)
         .navigationBarTitleDisplayMode(.large)
         .background(Color.gray2.ignoresSafeArea())
         .task { await viewModel.getPlaces() }
+        .alert(item: $viewModel.state.error) {
+            Alert(
+                title: Text("Atenção"),
+                message: Text($0.errorDescription)
+            )
+        }
     }
     
     private func createCategoryCell(place: shared.Place) -> some View {
