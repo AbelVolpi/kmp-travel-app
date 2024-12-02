@@ -6,6 +6,7 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
+import Combine
 import Foundation
 import shared
 
@@ -14,6 +15,11 @@ final class HomeViewModel: ObservableObject {
     
     @Published var state = HomeState()
     
+    private var cancellable: [AnyCancellable] = []
+    
+    init() {
+        setupDebounceSearch()
+    }
 }
 
 extension HomeViewModel {
@@ -29,7 +35,7 @@ extension HomeViewModel {
     }
     
     func getPlaces() async {
-        let result = await PlaceService.shared.getPlaces()
+        let result = await PlaceService.shared.getPlaces(searchText: state.searchText)
         
         switch result {
             case .success(let places):
@@ -38,8 +44,13 @@ extension HomeViewModel {
                 state.error = error
         }
     }
-    
-    func getCategoryName(categoryId: String) -> String {
-        state.categories.first { $0.id == categoryId }?.name ?? ""
+}
+
+extension HomeViewModel {
+    private func setupDebounceSearch() {
+        $state
+            .map(\.searchText)
+            .debounceSink(action: getPlaces)
+            .store(in: &cancellable)
     }
 }
