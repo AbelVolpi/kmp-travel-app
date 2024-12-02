@@ -14,4 +14,5 @@ struct HomeState {
     var categories: [shared.Category] = []
     var places: [shared.Place] = []
     var error: ServiceError?
+    var searchText = ""
 }

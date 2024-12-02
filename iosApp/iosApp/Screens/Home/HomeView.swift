@@ -51,6 +51,7 @@ struct HomeView: View {
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.gray2)
         .navigationBarItems(trailing: infoButton)
+        .searchable(text: $viewModel.state.searchText, prompt: "Pesquisar")
         .sheet(isPresented: $viewModel.state.aboutUsViewIsPresented, content: AboutUsView.init)
         .alert(item: $viewModel.state.error) {
             Alert(
@@ -62,6 +63,7 @@ struct HomeView: View {
             await viewModel.getCategories()
             await viewModel.getPlaces()
         }
+        .padding(.top, -20)
     }
     
     private var infoButton: some View {
@@ -112,7 +114,7 @@ struct HomeView: View {
                 .toolbarRole(.editor)
         } label: {
             if let imageUrl = place.imageUrls.first, let url = URL(string: imageUrl) {
-                getAsyncImage(url: url, size: size, categoryId: place.categoryId)
+                getAsyncImage(url: url, size: size, place: place)
             } else {
                 getPlaceHolder(size: size)
             }
@@ -120,7 +122,7 @@ struct HomeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
-    private func getAsyncImage(url: URL, size: CGFloat, categoryId: String) -> some View {
+    private func getAsyncImage(url: URL, size: CGFloat, place: shared.Place) -> some View {
         AsyncImage(url: url) { image in
             image
                 .resizable()
@@ -129,7 +131,7 @@ struct HomeView: View {
                 .clipped()
                 .cornerRadius(15)
                 .overlay(alignment: .topLeading) {
-                    Text(viewModel.getCategoryName(categoryId: categoryId))
+                    Text(place.name)
                         .foregroundColor(.black)
                         .font(.system(size: 8, weight: .bold))
                         .padding(.horizontal, 8)
