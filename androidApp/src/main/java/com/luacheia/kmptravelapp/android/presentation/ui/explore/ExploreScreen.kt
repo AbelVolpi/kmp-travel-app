@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,6 +44,7 @@ import com.luacheia.kmptravelapp.android.presentation.theme.tertiaryColor
 import com.luacheia.kmptravelapp.android.presentation.ui.home.HomeScreen
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.data.model.Place
+import com.luacheia.kmptravelapp.android.R
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -55,6 +57,9 @@ fun ExploreScreen(
 
     if (exploreUIData != null) {
         ExploreUI(
+            { exploreViewModel.searchPlaces(it) },
+            { exploreViewModel.onSearchQueryChange(it) },
+            { exploreViewModel.searchPlaces() },
             exploreUIData,
             onCategoryClicked,
             onPlaceClicked
@@ -66,6 +71,9 @@ fun ExploreScreen(
 
 @Composable
 fun ExploreUI(
+    onSearch: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    trailingIconAction: () -> Unit,
     exploreUIData: ExploreModel,
     onCategoryClicked: (String, String) -> Unit,
     onPlaceClicked: (String) -> Unit
@@ -76,7 +84,11 @@ fun ExploreUI(
             .verticalScroll(rememberScrollState())
             .padding(top = 45.dp)
     ) {
-        SearchBarComponent()
+        SearchBarComponent(
+            onSearch = onSearch,
+            trailingIconAction = trailingIconAction,
+            onQueryChange = onQueryChange
+        )
         CategoriesTitle()
         CategoriesList(
             categories = exploreUIData.categories,
