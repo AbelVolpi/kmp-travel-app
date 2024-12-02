@@ -11,10 +11,10 @@ import SwiftUI
 
 struct CategoryListView: View {
     
-    @ObservedObject private var viewModel: CategoryListViewModel
+    @StateObject private var viewModel: CategoryListViewModel
     
     init(category: shared.Category) {
-        viewModel = CategoryListViewModel(category: category)
+        _viewModel = StateObject(wrappedValue: CategoryListViewModel(category: category))
     }
     
     var body: some View {
@@ -27,7 +27,7 @@ struct CategoryListView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 24)
-        .searchable(text: $viewModel.state.searchText)
+        .searchable(text: $viewModel.state.searchText, prompt: "Pesquisar")
         .navigationTitle(viewModel.state.category.name)
         .navigationBarTitleDisplayMode(.large)
         .background(Color.gray2.ignoresSafeArea())

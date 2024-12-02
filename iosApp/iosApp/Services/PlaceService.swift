@@ -15,24 +15,24 @@ final class PlaceService {
     
     private init() { }
     
-    func getPlaces() async -> Result<[shared.Place], ServiceError> {
+    func getPlaces(searchText: String? = nil) async -> Result<[shared.Place], ServiceError> {
         let places = await DIHelperService.shared.placeRepository
-            .getAllPlaces()
+            .getAllPlaces(searchText: searchText)
             .makeAsyncIterator()
             .next()
         
-        guard let places, !places.isEmpty else { return .failure(.genericError) }
+        guard let places else { return .failure(.genericError) }
         
         return .success(places)
     }
     
-    func getPlacesBy(categoryId: String) async -> Result<[shared.Place], ServiceError> {
+    func getPlacesBy(categoryId: String, searchText: String? = nil) async -> Result<[shared.Place], ServiceError> {
         let places = await DIHelperService.shared.placeRepository
-            .getPlacesByCategory(categoryId: categoryId)
+            .getPlacesByCategory(categoryId: categoryId, searchText: searchText)
             .makeAsyncIterator()
             .next()
         
-        guard let places, !places.isEmpty else { return .failure(.genericError) }
+        guard let places else { return .failure(.genericError) }
         
         return .success(places)
     }
