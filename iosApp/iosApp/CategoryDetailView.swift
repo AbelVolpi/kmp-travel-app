@@ -8,10 +8,12 @@
 
 import shared
 import SwiftUI
+import CoreLocation
 
 struct CategoryDetailView: View {
     
     let place: shared.Place
+    @State private var showActionSheet = false
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -56,7 +58,7 @@ struct CategoryDetailView: View {
                         .padding(.top, 15)
                     
                     Button {
-                        
+                        showActionSheet = true
                     } label: {
                         HStack(spacing: 0) {
                             Spacer()
@@ -81,7 +83,6 @@ struct CategoryDetailView: View {
                     }
                     .padding(.top, 25)
                     .frame(alignment: .center)
-
                 }
                 .padding(.horizontal, 24)
             }
@@ -89,5 +90,61 @@ struct CategoryDetailView: View {
         .background(Color.gray2.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(place.name)
+        .actionSheet(isPresented: $showActionSheet) {
+            ActionSheet(
+                title: Text("Escolha um aplicativo de mapa"),
+                buttons: availableMapApps()
+            )
+        }
     }
+    
+    private func availableMapApps() -> [ActionSheet.Button] {
+        var buttons: [ActionSheet.Button] = []
+        
+        buttons.append(.default(Text("Apple Maps")) {
+            openMapApp(destinationAddress: place.address, app: .appleMaps)
+        })
+        
+        if let googleMapsURL = URL(string: "comgooglemaps://"), UIApplication.shared.canOpenURL(googleMapsURL) {
+            buttons.append(.default(Text("Google Maps")) {
+                openMapApp(destinationAddress: place.address, app: .googleMaps)
+            })
+        }
+        
+        if let wazeURL = URL(string: "waze://"), UIApplication.shared.canOpenURL(wazeURL) {
+            buttons.append(.default(Text("Waze")) {
+                openMapApp(destinationAddress: place.address, app: .waze)
+            })
+        }
+        
+        buttons.append(.cancel())
+        
+        return buttons
+    }
+    
+    private func openMapApp(destinationAddress: String, app: MapApp) {
+        let encodedAddress = destinationAddress.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let url: URL?
+        
+        switch app {
+            case .appleMaps:
+                url = URL(string: "http://maps.apple.com/?daddr=\(encodedAddress ?? "")")
+                
+            case .googleMaps:
+                url = URL(string: "comgooglemaps://?daddr=\(encodedAddress ?? "")&directionsmode=driving")
+                
+            case .waze:
+                url = URL(string: "https://waze.com/ul?q=\(encodedAddress ?? "")&navigate=yes")
+        }
+        
+        if let url = url, UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            print("Não foi possível abrir o aplicativo de mapa")
+        }
+    }
+}
+
+enum MapApp {
+    case appleMaps, googleMaps, waze
 }
