@@ -42,7 +42,7 @@ struct CategoryListView: View {
     
     private func createCategoryCell(place: shared.Place) -> some View {
         NavigationLink {
-            CategoryDetailView(place: place)
+            PlaceDetailView(place: place)
                 .toolbarRole(.editor)
         } label: {
             HStack(spacing: 0) {
