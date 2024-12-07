@@ -10,6 +10,7 @@ class RealmPlace(
     var imageUrls: RealmList<String>,
     var description: String,
     var address: String,
+    var city: String,
     var categoryId: String,
     var price: String
 ) : RealmObject {
@@ -17,6 +18,7 @@ class RealmPlace(
         "",
         "",
         realmListOf(""),
+        "",
         "",
         "",
         "",
