@@ -1,6 +1,5 @@
 import shared
 import SwiftUI
-import UIKit
 
 struct HomeView: View {
     
@@ -110,7 +109,7 @@ struct HomeView: View {
         let size = (UIScreen.screenWidth - (2 * horizontalPadding) - gridSpacing) / 2
         
         return NavigationLink {
-            CategoryDetailView(place: place)
+            PlaceDetailView(place: place)
                 .toolbarRole(.editor)
         } label: {
             if let imageUrl = place.imageUrls.first, let url = URL(string: imageUrl) {

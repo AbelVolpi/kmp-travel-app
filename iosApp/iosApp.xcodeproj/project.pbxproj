@@ -23,7 +23,7 @@
 		853A19652C6AB9970049ABEA /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A19642C6AB9970049ABEA /* CategoryListViewModel.swift */; };
 		8567D0402BB1FA610098A19A /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8567D03F2BB1FA610098A19A /* AboutUsView.swift */; };
 		8567D0462BB2044B0098A19A /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8567D0452BB2044B0098A19A /* CategoryListView.swift */; };
-		8567D0482BB20E740098A19A /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8567D0472BB20E740098A19A /* CategoryDetailView.swift */; };
+		8567D0482BB20E740098A19A /* PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8567D0472BB20E740098A19A /* PlaceDetailView.swift */; };
 		8570AFE02CD99E8700B2E7CE /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8570AFDF2CD99E8700B2E7CE /* String+Extension.swift */; };
 		857272122C555EBB00619BC0 /* DIHeperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857272112C555EBB00619BC0 /* DIHeperService.swift */; };
 		857272162C55604400619BC0 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857272152C55604400619BC0 /* HomeViewModel.swift */; };
@@ -32,6 +32,7 @@
 		858CAEDC2C49F04F00137FC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858CAEDB2C49F04F00137FC6 /* GoogleService-Info.plist */; };
 		858CAEDE2C49F10700137FC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858CAEDD2C49F10700137FC6 /* AppDelegate.swift */; };
 		859FB0DC2CD8487500385EF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859FB0DB2CD8487500385EF0 /* Launch Screen.storyboard */; };
+		85A2E0282D04A1DC00A2A2DC /* MapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2E0272D04A1DC00A2A2DC /* MapApp.swift */; };
 		85AB286E2BD6E28900D9F089 /* GuidancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AB286D2BD6E28900D9F089 /* GuidancesView.swift */; };
 		85AB287C2BD6F8CF00D9F089 /* InformationGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */; };
 		85AFC58F2CB1849700C5A6EB /* Publisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AFC58E2CB1849700C5A6EB /* Publisher+Extension.swift */; };
@@ -73,7 +74,7 @@
 		853A19642C6AB9970049ABEA /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		8567D03F2BB1FA610098A19A /* AboutUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
 		8567D0452BB2044B0098A19A /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
-		8567D0472BB20E740098A19A /* CategoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailView.swift; sourceTree = "<group>"; };
+		8567D0472BB20E740098A19A /* PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailView.swift; sourceTree = "<group>"; };
 		8570AFDF2CD99E8700B2E7CE /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		857272112C555EBB00619BC0 /* DIHeperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIHeperService.swift; sourceTree = "<group>"; };
 		857272152C55604400619BC0 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -82,6 +83,7 @@
 		858CAEDB2C49F04F00137FC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		858CAEDD2C49F10700137FC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		859FB0DB2CD8487500385EF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		85A2E0272D04A1DC00A2A2DC /* MapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapApp.swift; sourceTree = "<group>"; };
 		85AB286D2BD6E28900D9F089 /* GuidancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidancesView.swift; sourceTree = "<group>"; };
 		85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGuideView.swift; sourceTree = "<group>"; };
 		85AFC58E2CB1849700C5A6EB /* Publisher+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extension.swift"; sourceTree = "<group>"; };
@@ -143,8 +145,8 @@
 				857272102C555E9700619BC0 /* Services */,
 				85B2E4E62CDFF5BD00C704BC /* Extensions */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
+				85A2E0262D04A1D400A2A2DC /* Models */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
-				8567D0472BB20E740098A19A /* CategoryDetailView.swift */,
 				85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */,
 				85246FBE2C72A8E2002F6E86 /* AccommodationsView.swift */,
 				858CAEDD2C49F10700137FC6 /* AppDelegate.swift */,
@@ -210,6 +212,7 @@
 				853A19632C6AB9810049ABEA /* CategoryList */,
 				85246FC02C72B694002F6E86 /* AboutUs */,
 				85246FBD2C729CB9002F6E86 /* Guidances */,
+				85A2E0252D04A18B00A2A2DC /* PlaceDetail */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -222,6 +225,22 @@
 				85B2E4DB2CDFC9F600C704BC /* HomeState.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		85A2E0252D04A18B00A2A2DC /* PlaceDetail */ = {
+			isa = PBXGroup;
+			children = (
+				8567D0472BB20E740098A19A /* PlaceDetailView.swift */,
+			);
+			path = PlaceDetail;
+			sourceTree = "<group>";
+		};
+		85A2E0262D04A1D400A2A2DC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				85A2E0272D04A1DC00A2A2DC /* MapApp.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		85B2E4E62CDFF5BD00C704BC /* Extensions */ = {
@@ -354,6 +373,7 @@
 				85AB287C2BD6F8CF00D9F089 /* InformationGuideView.swift in Sources */,
 				8570AFE02CD99E8700B2E7CE /* String+Extension.swift in Sources */,
 				850A3B642C716C41002397E8 /* AccommodationService.swift in Sources */,
+				85A2E0282D04A1DC00A2A2DC /* MapApp.swift in Sources */,
 				8567D0402BB1FA610098A19A /* AboutUsView.swift in Sources */,
 				85AFC58F2CB1849700C5A6EB /* Publisher+Extension.swift in Sources */,
 				857272162C55604400619BC0 /* HomeViewModel.swift in Sources */,
@@ -364,7 +384,7 @@
 				850A3B622C716B7F002397E8 /* GuidancesViewModel.swift in Sources */,
 				7555FF83242A565900829871 /* HomeView.swift in Sources */,
 				858CAEDE2C49F10700137FC6 /* AppDelegate.swift in Sources */,
-				8567D0482BB20E740098A19A /* CategoryDetailView.swift in Sources */,
+				8567D0482BB20E740098A19A /* PlaceDetailView.swift in Sources */,
 				853A19652C6AB9970049ABEA /* CategoryListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,6 +514,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = WJKTWZ2AD7;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -510,8 +531,13 @@
 					"-framework",
 					shared,
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosApp;
 				PRODUCT_NAME = "Lua Cheia Chalés";
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosAppppp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+>>>>>>> 1ac294d (refactor: rename CategoryDetailView to PlaceDetailView and refactor route tracing logic)
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -523,6 +549,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = WJKTWZ2AD7;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -539,8 +566,13 @@
 					"-framework",
 					shared,
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosApp;
 				PRODUCT_NAME = "Lua Cheia Chalés";
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosAppppp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+>>>>>>> 1ac294d (refactor: rename CategoryDetailView to PlaceDetailView and refactor route tracing logic)
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
