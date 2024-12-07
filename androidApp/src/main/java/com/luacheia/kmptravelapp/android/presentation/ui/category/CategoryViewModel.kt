@@ -15,9 +15,9 @@ class CategoryViewModel(
     private val _placesModel = MutableStateFlow<List<Place>?>(null)
     val placesModel: StateFlow<List<Place>?> get() = _placesModel
 
-    fun getPlacesByCategory(categoryId: String) {
+    fun getPlacesByCategory(categoryId: String, searchText: String? = null) {
         viewModelScope.launch {
-            placeRepository.getPlacesByCategory(categoryId).collect { places ->
+            placeRepository.getPlacesByCategory(categoryId, searchText).collect { places ->
                 _placesModel.value = places
             }
         }

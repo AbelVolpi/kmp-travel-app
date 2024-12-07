@@ -57,9 +57,9 @@ fun ExploreScreen(
 
     if (exploreUIData != null) {
         ExploreUI(
-            { exploreViewModel.searchPlaces(it) },
-            { exploreViewModel.onSearchQueryChange(it) },
-            { exploreViewModel.searchPlaces() },
+            onSearch = { exploreViewModel.searchPlaces(it) },
+            onQueryChange = { exploreViewModel.onSearchQueryChange(it) },
+            trailingIconAction = { exploreViewModel.searchPlaces() },
             exploreUIData,
             onCategoryClicked,
             onPlaceClicked

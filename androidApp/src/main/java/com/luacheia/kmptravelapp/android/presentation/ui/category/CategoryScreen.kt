@@ -64,7 +64,9 @@ fun CategoryScreen(
             categoryName,
             categoryUIData,
             onPlaceClicked,
-            onBackButtonClicked
+            onBackButtonClicked,
+            onSearch = { categoryViewModel.getPlacesByCategory(categoryId, it) },
+            trailingIconAction = { categoryViewModel.getPlacesByCategory(categoryId) }
         )
     } else {
         LoadingIndicator()
@@ -77,7 +79,9 @@ fun CategoryUI(
     categoryName: String,
     places: List<Place>,
     onPlaceClicked: (String) -> Unit,
-    onBackButtonClicked: () -> Unit
+    onBackButtonClicked: () -> Unit,
+    onSearch: (String) -> Unit,
+    trailingIconAction: () -> Unit
 ) {
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
@@ -119,7 +123,12 @@ fun CategoryUI(
                 .background(backgroundColor)
                 .padding(top = padding.calculateTopPadding())
         ) {
-            item { SearchBarComponent() }
+            item {
+                SearchBarComponent(
+                    onSearch = onSearch,
+                    trailingIconAction = trailingIconAction
+                )
+            }
             places.forEach { place ->
                 item { Spacer(modifier = Modifier.padding(10.dp)) }
                 item {
