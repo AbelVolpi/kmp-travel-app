@@ -58,9 +58,10 @@ struct iOSApp: App {
         }
         .ignoresSafeArea()
         .task {
-            await PlaceService.fetchPlaces()
-            await CategoryService.fetchCategories()
-            await GuidanceService.fetchGuidelines()
+            await PlaceService.shared.fetchPlaces()
+            await CategoryService.shared.fetchCategories()
+            await GuidanceService.shared.fetchGuidelines()
+            await AccommodationService.shared.fetchAccommodations()
             goToHomeScreen()
         }
     }

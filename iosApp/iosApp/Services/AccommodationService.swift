@@ -14,6 +14,12 @@ final class AccommodationService {
     static let shared = AccommodationService()
     
     private init() { }
+}
+
+extension AccommodationService {
+    func fetchAccommodations() async {
+        try? await DIHelperService.shared.accommodationRepository.fetchAccommodations()
+    }
     
     func getAccommodations() async -> Result<[shared.Accommodation], ServiceError> {
         let accommodations = await DIHelperService.shared.accommodationRepository

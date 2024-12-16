@@ -18,7 +18,7 @@ final class PlaceService {
 }
 
 extension PlaceService {
-    static func fetchPlaces() async {
+    func fetchPlaces() async {
         try? await DIHelperService.shared.placeRepository.fetchPlaces()
     }
     

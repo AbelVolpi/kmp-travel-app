@@ -18,7 +18,7 @@ final class CategoryService {
 }
 
 extension CategoryService {
-    static func fetchCategories() async {
+    func fetchCategories() async {
         try? await DIHelperService.shared.categoryRepository.fetchCategories()
     }
     
