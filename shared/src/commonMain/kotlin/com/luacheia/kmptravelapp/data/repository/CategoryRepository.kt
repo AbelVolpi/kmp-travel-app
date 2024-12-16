@@ -20,8 +20,6 @@ class CategoryRepository(
     }
 
     fun getCategories(): Flow<List<Category>> = flow {
-        remoteDataSource.getItems().collect { categories ->
-            emit(categories)
-        }
+        emit(localDataSource.getCategories())
     }
 }

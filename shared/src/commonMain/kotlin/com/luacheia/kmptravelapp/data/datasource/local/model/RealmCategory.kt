@@ -4,9 +4,9 @@ import io.realm.kotlin.types.RealmObject
 
 class RealmCategory(
 //    @PrimaryKey
-//    var id: String,
+    var id: String,
     var name: String,
     var iconUrl: String
 ) : RealmObject {
-    constructor() : this("", "")
+    constructor() : this("", "", "")
 }
