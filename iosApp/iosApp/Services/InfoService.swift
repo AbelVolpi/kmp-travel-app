@@ -14,6 +14,14 @@ final class InfoService {
     static let shared = InfoService()
     
     private init() { }
+    
+}
+
+extension InfoService {
+    func fetchInfos() async {
+        try? await DIHelperService.shared.infoRepository.fetchInfos()
+    }
+    
     func getWhatsAppNumber() async -> shared.Info? {
         let whatsAppNumber = await DIHelperService.shared.infoRepository
             .getWhatsAppNumber()

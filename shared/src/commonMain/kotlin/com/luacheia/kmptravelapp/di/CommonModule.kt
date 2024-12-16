@@ -3,10 +3,12 @@ package com.luacheia.kmptravelapp.di
 import com.luacheia.kmptravelapp.data.datasource.local.AccommodationLocalDataSource
 import com.luacheia.kmptravelapp.data.datasource.local.CategoryLocalDataSource
 import com.luacheia.kmptravelapp.data.datasource.local.GuidanceLocalDataSource
+import com.luacheia.kmptravelapp.data.datasource.local.InfoLocalDataSource
 import com.luacheia.kmptravelapp.data.datasource.local.PlaceLocalDataSource
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmAccommodation
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmCategory
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmGuidance
+import com.luacheia.kmptravelapp.data.datasource.local.model.RealmInfo
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmPlace
 import com.luacheia.kmptravelapp.data.datasource.remote.AccommodationRemoteDataSource
 import com.luacheia.kmptravelapp.data.datasource.remote.CategoryRemoteDataSource
@@ -40,8 +42,9 @@ val appModule = module {
     single { provideCategoryLocalDataSource(provideCategoryRealm()) }
 
     // Infos
-    single { provideInfoRepository(get()) }
+    single { provideInfoRepository(get(), get()) }
     single { provideInfoRemoteDataSource(get()) }
+    single { provideInfoLocalDataSource(provideInfoRealm()) }
 
     // Accommodation
     single { provideAccommodationRepository(get(), get()) }
@@ -93,12 +96,20 @@ private fun provideCategoryRealm(): Realm {
 
 // Info
 private fun provideInfoRepository(
-    infoRemoteDataSource: InfoRemoteDataSource
-) = InfoRepository(infoRemoteDataSource)
+    infoRemoteDataSource: InfoRemoteDataSource,
+    infoLocalDataSource: InfoLocalDataSource
+) = InfoRepository(infoRemoteDataSource, infoLocalDataSource)
 
 private fun provideInfoRemoteDataSource(
     firestore: FirebaseFirestore
 ) = InfoRemoteDataSource(firestore)
+
+private fun provideInfoLocalDataSource(realm: Realm) = InfoLocalDataSource(realm)
+
+private fun provideInfoRealm(): Realm {
+    val config = RealmConfiguration.create(schema = setOf(RealmInfo::class))
+    return Realm.open(config)
+}
 
 // Accommodation
 private fun provideAccommodationRepository(

@@ -62,6 +62,7 @@ struct iOSApp: App {
             await CategoryService.shared.fetchCategories()
             await GuidanceService.shared.fetchGuidelines()
             await AccommodationService.shared.fetchAccommodations()
+            await InfoService.shared.fetchInfos()
             goToHomeScreen()
         }
     }
