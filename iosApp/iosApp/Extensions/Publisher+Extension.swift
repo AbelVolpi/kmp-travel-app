@@ -31,3 +31,5 @@ extension Publisher where Output: Equatable {
             )
     }
 }
+
+extension PassthroughSubject: ObservableObject { }

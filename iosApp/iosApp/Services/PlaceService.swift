@@ -15,6 +15,13 @@ final class PlaceService {
     
     private init() { }
     
+}
+
+extension PlaceService {
+    static func fetchPlaces() async {
+        try? await DIHelperService.shared.placeRepository.fetchPlaces()
+    }
+    
     func getPlaces(searchText: String? = nil) async -> Result<[shared.Place], ServiceError> {
         let places = await DIHelperService.shared.placeRepository
             .getAllPlaces(searchText: searchText)

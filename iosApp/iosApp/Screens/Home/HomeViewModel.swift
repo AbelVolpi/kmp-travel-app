@@ -17,9 +17,6 @@ final class HomeViewModel: ObservableObject {
     
     private var cancellable: [AnyCancellable] = []
     
-    init() {
-        setupDebounceSearch()
-    }
 }
 
 extension HomeViewModel {
@@ -47,7 +44,7 @@ extension HomeViewModel {
 }
 
 extension HomeViewModel {
-    private func setupDebounceSearch() {
+    func setupDebounceSearch() {
         $state
             .map(\.searchText)
             .debounceSink(action: getPlaces)
