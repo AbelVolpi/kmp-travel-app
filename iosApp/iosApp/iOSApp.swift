@@ -60,6 +60,7 @@ struct iOSApp: App {
         .task {
             await PlaceService.fetchPlaces()
             await CategoryService.fetchCategories()
+            await GuidanceService.fetchGuidelines()
             goToHomeScreen()
         }
     }
