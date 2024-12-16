@@ -31,9 +31,6 @@ class AccommodationLocalDataSource(
 
     fun getAllAccommodations(): List<Accommodation> {
         val items: RealmResults<RealmAccommodation> = realm.query<RealmAccommodation>().find()
-        print("\n\n")
-        print(items)
-        print("\n\n")
         return items.map {
             Accommodation(
                 it.id,
