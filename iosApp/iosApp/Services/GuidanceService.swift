@@ -14,10 +14,16 @@ final class GuidanceService {
     static let shared = GuidanceService()
     
     private init() { }
+}
+
+extension GuidanceService {
+    static func fetchGuidelines() async {
+        try? await DIHelperService.shared.guidanceRepository.fetchGuidelines()
+    }
     
     func getAllGuidances() async -> Result<[shared.Guidance], ServiceError> {
         let guidances = await DIHelperService.shared.guidanceRepository
-            .getAllGuidances()
+            .getAllGuidelines()
             .makeAsyncIterator()
             .next()
         
