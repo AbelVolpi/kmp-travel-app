@@ -17,7 +17,7 @@ final class GuidanceService {
 }
 
 extension GuidanceService {
-    static func fetchGuidelines() async {
+    func fetchGuidelines() async {
         try? await DIHelperService.shared.guidanceRepository.fetchGuidelines()
     }
     
