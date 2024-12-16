@@ -6,12 +6,14 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
-import SwiftUI
+import Combine
 import shared
+import SwiftUI
 
 struct GuidancesView: View {
     
-    @ObservedObject private var viewModel = GuidancesViewModel()
+    @StateObject
+    private var viewModel = GuidancesViewModel()
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {

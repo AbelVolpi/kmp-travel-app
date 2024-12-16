@@ -15,6 +15,13 @@ final class CategoryService {
     
     private init() { }
     
+}
+
+extension CategoryService {
+    static func fetchCategories() async {
+        try? await DIHelperService.shared.categoryRepository.fetchCategories()
+    }
+    
     func getCategories() async -> Result<[shared.Category], ServiceError> {
         let categories = await DIHelperService.shared.categoryRepository
             .getCategories()
