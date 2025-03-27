@@ -6,17 +6,20 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
+import Combine
 import Foundation
 import shared
 
 @MainActor
 final class HomeViewModel: ObservableObject {
     
-    @Published var aboutUsViewIsPresented = false
-    @Published var categories: [shared.Category] = []
-    @Published var places: [shared.Place] = []
-    @Published var errorDescription: String?
+    @Published var state = HomeState()
     
+    private var cancellable: [AnyCancellable] = []
+    
+    init() {
+        setupDebounceSearch()
+    }
 }
 
 extension HomeViewModel {
@@ -24,25 +27,30 @@ extension HomeViewModel {
         let result = await CategoryService.shared.getCategories()
         
         switch result {
-        case .success(let categories):
-            self.categories = categories
-        case .failure(let error):
-            errorDescription = error.description
+            case .success(let categories):
+                state.categories = categories
+            case .failure(let error):
+                state.error = error
         }
     }
     
     func getPlaces() async {
-        let result = await PlaceService.shared.getPlaces()
+        let result = await PlaceService.shared.getPlaces(searchText: state.searchText)
         
         switch result {
-        case .success(let places):
-            self.places = places
-        case .failure(let error):
-            errorDescription = error.description
+            case .success(let places):
+                state.places = places
+            case .failure(let error):
+                state.error = error
         }
     }
-    
-    func getCategoryName(categoryId: String) -> String {
-        categories.first { $0.id == categoryId }?.name ?? ""
+}
+
+extension HomeViewModel {
+    private func setupDebounceSearch() {
+        $state
+            .map(\.searchText)
+            .debounceSink(action: getPlaces)
+            .store(in: &cancellable)
     }
 }

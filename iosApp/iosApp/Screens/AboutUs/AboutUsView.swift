@@ -29,7 +29,7 @@ struct AboutUsView: View {
                     
                     divider
                     
-                    ForEach(viewModel.paragraphs, id: \.self) { paragraph in
+                    ForEach(viewModel.state.paragraphs, id: \.self) { paragraph in
                         Text(paragraph)
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
@@ -41,9 +41,7 @@ struct AboutUsView: View {
         }
         .padding(.horizontal, 16)
         .background(Color.gray2)
-        .task {
-            await viewModel.getProjectDescription()
-        }
+        .task { await viewModel.getProjectDescription() }
     }
     
     var divider: some View {
@@ -51,8 +49,4 @@ struct AboutUsView: View {
             .foregroundColor(Color.gray3)
             .frame(height: 1)
     }
-}
-
-#Preview {
-    AboutUsView()
 }

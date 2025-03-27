@@ -28,7 +28,11 @@ import com.luacheia.kmptravelapp.android.presentation.theme.secondaryColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBarComponent() {
+fun SearchBarComponent(
+    onSearch: ((String) -> Unit)? = null,
+    onQueryChange: ((String) -> Unit)? = null,
+    trailingIconAction: (() -> Unit)? = null,
+) {
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
     SearchBar(
@@ -47,12 +51,18 @@ fun SearchBarComponent() {
             )
         ),
         query = text,
-        onQueryChange = { text = it },
-        onSearch = { active = false },
+        onQueryChange = {
+            text = it
+            onQueryChange?.invoke(it)
+        },
+        onSearch = {
+            active = false
+            onSearch?.invoke(it)
+        },
         active = active,
         onActiveChange = { active = it },
         placeholder = {
-            Text(text = "Search")
+            Text(text = "Pesquisar")
         },
         leadingIcon = {
             Icon(
@@ -69,6 +79,7 @@ fun SearchBarComponent() {
                             text = ""
                         } else {
                             active = false
+                            trailingIconAction?.invoke()
                         }
                     },
                     imageVector = Icons.Default.Close,

@@ -1,5 +1,5 @@
 //
-//  CategoryDetailView.swift
+//  PlaceDetailView.swift
 //  iosApp
 //
 //  Created by Andrey de Lara on 25/03/24.
@@ -9,9 +9,10 @@
 import shared
 import SwiftUI
 
-struct CategoryDetailView: View {
+struct PlaceDetailView: View {
     
     let place: shared.Place
+    @State private var showActionSheet = false
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -31,7 +32,7 @@ struct CategoryDetailView: View {
                                         )
                                         .clipped()
                                 } placeholder: {
-                                  ProgressView()
+                                    ProgressView()
                                         .frame(
                                             width: proxy.size.width,
                                             height: proxy.size.height,
@@ -56,7 +57,7 @@ struct CategoryDetailView: View {
                         .padding(.top, 15)
                     
                     Button {
-                        
+                        showActionSheet = true
                     } label: {
                         HStack(spacing: 0) {
                             Spacer()
@@ -81,7 +82,6 @@ struct CategoryDetailView: View {
                     }
                     .padding(.top, 25)
                     .frame(alignment: .center)
-
                 }
                 .padding(.horizontal, 24)
             }
@@ -89,5 +89,34 @@ struct CategoryDetailView: View {
         .background(Color.gray2.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(place.name)
+        .actionSheet(isPresented: $showActionSheet) {
+            ActionSheet(
+                title: Text("Escolha um aplicativo de mapa"),
+                buttons: availableMapApps()
+            )
+        }
+    }
+}
+
+extension PlaceDetailView {
+    private func availableMapApps() -> [ActionSheet.Button] {
+        var buttons: [ActionSheet.Button] = []
+        
+        for app in MapApp.allCases where app.isAvailable {
+            let button = ActionSheet.Button.default(Text(app.title)) {
+                let url = app.getURL(from: "\(place.name) - \(place.city)")
+                
+                if let url, UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    print("Não foi possível abrir o aplicativo de mapa")
+                }
+            }
+            buttons.append(button)
+        }
+        
+        buttons.append(.cancel())
+        
+        return buttons
     }
 }

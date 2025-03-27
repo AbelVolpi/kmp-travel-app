@@ -17,9 +17,9 @@ class PlaceRepository(
         }
     }
 
-    fun getAllPlaces(): Flow<List<Place>> = flow {
+    fun getAllPlaces(searchText: String? = null): Flow<List<Place>> = flow {
         remoteDataSource.getItems().collect { places ->
-            emit(places)
+            emit(filterPlacesIfNeeded(places, searchText))
         }
     }
 
@@ -29,9 +29,22 @@ class PlaceRepository(
         }
     }
 
-    fun getPlacesByCategory(categoryId: String): Flow<List<Place>> = flow {
+    fun getPlacesByCategory(categoryId: String, searchText: String? = null): Flow<List<Place>> = flow {
         remoteDataSource.getPlacesByCategory(categoryId).collect { places ->
-            emit(places)
+            emit(filterPlacesIfNeeded(places, searchText))
+        }
+    }
+
+    private fun filterPlacesIfNeeded(places: List<Place>, searchText: String?): List<Place> {
+        val trimmedSearchText = searchText?.trim()
+
+        if (trimmedSearchText.isNullOrEmpty()) {
+            return places
+        } else {
+            val filteredPlaces = places.filter {
+                it.name.lowercase().contains(trimmedSearchText.lowercase())
+            }
+            return filteredPlaces
         }
     }
 }

@@ -3,6 +3,7 @@ package com.luacheia.kmptravelapp.data.datasource.remote
 import com.luacheia.kmptravelapp.data.model.Place
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
+import dev.gitlive.firebase.firestore.Query
 import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,12 +19,9 @@ class PlaceRemoteDataSource(
     fun getPlacesByCategory(categoryId: String): Flow<List<Place>> = flow {
         try {
             val placesCollectionReference = firebaseFirestore.collection(collectionName)
-            val placesResponse =
-                placesCollectionReference.where(CATEGORY_ID_FIELD, categoryId).get()
+            val placesResponse = placesCollectionReference.where(CATEGORY_ID_FIELD, categoryId).get()
             val placesResponseDocumentsIds = placesResponse.documents.map { it.id }
-            val placesResponseData: List<Place> = placesResponse.documents.map { documentSnapshot ->
-                documentSnapshot.data()
-            }
+            val placesResponseData: List<Place> = placesResponse.documents.map { it.data() }
             placesResponseData.forEachIndexed { index, place ->
                 place.id = placesResponseDocumentsIds[index]
             }
