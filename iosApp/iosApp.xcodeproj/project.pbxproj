@@ -531,13 +531,8 @@
 					"-framework",
 					shared,
 				);
-<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosApp;
 				PRODUCT_NAME = "Lua Cheia Chalés";
-=======
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosAppppp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
->>>>>>> 1ac294d (refactor: rename CategoryDetailView to PlaceDetailView and refactor route tracing logic)
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -566,13 +561,8 @@
 					"-framework",
 					shared,
 				);
-<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosApp;
 				PRODUCT_NAME = "Lua Cheia Chalés";
-=======
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosAppppp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
->>>>>>> 1ac294d (refactor: rename CategoryDetailView to PlaceDetailView and refactor route tracing logic)
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
