@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.luacheia.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.luacheia.kmptravelapp.android.presentation.theme.backgroundColor
-import com.luacheia.kmptravelapp.android.presentation.utils.formatBreakLines
+import com.luacheia.kmptravelapp.android.presentation.utils.toAnnotatedString
 import com.luacheia.kmptravelapp.data.model.Guidance
 import org.koin.androidx.compose.koinViewModel
 
@@ -93,7 +93,7 @@ fun GuidanceUI(
             )
         }
     ) { padding ->
-        val descriptionFormatted = guidance.description.formatBreakLines()
+        val descriptionFormatted = guidance.description.toAnnotatedString()
         Text(
             text = descriptionFormatted,
             color = Color.White,

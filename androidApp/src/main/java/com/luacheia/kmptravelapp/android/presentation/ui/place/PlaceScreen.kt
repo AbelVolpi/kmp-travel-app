@@ -95,7 +95,7 @@ fun PlaceUI(
         item {
             TraceRoute(
                 onTraceRouteClicked = onTraceRouteClicked,
-                routeAddress = place.address
+                routeAddress = "${place.name} - ${place.city}"
             )
         }
     }

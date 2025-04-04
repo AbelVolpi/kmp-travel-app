@@ -9,6 +9,7 @@ data class Place(
     val imageUrls: List<String> = listOf(""),
     val description: String = "",
     val address: String = "",
+    val city: String = "",
     val categoryId: String = "",
     val price: String = ""
 )

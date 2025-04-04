@@ -24,6 +24,7 @@ class PlaceLocalDataSource(
                 it.imageUrls.toRealmList(),
                 it.description,
                 it.address,
+                it.city,
                 it.categoryId,
                 it.price
             )
@@ -57,6 +58,7 @@ class PlaceLocalDataSource(
                 it.imageUrls,
                 it.description,
                 it.address,
+                it.city,
                 it.categoryId,
                 it.price
             )
@@ -72,6 +74,7 @@ class PlaceLocalDataSource(
                 it.imageUrls,
                 it.description,
                 it.address,
+                it.city,
                 it.categoryId,
                 it.price
             )
