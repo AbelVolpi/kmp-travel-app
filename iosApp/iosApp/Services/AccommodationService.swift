@@ -29,6 +29,12 @@ extension AccommodationService {
         
         guard let accommodations, !accommodations.isEmpty else { return .failure(.genericError) }
         
+        Task {
+            for accommodation in accommodations {
+                try? await ImageManager.shared.downloadAndSaveImage(from: accommodation.iconUrl)
+            }
+        }
+        
         return .success(accommodations)
     }
 }

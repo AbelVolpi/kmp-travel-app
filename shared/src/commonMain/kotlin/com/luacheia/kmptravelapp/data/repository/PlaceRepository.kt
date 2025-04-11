@@ -14,6 +14,8 @@ class PlaceRepository(
         remoteDataSource.getItems().collect { places ->
             localDataSource.deleteAllPlaces()
             localDataSource.savePlaces(places)
+            val imageManager = ImageManager()
+            imageManager.savePlacesImages(places)
         }
     }
 

@@ -10,6 +10,7 @@ import com.luacheia.kmptravelapp.android.presentation.theme.MyApplicationTheme
 import com.luacheia.kmptravelapp.android.presentation.ui.home.HomeScreen
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
+import com.luacheia.kmptravelapp.di.DIHelper
 
 class MainActivity : ComponentActivity() {
 
@@ -26,14 +27,13 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     MyApplicationTheme(darkTheme = false) {
-        HomeScreen()
-    }
-}
-
-@Preview
-@Composable
-fun DefaultPreview() {
-    MyApplicationTheme {
-        HomeScreen()
+        val helper = DIHelper()
+        HomeScreen(
+            helper.placeRepository,
+            helper.categoryRepository,
+            helper.guidanceRepository,
+            helper.accommodationRepository,
+            helper.infoRepository
+        )
     }
 }

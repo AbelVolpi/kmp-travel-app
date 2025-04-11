@@ -30,6 +30,12 @@ extension CategoryService {
         
         guard let categories, !categories.isEmpty else { return .failure(.genericError) }
         
+        Task {
+            for category in categories {
+                try? await ImageManager.shared.downloadAndSaveImage(from: category.iconUrl)
+            }
+        }
+        
         return .success(categories)
     }
 }

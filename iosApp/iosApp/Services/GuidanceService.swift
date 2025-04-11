@@ -29,6 +29,12 @@ extension GuidanceService {
         
         guard let guidances, !guidances.isEmpty else { return .failure(.genericError) }
         
+        Task {
+            for guideline in guidances {
+                try? await ImageManager.shared.downloadAndSaveImage(from: guideline.iconUrl)
+            }
+        }
+        
         return .success(guidances)
     }
     

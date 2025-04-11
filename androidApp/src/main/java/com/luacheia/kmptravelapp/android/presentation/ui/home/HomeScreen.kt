@@ -1,5 +1,6 @@
 package com.luacheia.kmptravelapp.android.presentation.ui.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
@@ -8,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -21,9 +23,37 @@ import androidx.navigation.compose.rememberNavController
 import com.luacheia.kmptravelapp.android.presentation.navigation.Section
 import com.luacheia.kmptravelapp.android.presentation.navigation.navGraph
 import com.luacheia.kmptravelapp.android.presentation.theme.backgroundColor
+import com.luacheia.kmptravelapp.data.repository.AccommodationRepository
+import com.luacheia.kmptravelapp.data.repository.CategoryRepository
+import com.luacheia.kmptravelapp.data.repository.GuidanceRepository
+import com.luacheia.kmptravelapp.data.repository.InfoRepository
+import com.luacheia.kmptravelapp.data.repository.PlaceRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    placeRepository: PlaceRepository,
+    categoryRepository: CategoryRepository,
+    guidanceRepository: GuidanceRepository,
+    accommodationRepository: AccommodationRepository,
+    infoRepository: InfoRepository
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    coroutineScope.launch {
+        val places = async { placeRepository.fetchPlaces() }
+        val categories = async { categoryRepository.fetchCategories() }
+        val guidelines = async { guidanceRepository.fetchGuidelines() }
+        val accommodations = async { accommodationRepository.fetchAccommodations() }
+        val infos = async { infoRepository.fetchInfos() }
+
+        val results = listOf(places.await(), categories.await(), guidelines.await(), accommodations.await(), infos.await())
+
+        println("Todas as chamadas concluídas: $results")
+    }
+
     val items = listOf(Section.Explore, Section.Chalet)
     val navController = rememberNavController()
 

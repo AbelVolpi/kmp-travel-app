@@ -53,8 +53,7 @@ struct iOSApp: App {
             Color.black
             Image("Logo")
                 .resizable()
-                .scaledToFit()
-                .frame(height: 128)
+                .frame(width: 225, height: 136)
         }
         .ignoresSafeArea()
         .task {

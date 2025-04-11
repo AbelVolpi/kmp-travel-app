@@ -7,7 +7,7 @@ struct HomeView: View {
     @EnvironmentObject
     private var setupSubject: PassthroughSubject<Void, Never>
     
-    @StateObject 
+    @StateObject
     private var viewModel = HomeViewModel()
     
     let horizontalPadding: CGFloat = 25
@@ -89,7 +89,7 @@ struct HomeView: View {
                     .foregroundColor(.gray1)
                     .frame(width: 72, height: 72)
                     .overlay {
-                        AsyncImage(url: .init(string: category.iconUrl)) { image in
+                        CachedAsyncImage(url: .init(string: category.iconUrl)!) { image in
                             image
                                 .resizable()
                                 .scaledToFit()
@@ -127,7 +127,7 @@ struct HomeView: View {
     }
     
     private func getAsyncImage(url: URL, size: CGFloat, place: shared.Place) -> some View {
-        AsyncImage(url: url) { image in
+        CachedAsyncImage(url: url) { image in
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -161,7 +161,7 @@ struct HomeView: View {
                         }
                         .padding(9)
                 }
-                
+            
         }
     }
     
@@ -170,4 +170,3 @@ struct HomeView: View {
             .frame(width: size, height: size)
     }
 }
-

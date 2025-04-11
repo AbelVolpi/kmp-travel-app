@@ -30,6 +30,14 @@ extension PlaceService {
         
         guard let places else { return .failure(.genericError) }
         
+        Task {
+            for place in places {
+                for imageUrl in place.imageUrls {
+                    try? await ImageManager.shared.downloadAndSaveImage(from: imageUrl)
+                }
+            }
+        }
+        
         return .success(places)
     }
     

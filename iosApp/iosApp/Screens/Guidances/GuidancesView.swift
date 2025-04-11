@@ -40,7 +40,7 @@ struct GuidancesView: View {
                 ForEach(viewModel.state.guidances) { guidance in
                     createListCell(
                         image: {
-                            AsyncImage(url: .init(string: guidance.iconUrl)) { image in
+                            CachedAsyncImage(url: .init(string: guidance.iconUrl)!) { image in
                                 image
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
