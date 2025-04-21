@@ -43,6 +43,7 @@ class PlaceLocalDataSource(
                 it.imageUrls,
                 it.description,
                 it.address,
+                it.city,
                 it.categoryId,
                 it.price
             )
@@ -66,18 +67,21 @@ class PlaceLocalDataSource(
     }
 
     fun getPlacesByCategory(categoryId: String): List<Place> {
-        val items: RealmResults<RealmPlace> = realm.query<RealmPlace>("id==$categoryId").find()
-        return items.map {
-            Place(
-                it.id,
-                it.name,
-                it.imageUrls,
-                it.description,
-                it.address,
-                it.city,
-                it.categoryId,
-                it.price
-            )
-        }
+//        val items: RealmResults<RealmPlace> = realm.query<RealmPlace>("categoryId = $0", categoryId).find()
+        val items: RealmResults<RealmPlace> = realm.query<RealmPlace>().find()
+        return items
+            .filter { it.categoryId == categoryId }
+            .map {
+                Place(
+                    it.id,
+                    it.name,
+                    it.imageUrls,
+                    it.description,
+                    it.address,
+                    it.city,
+                    it.categoryId,
+                    it.price
+                )
+            }
     }
 }

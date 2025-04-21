@@ -43,6 +43,8 @@
 		85B2E4E52CDFF4F400C704BC /* GuidancesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4E42CDFF4F400C704BC /* GuidancesState.swift */; };
 		85B2E4E92CDFFC4000C704BC /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4E72CDFFC4000C704BC /* Color+Extension.swift */; };
 		85B2E4EA2CDFFC4000C704BC /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2E4E82CDFFC4000C704BC /* Image+Extension.swift */; };
+		FAC81B152DA97471008A90AC /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC81B142DA97471008A90AC /* CachedAsyncImage.swift */; };
+		FAE40C012D4E721A00F15DCB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE40C002D4E721A00F15DCB /* ImageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,6 +96,8 @@
 		85B2E4E42CDFF4F400C704BC /* GuidancesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidancesState.swift; sourceTree = "<group>"; };
 		85B2E4E72CDFFC4000C704BC /* Color+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		85B2E4E82CDFFC4000C704BC /* Image+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
+		FAC81B142DA97471008A90AC /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
+		FAE40C002D4E721A00F15DCB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +153,7 @@
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 				85AB287B2BD6F8CF00D9F089 /* InformationGuideView.swift */,
 				85246FBE2C72A8E2002F6E86 /* AccommodationsView.swift */,
+				FAC81B142DA97471008A90AC /* CachedAsyncImage.swift */,
 				858CAEDD2C49F10700137FC6 /* AppDelegate.swift */,
 				859FB0DB2CD8487500385EF0 /* Launch Screen.storyboard */,
 			);
@@ -201,6 +206,7 @@
 				850A3B632C716C41002397E8 /* AccommodationService.swift */,
 				850A3B652C716E0F002397E8 /* GuidanceService.swift */,
 				850A3B672C716F5D002397E8 /* InfoService.swift */,
+				FAE40C002D4E721A00F15DCB /* ImageManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -360,6 +366,7 @@
 				8572721B2C570DEB00619BC0 /* PlaceService.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				85B2E4E32CDFF28700C704BC /* AboutUsState.swift in Sources */,
+				FAC81B152DA97471008A90AC /* CachedAsyncImage.swift in Sources */,
 				85246FBF2C72A8E2002F6E86 /* AccommodationsView.swift in Sources */,
 				857272122C555EBB00619BC0 /* DIHeperService.swift in Sources */,
 				850A3B682C716F5D002397E8 /* InfoService.swift in Sources */,
@@ -369,6 +376,7 @@
 				85B2E4E52CDFF4F400C704BC /* GuidancesState.swift in Sources */,
 				85B2E4DC2CDFC9F600C704BC /* HomeState.swift in Sources */,
 				85AB286E2BD6E28900D9F089 /* GuidancesView.swift in Sources */,
+				FAE40C012D4E721A00F15DCB /* ImageManager.swift in Sources */,
 				850A3B662C716E0F002397E8 /* GuidanceService.swift in Sources */,
 				85AB287C2BD6F8CF00D9F089 /* InformationGuideView.swift in Sources */,
 				8570AFE02CD99E8700B2E7CE /* String+Extension.swift in Sources */,

@@ -44,7 +44,7 @@ struct AccommodationsView: View {
             .frame(height: 82)
             .overlay {
                 HStack(spacing: 0) {
-                    AsyncImage(url: .init(string: accommodation.iconUrl)) { image in
+                    CachedAsyncImage(url: .init(string: accommodation.iconUrl)!) { image in
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)

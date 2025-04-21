@@ -263,11 +263,3 @@ fun RecommendationsGrid(
         }
     }
 }
-
-@Preview
-@Composable
-fun DefaultPreview() {
-    MyApplicationTheme {
-        HomeScreen()
-    }
-}

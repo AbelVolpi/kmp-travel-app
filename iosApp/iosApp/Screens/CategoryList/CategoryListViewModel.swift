@@ -17,8 +17,6 @@ final class CategoryListViewModel: ObservableObject {
     
     private var cancellable: [AnyCancellable] = []
     
-    let publisher = PassthroughSubject<Void, Never>()
-    
     init(category: shared.Category) {
         state = CategoryListState(category: category)
         setupDebounceSearch()

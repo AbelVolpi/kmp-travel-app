@@ -15,6 +15,13 @@ final class PlaceService {
     
     private init() { }
     
+}
+
+extension PlaceService {
+    func fetchPlaces() async {
+        try? await DIHelperService.shared.placeRepository.fetchPlaces()
+    }
+    
     func getPlaces(searchText: String? = nil) async -> Result<[shared.Place], ServiceError> {
         let places = await DIHelperService.shared.placeRepository
             .getAllPlaces(searchText: searchText)
@@ -22,6 +29,14 @@ final class PlaceService {
             .next()
         
         guard let places else { return .failure(.genericError) }
+        
+        Task {
+            for place in places {
+                for imageUrl in place.imageUrls {
+                    try? await ImageManager.shared.downloadAndSaveImage(from: imageUrl)
+                }
+            }
+        }
         
         return .success(places)
     }

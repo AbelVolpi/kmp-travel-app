@@ -7,6 +7,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,9 +22,15 @@ import androidx.navigation.compose.rememberNavController
 import com.luacheia.kmptravelapp.android.presentation.navigation.Section
 import com.luacheia.kmptravelapp.android.presentation.navigation.navGraph
 import com.luacheia.kmptravelapp.android.presentation.theme.backgroundColor
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    homeViewModel: HomeViewModel = koinViewModel()
+) {
+    // TODO implement loading
+    homeViewModel.uiState.collectAsState()
+
     val items = listOf(Section.Explore, Section.Chalet)
     val navController = rememberNavController()
 

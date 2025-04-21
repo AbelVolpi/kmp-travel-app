@@ -21,7 +21,7 @@ struct PlaceDetailView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 0) {
                             ForEach(place.imageUrls, id: \.self) { stringUrl in
-                                AsyncImage(url: URL(string: stringUrl)) { image in
+                                CachedAsyncImage(url: URL(string: stringUrl)!) { image in
                                     image
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)

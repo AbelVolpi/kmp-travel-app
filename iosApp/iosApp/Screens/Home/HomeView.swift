@@ -1,9 +1,14 @@
+import Combine
 import shared
 import SwiftUI
 
 struct HomeView: View {
     
-    @ObservedObject private var viewModel = HomeViewModel()
+    @EnvironmentObject
+    private var setupSubject: PassthroughSubject<Void, Never>
+    
+    @StateObject
+    private var viewModel = HomeViewModel()
     
     let horizontalPadding: CGFloat = 25
     let gridSpacing: CGFloat = 25
@@ -58,11 +63,11 @@ struct HomeView: View {
                 message: Text($0.errorDescription)
             )
         }
-        .task {
-            await viewModel.getCategories()
-            await viewModel.getPlaces()
-        }
         .padding(.top, -20)
+        .onReceive(setupSubject) { _ in
+            viewModel.setupDebounceSearch()
+            Task { await self.viewModel.getCategories() }
+        }
     }
     
     private var infoButton: some View {
@@ -84,7 +89,7 @@ struct HomeView: View {
                     .foregroundColor(.gray1)
                     .frame(width: 72, height: 72)
                     .overlay {
-                        AsyncImage(url: .init(string: category.iconUrl)) { image in
+                        CachedAsyncImage(url: .init(string: category.iconUrl)!) { image in
                             image
                                 .resizable()
                                 .scaledToFit()
@@ -122,7 +127,7 @@ struct HomeView: View {
     }
     
     private func getAsyncImage(url: URL, size: CGFloat, place: shared.Place) -> some View {
-        AsyncImage(url: url) { image in
+        CachedAsyncImage(url: url) { image in
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -141,8 +146,22 @@ struct HomeView: View {
                         .padding(9)
                 }
         } placeholder: {
-            ProgressView()
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(lineWidth: 1)
                 .frame(width: size, height: size, alignment: .center)
+                .overlay { ProgressView() }
+                .overlay(alignment: .topLeading) {
+                    Text(place.name)
+                        .foregroundColor(.black)
+                        .font(.system(size: 8, weight: .bold))
+                        .padding(.horizontal, 8)
+                        .background {
+                            RoundedRectangle(cornerRadius: 25)
+                                .foregroundColor(.white)
+                        }
+                        .padding(9)
+                }
+            
         }
     }
     

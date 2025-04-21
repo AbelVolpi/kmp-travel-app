@@ -38,7 +38,7 @@ class ChaletViewModel(
 
             val guidancesDeferred = async {
                 var guidances = listOf<Guidance>()
-                guidanceRepository.getAllGuidances().collect { guidances = it }
+                guidanceRepository.getAllGuidelines().collect { guidances = it }
                 guidances
             }
 

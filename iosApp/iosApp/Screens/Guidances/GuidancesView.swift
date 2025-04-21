@@ -6,12 +6,14 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
-import SwiftUI
+import Combine
 import shared
+import SwiftUI
 
 struct GuidancesView: View {
     
-    @ObservedObject private var viewModel = GuidancesViewModel()
+    @StateObject
+    private var viewModel = GuidancesViewModel()
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -38,7 +40,7 @@ struct GuidancesView: View {
                 ForEach(viewModel.state.guidances) { guidance in
                     createListCell(
                         image: {
-                            AsyncImage(url: .init(string: guidance.iconUrl)) { image in
+                            CachedAsyncImage(url: .init(string: guidance.iconUrl)!) { image in
                                 image
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)

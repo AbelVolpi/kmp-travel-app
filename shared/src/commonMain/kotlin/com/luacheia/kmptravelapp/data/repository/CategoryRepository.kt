@@ -10,18 +10,16 @@ class CategoryRepository(
     private val remoteDataSource: CategoryRemoteDataSource,
     private val localDataSource: CategoryLocalDataSource
 ) {
-
-    // call in init or when fetch in menu
     suspend fun fetchCategories() {
         remoteDataSource.getItems().collect { categories ->
             localDataSource.deleteAllCategories()
             localDataSource.saveCategories(categories)
+            val imageManager = ImageManager()
+            imageManager.saveCategoriesImages(categories)
         }
     }
 
     fun getCategories(): Flow<List<Category>> = flow {
-        remoteDataSource.getItems().collect { categories ->
-            emit(categories)
-        }
+        emit(localDataSource.getCategories())
     }
 }

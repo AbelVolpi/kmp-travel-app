@@ -14,14 +14,26 @@ final class GuidanceService {
     static let shared = GuidanceService()
     
     private init() { }
+}
+
+extension GuidanceService {
+    func fetchGuidelines() async {
+        try? await DIHelperService.shared.guidanceRepository.fetchGuidelines()
+    }
     
     func getAllGuidances() async -> Result<[shared.Guidance], ServiceError> {
         let guidances = await DIHelperService.shared.guidanceRepository
-            .getAllGuidances()
+            .getAllGuidelines()
             .makeAsyncIterator()
             .next()
         
         guard let guidances, !guidances.isEmpty else { return .failure(.genericError) }
+        
+        Task {
+            for guideline in guidances {
+                try? await ImageManager.shared.downloadAndSaveImage(from: guideline.iconUrl)
+            }
+        }
         
         return .success(guidances)
     }
