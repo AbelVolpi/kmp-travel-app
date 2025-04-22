@@ -16,10 +16,10 @@ class InfoRemoteDataSource(
             id = document.id
         }
 
-    fun getInfo(field: String, value: String): Flow<Info?> = flow {
+    fun getInfo(keyValue: String): Flow<Info?> = flow {
         try {
             val infosCollectionReference = firebaseFirestore.collection(collectionName)
-            val infosResponse = infosCollectionReference.where(field, value).get()
+            val infosResponse = infosCollectionReference.where(KEY_FIELD, keyValue).get()
             val info = infosResponse.documents.firstOrNull()?.let { parseDocument(it) }
             emit(info)
         } catch (error: Exception) {
@@ -30,5 +30,6 @@ class InfoRemoteDataSource(
 
     companion object {
         private const val INFOS = "infos"
+        private const val KEY_FIELD = "key"
     }
 }

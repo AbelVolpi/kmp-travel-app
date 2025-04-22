@@ -17,5 +17,5 @@ val androidModule = module {
     viewModel { ChaletViewModel(get(), get()) }
     viewModel { AccommodationViewModel(get()) }
     viewModel { GuidanceViewModel(get()) }
-    viewModel { HomeViewModel(get(), get(), get(), get(), get()) }
+    viewModel { HomeViewModel(get()) }
 }

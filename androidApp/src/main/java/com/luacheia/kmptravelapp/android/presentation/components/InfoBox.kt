@@ -24,6 +24,7 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.luacheia.kmptravelapp.android.presentation.theme.secondaryColor
 
+// TODO review this class usage
 sealed class IconSource {
     data class Remote(val url: String) : IconSource()
     data class Local(val resId: Int) : IconSource()

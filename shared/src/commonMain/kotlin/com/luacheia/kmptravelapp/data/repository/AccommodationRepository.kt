@@ -14,8 +14,6 @@ class AccommodationRepository(
         remoteDataSource.getItems().collect { accommodations ->
             localDataSource.deleteAllAccommodations()
             localDataSource.saveAccommodations(accommodations)
-            val imageManager = ImageManager()
-            imageManager.saveAccommodationsImages(accommodations)
         }
     }
 

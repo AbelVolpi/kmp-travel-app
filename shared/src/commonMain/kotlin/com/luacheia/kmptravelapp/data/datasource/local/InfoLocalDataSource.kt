@@ -13,21 +13,20 @@ class InfoLocalDataSource(
             deleteAll()
         }
     }
-
-    suspend fun saveInfo(info: Info, tag: String) {
+// TODO REVIEW DUPLICATION WITH ID
+    suspend fun saveInfo(info: Info) {
         val realmInfo = RealmInfo(
             info.id,
             info.key,
             info.value,
-            tag,
         )
         realm.write {
             copyToRealm(realmInfo)
         }
     }
 
-    fun getInfoByTag(tag: String): Info {
-        val item: RealmInfo = realm.query<RealmInfo>("tag = $0", tag).find().first()
+    fun getInfoByKey(key: String): Info {
+        val item: RealmInfo = realm.query<RealmInfo>("key = $0", key).find().first()
         return Info(
             item.id,
             item.key,

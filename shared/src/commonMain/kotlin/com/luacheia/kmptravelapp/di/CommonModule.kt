@@ -5,27 +5,31 @@ import com.luacheia.kmptravelapp.data.datasource.local.CategoryLocalDataSource
 import com.luacheia.kmptravelapp.data.datasource.local.GuidanceLocalDataSource
 import com.luacheia.kmptravelapp.data.datasource.local.InfoLocalDataSource
 import com.luacheia.kmptravelapp.data.datasource.local.PlaceLocalDataSource
+import com.luacheia.kmptravelapp.data.datasource.local.TimeLocalDataSource
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmAccommodation
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmCategory
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmGuidance
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmInfo
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmPlace
+import com.luacheia.kmptravelapp.data.datasource.local.model.RealmTimestamp
 import com.luacheia.kmptravelapp.data.datasource.remote.AccommodationRemoteDataSource
 import com.luacheia.kmptravelapp.data.datasource.remote.CategoryRemoteDataSource
 import com.luacheia.kmptravelapp.data.datasource.remote.GuidanceRemoteDataSource
 import com.luacheia.kmptravelapp.data.datasource.remote.InfoRemoteDataSource
 import com.luacheia.kmptravelapp.data.datasource.remote.PlaceRemoteDataSource
+import com.luacheia.kmptravelapp.data.manager.SyncManager
 import com.luacheia.kmptravelapp.data.repository.AccommodationRepository
 import com.luacheia.kmptravelapp.data.repository.CategoryRepository
 import com.luacheia.kmptravelapp.data.repository.GuidanceRepository
+import com.luacheia.kmptravelapp.data.repository.ImageManager
 import com.luacheia.kmptravelapp.data.repository.InfoRepository
 import com.luacheia.kmptravelapp.data.repository.PlaceRepository
+import com.luacheia.kmptravelapp.data.repository.TimeRepository
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.firestore
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 fun appModule() = listOf(appModule)
@@ -46,21 +50,31 @@ val appModule = module {
     single { provideInfoRemoteDataSource(get()) }
     single { provideInfoLocalDataSource(provideInfoRealm()) }
 
-    // Accommodation
+    // Accommodations
     single { provideAccommodationRepository(get(), get()) }
     single { provideAccommodationRemoteDataSource(get()) }
     single { provideAccommodationLocalDataSource(provideAccommodationRealm()) }
 
-    // Guidance
+    // Guidances
     single { provideGuidanceRepository(get(), get()) }
     single { provideGuidanceRemoteDataSource(get()) }
     single { provideGuidanceLocalDataSource(provideGuidanceRealm()) }
 
+    // Time
+    single { TimeRepository(get(), get()) }
+    single { TimeLocalDataSource(provideTimestampRealm()) }
+
     // Remote Data
     single { provideFirestore() }
+
+    // Local Image Manager
+    single { provideImageManager() }
+
+    // SyncManager
+    single { SyncManager(get(), get(), get(), get(), get(), get()) }
 }
 
-// Place
+// Places
 private fun providePlaceRepository(
     placeRemoteDataSource: PlaceRemoteDataSource,
     placeLocalDataSource: PlaceLocalDataSource
@@ -77,7 +91,7 @@ private fun providePlaceRealm(): Realm {
     return Realm.open(config)
 }
 
-// Category
+// Categories
 private fun provideCategoryRepository(
     categoryRemoteDataSource: CategoryRemoteDataSource,
     categoryLocalDataSource: CategoryLocalDataSource
@@ -94,7 +108,7 @@ private fun provideCategoryRealm(): Realm {
     return Realm.open(config)
 }
 
-// Info
+// Infos
 private fun provideInfoRepository(
     infoRemoteDataSource: InfoRemoteDataSource,
     infoLocalDataSource: InfoLocalDataSource
@@ -111,11 +125,14 @@ private fun provideInfoRealm(): Realm {
     return Realm.open(config)
 }
 
-// Accommodation
+// Accommodations
 private fun provideAccommodationRepository(
     accommodationRemoteDataSource: AccommodationRemoteDataSource,
-    accommodationLocalDataSource: AccommodationLocalDataSource,
-) = AccommodationRepository(accommodationRemoteDataSource, accommodationLocalDataSource)
+    accommodationLocalDataSource: AccommodationLocalDataSource
+) = AccommodationRepository(
+    accommodationRemoteDataSource,
+    accommodationLocalDataSource,
+)
 
 private fun provideAccommodationRemoteDataSource(
     firestore: FirebaseFirestore
@@ -128,7 +145,7 @@ private fun provideAccommodationRealm(): Realm {
     return Realm.open(config)
 }
 
-// Guidance
+// Guidances
 private fun provideGuidanceRepository(
     guidanceRemoteDataSource: GuidanceRemoteDataSource,
     guidanceLocalDataSource: GuidanceLocalDataSource,
@@ -145,5 +162,16 @@ private fun provideGuidanceRealm(): Realm {
     return Realm.open(config)
 }
 
+// Time
+private fun provideTimestampRealm(): Realm {
+    val config = RealmConfiguration.create(schema = setOf(RealmTimestamp::class))
+    return Realm.open(config)
+}
+
 // Firebase
 private fun provideFirestore() = Firebase.firestore
+
+// Local Image Manager
+// TODO review usage of this class
+private fun provideImageManager() = ImageManager()
+

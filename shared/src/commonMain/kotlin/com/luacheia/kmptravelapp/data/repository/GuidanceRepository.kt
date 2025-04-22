@@ -14,8 +14,6 @@ class GuidanceRepository(
         remoteDataSource.getItems().collect { guidelines ->
             localDataSource.deleteAllGuidelines()
             localDataSource.saveGuidelines(guidelines)
-            val imageManager = ImageManager()
-            imageManager.saveGuidelinesImages(guidelines)
         }
     }
 

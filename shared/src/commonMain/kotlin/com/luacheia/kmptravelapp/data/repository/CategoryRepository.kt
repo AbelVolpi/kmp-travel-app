@@ -14,8 +14,6 @@ class CategoryRepository(
         remoteDataSource.getItems().collect { categories ->
             localDataSource.deleteAllCategories()
             localDataSource.saveCategories(categories)
-            val imageManager = ImageManager()
-            imageManager.saveCategoriesImages(categories)
         }
     }
 

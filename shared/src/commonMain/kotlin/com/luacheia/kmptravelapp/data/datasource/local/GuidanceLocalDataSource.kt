@@ -2,6 +2,7 @@ package com.luacheia.kmptravelapp.data.datasource.local
 
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmGuidance
 import com.luacheia.kmptravelapp.data.model.Guidance
+import com.luacheia.kmptravelapp.getImageDownloader
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.query.RealmResults
@@ -17,11 +18,12 @@ class GuidanceLocalDataSource(
 
     suspend fun saveGuidelines(guidelines: List<Guidance>) {
         guidelines.forEach {
+            val localImagePath = getImageDownloader().downloadAndSaveImage(it.iconUrl)
             val realmGuidance = RealmGuidance(
                 it.id,
                 it.title,
                 it.subtitle,
-                it.iconUrl,
+                localImagePath,
                 it.description
             )
             realm.write {

@@ -6,6 +6,7 @@ import com.luacheia.kmptravelapp.data.model.Guidance
 import com.luacheia.kmptravelapp.data.model.Place
 import com.luacheia.kmptravelapp.getImageDownloader
 
+// TODO review usage of this class
 class ImageManager {
 
     private val imageManager = getImageDownloader()

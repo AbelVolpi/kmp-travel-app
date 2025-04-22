@@ -3,7 +3,6 @@ package com.luacheia.kmptravelapp.data.datasource.remote
 import com.luacheia.kmptravelapp.data.model.Place
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
-import dev.gitlive.firebase.firestore.Query
 import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

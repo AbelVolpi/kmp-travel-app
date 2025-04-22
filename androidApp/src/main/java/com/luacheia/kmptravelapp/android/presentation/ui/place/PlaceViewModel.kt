@@ -16,7 +16,7 @@ class PlaceViewModel(
     val placeModel: StateFlow<Place?> get() = _placeModel
 
     fun getPlace(placeId: String) {
-        viewModelScope.launch {
+         viewModelScope.launch {
             placeRepository.getPlaceById(placeId).collect { place ->
                 _placeModel.value = place
             }

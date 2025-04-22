@@ -1,14 +1,18 @@
 package com.luacheia.kmptravelapp.android.presentation.ui.home
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -19,9 +23,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.luacheia.kmptravelapp.android.presentation.components.LoadingIndicator
 import com.luacheia.kmptravelapp.android.presentation.navigation.Section
 import com.luacheia.kmptravelapp.android.presentation.navigation.navGraph
 import com.luacheia.kmptravelapp.android.presentation.theme.backgroundColor
+import com.luacheia.kmptravelapp.android.presentation.utils.UiState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -29,24 +35,39 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = koinViewModel()
 ) {
     // TODO implement loading
-    homeViewModel.uiState.collectAsState()
+    val uiState = homeViewModel.uiState.collectAsState()
 
     val items = listOf(Section.Explore, Section.Chalet)
     val navController = rememberNavController()
+    // here put the loading indicator to fetch when open first time
 
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar(items, navController)
+    when (uiState.value) {
+        is UiState.Loading -> {
+            LoadingIndicator()
         }
-    ) { innerPadding ->
-        NavHost(
-            navController,
-            startDestination = Section.Explore.route,
-            Modifier.padding(innerPadding)
-        ) {
-            navGraph(navController)
+
+        is UiState.Success -> {
+            Scaffold(
+                bottomBar = {
+                    BottomNavigationBar(items, navController)
+                }
+            ) { innerPadding ->
+                NavHost(
+                    navController,
+                    startDestination = Section.Explore.route,
+                    Modifier.padding(innerPadding)
+                ) {
+                    navGraph(navController)
+                }
+            }
+        }
+
+        is UiState.Failure -> {
+            // TODO implement error
         }
     }
+
+
 }
 
 @Composable

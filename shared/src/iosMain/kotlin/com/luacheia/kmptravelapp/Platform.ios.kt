@@ -50,10 +50,11 @@ class IOSImageDownloader: ImageDownloaderProtocol {
         }
     }
 
-    override fun downloadAndSaveImage(url: String) {
-        val folderPath = createPath() ?: return
+    override fun downloadAndSaveImage(url: String): String {
+        val folderPath = createPath() ?: return ""
         val urlSession = NSURLSession.sharedSession
         val imageUrl = NSURL(string = url)
+        var finalPath = ""
         val task = urlSession.dataTaskWithURL(imageUrl) { data, _, error ->
             if (data != null && error == null) {
                 val documentsDirectory = NSSearchPathForDirectoriesInDomains(
@@ -70,11 +71,13 @@ class IOSImageDownloader: ImageDownloaderProtocol {
                 if (!wasSuccessful) {
                     println("Erro ao salvar imagem no caminho: $fileURL")
                 }
+                finalPath = filePath
             } else {
                 println(error)
             }
         }
         task.resume()
+        return finalPath
     }
 
     @OptIn(ExperimentalForeignApi::class)

@@ -5,10 +5,11 @@ interface Platform {
 }
 
 interface ImageDownloaderProtocol {
-    fun downloadAndSaveImage(url: String)
+    fun downloadAndSaveImage(url: String): String
 }
 
 expect fun getPlatform(): Platform
 
+// TODO move to a class
 expect fun getImageDownloader(): ImageDownloaderProtocol
 

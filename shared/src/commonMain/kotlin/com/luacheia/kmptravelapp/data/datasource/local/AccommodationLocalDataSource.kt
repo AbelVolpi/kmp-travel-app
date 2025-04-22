@@ -2,6 +2,7 @@ package com.luacheia.kmptravelapp.data.datasource.local
 
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmAccommodation
 import com.luacheia.kmptravelapp.data.model.Accommodation
+import com.luacheia.kmptravelapp.getImageDownloader
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.query.RealmResults
@@ -17,10 +18,11 @@ class AccommodationLocalDataSource(
 
     suspend fun saveAccommodations(accommodations: List<Accommodation>) {
         accommodations.forEach {
+            val localImagePath = getImageDownloader().downloadAndSaveImage(it.iconUrl)
             val realmAccommodation = RealmAccommodation(
                 it.id,
                 it.title,
-                it.iconUrl,
+                localImagePath,
                 it.link,
             )
             realm.write {

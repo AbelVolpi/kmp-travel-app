@@ -33,10 +33,12 @@ class AndroidImageDownloader(
         return folder
     }
 
-    override fun downloadAndSaveImage(url: String) {
-        val folder = createPath() ?: return
+    override fun downloadAndSaveImage(url: String): String {
+        val folder = createPath() ?: return ""
         val fileName = hashURL(url) + ".jpg"
         val file = File(folder, fileName)
+
+        var finalPath = ""
 
         try {
             val connection = URL(url).openConnection() as HttpURLConnection
@@ -48,6 +50,7 @@ class AndroidImageDownloader(
                 inputStream.close()
                 outputStream.close()
                 println("Image saved at: ${file.absolutePath}")
+                finalPath = file.absolutePath
             } else {
                 println("Failed to download image: ${connection.responseCode}")
             }
@@ -55,6 +58,7 @@ class AndroidImageDownloader(
         } catch (e: Exception) {
             println("Error downloading image: $e")
         }
+        return finalPath
     }
 
     private fun hashURL(urlString: String): String {

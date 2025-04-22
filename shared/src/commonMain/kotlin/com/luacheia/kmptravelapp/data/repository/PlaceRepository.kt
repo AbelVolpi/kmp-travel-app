@@ -11,11 +11,13 @@ class PlaceRepository(
     private val localDataSource: PlaceLocalDataSource
 ) {
     suspend fun fetchPlaces() {
+        // TODO
+        // This is due a limitation of business logic Firestore,
+        // In a future migration we should send the timestamp of
+        // last modified item and get the newer ones to save/edit
         remoteDataSource.getItems().collect { places ->
             localDataSource.deleteAllPlaces()
             localDataSource.savePlaces(places)
-            val imageManager = ImageManager()
-            imageManager.savePlacesImages(places)
         }
     }
 

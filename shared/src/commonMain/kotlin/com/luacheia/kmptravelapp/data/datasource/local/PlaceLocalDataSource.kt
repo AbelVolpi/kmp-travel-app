@@ -2,6 +2,7 @@ package com.luacheia.kmptravelapp.data.datasource.local
 
 import com.luacheia.kmptravelapp.data.datasource.local.model.RealmPlace
 import com.luacheia.kmptravelapp.data.model.Place
+import com.luacheia.kmptravelapp.getImageDownloader
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.toRealmList
@@ -18,10 +19,15 @@ class PlaceLocalDataSource(
 
     suspend fun savePlaces(places: List<Place>) {
         places.forEach {
+
+            val imagesLocalPaths = it.imageUrls.map { imageUrl ->
+                getImageDownloader().downloadAndSaveImage(imageUrl)
+            }
+
             val realmPlace = RealmPlace(
                 it.id,
                 it.name,
-                it.imageUrls.toRealmList(),
+                imagesLocalPaths.toRealmList(),
                 it.description,
                 it.address,
                 it.city,
@@ -51,7 +57,7 @@ class PlaceLocalDataSource(
     }
 
     fun getPlaceById(placeId: String): Place {
-        val items: RealmResults<RealmPlace> = realm.query<RealmPlace>("id==$placeId").find()
+        val items: RealmResults<RealmPlace> = realm.query<RealmPlace>("id == $0", placeId).find()
         return items.map {
             Place(
                 it.id,
@@ -67,10 +73,8 @@ class PlaceLocalDataSource(
     }
 
     fun getPlacesByCategory(categoryId: String): List<Place> {
-//        val items: RealmResults<RealmPlace> = realm.query<RealmPlace>("categoryId = $0", categoryId).find()
-        val items: RealmResults<RealmPlace> = realm.query<RealmPlace>().find()
+        val items: RealmResults<RealmPlace> = realm.query<RealmPlace>("categoryId == $0", categoryId).find()
         return items
-            .filter { it.categoryId == categoryId }
             .map {
                 Place(
                     it.id,

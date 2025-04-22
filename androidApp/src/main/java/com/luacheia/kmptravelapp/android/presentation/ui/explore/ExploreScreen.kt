@@ -214,7 +214,10 @@ fun RowScope.RecommendationItem(
             }
     ) {
         AsyncImage(
-            model = iconUrl,
+            model = ImageRequest
+                .Builder(LocalContext.current)
+                .data(iconUrl)
+                .build(),
             modifier = Modifier.fillMaxSize(),
             contentDescription = "",
             contentScale = ContentScale.Crop
