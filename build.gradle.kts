@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform).apply(false)
     alias(libs.plugins.googleServices).apply(false)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.composeMultiplatform).apply(false)
+    alias(libs.plugins.composeCompiler).apply(false)
 }
 
 allprojects {

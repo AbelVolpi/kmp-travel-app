@@ -6,7 +6,7 @@ firebaseBom = "30.0.1"
 firebaseCommonKtx = "20.3.3"
 firebaseFirestore = "1.9.0"
 koinCore = "3.2.0"
-kotlin = "1.9.20"
+kotlin = "2.1.0"
 compose = "1.5.4"
 compose-compiler = "1.5.4"
 compose-material3 = "1.1.2"
@@ -19,10 +19,11 @@ lifecycleViewmodelKtx = "2.7.0"
 google-services = "4.3.14"
 material = "1.6.6"
 navigationCompose = "2.7.7"
-touchlab-skie = "0.6.2"
+touchlab-skie = "0.10.1"
 serialization = "1.9.22"
 realm-kotlin = "1.11.0"
 ktlint = "12.1.1"
+compose-multiplatform = "1.7.0"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
@@ -56,6 +57,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorVer
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorVersion" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 realm-kotlin = { module = "io.realm.kotlin:library-base", version.ref = "libraryBase" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinxCoroutinesCore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -68,4 +70,7 @@ touchlabSkie = { id = "co.touchlab.skie", version.ref = "touchlab-skie" }
 serialization = { id = "plugin.serialization", version.ref = "serialization" }
 realmKotlin = { id = "io.realm.kotlin", version.ref = "realm-kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
 
