@@ -33,7 +33,7 @@ class GuidanceLocalDataSource(
     }
 
     fun getGuidanceById(guidanceId: String): Guidance {
-        val items: RealmResults<RealmGuidance> = realm.query<RealmGuidance>("id==$guidanceId").find()
+        val items: RealmResults<RealmGuidance> = realm.query<RealmGuidance>("id == $0", guidanceId).find()
         return items.map {
             Guidance(
                 it.id,
