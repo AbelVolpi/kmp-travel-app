@@ -17,5 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "KmpTravelApp"
 include(":androidApp")
 include(":shared")
-include(":composeApp")
 include(":backoffice:composeApp")
