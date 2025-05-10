@@ -7,7 +7,11 @@ plugins {
 }
 
 kotlin {
-    jvm("desktop")
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
+    }
 
     sourceSets {
         val desktopMain by getting
@@ -20,12 +24,12 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
-//            implementation(projects.shared)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-//            implementation(projects.shared)
+            implementation(projects.shared)
+            implementation(libs.firebase.java.sdk)
         }
     }
 }

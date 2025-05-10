@@ -7,10 +7,10 @@ firebaseCommonKtx = "20.3.3"
 firebaseFirestore = "1.9.0"
 koinCore = "3.2.0"
 kotlin = "2.0.20"
-compose = "1.5.4"
+compose = "1.8.1"
 compose-material3 = "1.1.2"
 androidx-activityCompose = "1.8.0"
-kotlinxCoroutinesCore = "1.7.3"
+kotlinxCoroutinesCore = "1.8.1"
 kotlinxDatetime = "0.4.0"
 ktorVersion = "2.3.7"
 lifecycleViewmodelKtx = "2.7.0"
@@ -22,7 +22,8 @@ serialization = "1.9.22"
 realm-kotlin = "2.3.0"
 libraryBase = "2.3.0"
 ktlint = "12.1.1"
-compose-multiplatform = "1.7.0"
+compose-multiplatform = "1.8.0"
+firebaseJavaSDK = "0.4.8"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
@@ -37,6 +38,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebaseFirestore" }
 firebase-common-ktx = { module = "com.google.firebase:firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-java-sdk = { module = "dev.gitlive:firebase-java-sdk", version.ref = "firebaseJavaSDK" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCore" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCore" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
