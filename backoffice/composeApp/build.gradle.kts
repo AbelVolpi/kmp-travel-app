@@ -24,9 +24,15 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
+//            implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
         }
         desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
+//            implementation(compose.desktop.currentOs)
+            implementation(compose.desktop.macos_arm64)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(projects.shared)
             implementation(libs.firebase.java.sdk)

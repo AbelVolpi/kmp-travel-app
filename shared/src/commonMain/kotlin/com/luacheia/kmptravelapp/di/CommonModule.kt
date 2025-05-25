@@ -32,7 +32,7 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import org.koin.dsl.module
 
-fun appModule() = listOf(appModule)
+//fun appModule() = listOf(appModule)
 
 val appModule = module {
     // Places

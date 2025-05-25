@@ -40,3 +40,4 @@ xcuserdata/
 
 GoogleService-Info.plist
 /.kotlin/
+/backoffice/composeApp/keys.properties

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -29,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -192,7 +194,7 @@ fun RecommendationsTitle() {
     Text(
         text = "Recomendações dos Anfitriões",
         color = Color.White,
-        modifier = Modifier.padding(top = 20.dp, bottom = 15.dp, end = 20.dp, start = 20.dp),
+        modifier = Modifier.padding(top = 20.dp, end = 20.dp, start = 20.dp),
         fontSize = 21.sp,
         fontWeight = FontWeight.Bold
     )
@@ -207,8 +209,8 @@ fun RowScope.RecommendationItem(
 ) {
     Box(
         modifier = Modifier
+            .fillMaxWidth(0.48f)
             .aspectRatio(1f)
-            .weight(1f)
             .padding(horizontal = 4.dp)
             .clip(shape = RoundedCornerShape(30.dp))
             .clickable {
@@ -245,7 +247,6 @@ fun RowScope.RecommendationItem(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RecommendationsGrid(
     places: List<Place>,
@@ -253,7 +254,7 @@ fun RecommendationsGrid(
 ) {
     FlowRow(
         modifier = Modifier
-            .padding(horizontal = 20.dp),
+            .padding(top = 50.dp, start = 20.dp, end = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         maxItemsInEachRow = 2
@@ -267,4 +268,87 @@ fun RecommendationsGrid(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun ExploreScreenPreview() {
+    ExploreUI(
+        onSearch = {},
+        onQueryChange = {},
+        trailingIconAction = {},
+        exploreUIData = ExploreModel(
+            categories = listOf(
+                Category(
+                    id = "1",
+                    name = "Praia",
+                    iconUrl = "https://example.com/icon1.svg"
+                ),
+                Category(
+                    id = "2",
+                    name = "Montanha",
+                    iconUrl = "https://example.com/icon2.svg"
+                ),
+                Category(
+                    id = "3",
+                    name = "Floresta",
+                    iconUrl = "https://example.com/icon3.svg"
+                ),
+            ),
+            places = listOf(
+                Place(
+                    id = "1",
+                    name = "Praia do Sol",
+                    imageUrls = listOf("https://example.com/praia.jpg"),
+                    description = "Uma bela praia com águas cristalinas.",
+                    address = "Av. Beira Mar, 123",
+                    city = "Rio de Janeiro",
+                    categoryId = "1",
+                    price = "Gratuito"
+                ),
+                Place(
+                    id = "2",
+                    name = "Montanha Azul",
+                    imageUrls = listOf("https://example.com/montanha.jpg"),
+                    description = "Uma montanha perfeita para trilhas e aventuras.",
+                    address = "Estrada da Montanha, 456",
+                    city = "Campos do Jordão",
+                    categoryId = "2",
+                    price = "R\$ 50,00"
+                ),
+                Place(
+                    id = "3",
+                    name = "Floresta Encantada",
+                    imageUrls = listOf("https://example.com/floresta.jpg"),
+                    description = "Uma floresta mágica cheia de biodiversidade.",
+                    address = "Rua das Árvores, 789",
+                    city = "Manaus",
+                    categoryId = "3",
+                    price = "R\$ 30,00"
+                ),
+                Place(
+                    id = "3",
+                    name = "Floresta Encantada",
+                    imageUrls = listOf("https://example.com/floresta.jpg"),
+                    description = "Uma floresta mágica cheia de biodiversidade.",
+                    address = "Rua das Árvores, 789",
+                    city = "Manaus",
+                    categoryId = "3",
+                    price = "R\$ 30,00"
+                ),
+                Place(
+                    id = "3",
+                    name = "Floresta Encantada",
+                    imageUrls = listOf("https://example.com/floresta.jpg"),
+                    description = "Uma floresta mágica cheia de biodiversidade.",
+                    address = "Rua das Árvores, 789",
+                    city = "Manaus",
+                    categoryId = "3",
+                    price = "R\$ 30,00"
+                )
+            )
+        ),
+        onCategoryClicked = { _, _ -> },
+        onPlaceClicked = {}
+    )
 }
