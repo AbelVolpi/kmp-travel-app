@@ -20,4 +20,13 @@ class CategoryRepository(
     fun getCategories(): Flow<List<Category>> = flow {
         emit(localDataSource.getCategories())
     }
+    fun getRemoteCategories(): Flow<List<Category>> = remoteDataSource.getItems()
+
+    fun getCategoryById(id: String): Flow<Category?> = remoteDataSource.getItemById(id)
+
+    fun createCategory(category: Category): Flow<Boolean> = remoteDataSource.createCategory(category)
+
+    fun updateCategory(category: Category): Flow<Boolean> = remoteDataSource.updateCategory(category)
+
+    fun deleteCategory(categoryId: String): Flow<Boolean> = remoteDataSource.deleteCategory(categoryId)
 }

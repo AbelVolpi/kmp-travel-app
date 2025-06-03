@@ -1,32 +1,37 @@
 package com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -44,13 +49,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.data.model.Place
+import com.luacheia.kmptravelapp.presentation.utils.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.koin.compose.viewmodel.koinViewModel
 import java.io.IOException
 import java.net.URL
-
 
 //import coil.compose.AsyncImage
 //import coil.decode.SvgDecoder
@@ -60,42 +67,97 @@ import java.net.URL
 
 @Composable
 fun CategoriesAndPlacesSectionUI(
-    categories: List<Category>,
-    places: List<Place>,
-    onCategoryClicked: (String, String) -> Unit = { _, _ -> },
+    viewModel: CategoriesAndPlacesViewModel = koinViewModel(),
+    onCategoryClicked: (String) -> Unit = { _ -> },
     onPlaceClicked: (String) -> Unit = { _ -> }
 ) {
+    val categoriesAndPlacesUiState by viewModel.categoriesAndPlacesUiState.collectAsState()
+    // TODO review this part
+    when (val uiState = categoriesAndPlacesUiState) {
+        is UiState.Success -> {
+            CategoriesAndPlacesSuccessLayout(
+                categories = uiState.data.categories,
+                places = uiState.data.places,
+                onCategoryClicked = onCategoryClicked,
+                onPlaceClicked = onPlaceClicked
+            )
+        }
 
+        is UiState.Loading -> {
+            // Show loading indicator
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Loading...", fontSize = 20.sp, color = Color.Black)
+            }
+        }
 
+        is UiState.Failure -> {
+            // Show error message
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Error loading data", fontSize = 20.sp, color = Color.Red)
+            }
+        }
+    }
+}
+
+@Composable
+fun CategoriesAndPlacesSuccessLayout(
+    categories: List<Category>,
+    onCategoryClicked: (String) -> Unit,
+    places: List<Place>,
+    onPlaceClicked: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        CategoriesTitle()
+        Spacer(modifier = Modifier.height(20.dp))
+        Topic("Categorias")
         CategoriesList(categories, onCategoryClicked)
         Spacer(modifier = Modifier.height(20.dp))
-        PlacesTitle()
+        Topic("Lugares")
         PlacesGrid(places, onPlaceClicked)
     }
 }
 
 @Composable
-fun CategoriesTitle() {
+fun Topic(
+    text: String
+) {
+    Row(
+        modifier = Modifier.wrapContentHeight().padding(bottom = 25.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Title(text = text)
+        Spacer(modifier = Modifier.width(30.dp))
+        AddButton(onClick = { /*TODO*/ })
+    }
+}
+
+@Composable
+fun Title(
+    text: String,
+) {
     Text(
-        text = "Categorias",
+        text = text,
         color = Color.Black,
         fontSize = 25.sp,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(bottom = 15.dp)
     )
 }
+
 
 @Composable
 fun CategoriesList(
     categories: List<Category>,
-    onCategoryClicked: (String, String) -> Unit
+    onCategoryClicked: (String) -> Unit
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(15.dp)
@@ -116,24 +178,8 @@ fun CategoryItem(
     id: String,
     name: String,
     iconUrl: String,
-    onCategoryClicked: (String, String) -> Unit
+    onCategoryClicked: (String) -> Unit
 ) {
-//        AsyncImage(
-//            load = { loadImageBitmap(iconUrl) },
-//            painterFor = { remember { BitmapPainter(it) } },
-//            contentDescription = "",
-//            modifier = Modifier.width(200.dp)
-//        )
-//        AsyncImage(
-//            model = ImageRequest.Builder(LocalContext.current)
-//                .data(iconUrl)
-//                .decoderFactory(SvgDecoder.Factory())
-//                .build(),
-//            contentDescription = null,
-//            modifier = Modifier
-//                .size(60.dp)
-//                .padding(8.dp)
-//        )
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -143,11 +189,21 @@ fun CategoryItem(
             modifier = Modifier
                 .size(80.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(Color.Gray)
-        )
+                .background(backgroundColor)
+                .clickable { onCategoryClicked.invoke("id") },
+            contentAlignment = Alignment.Center
+        ) {
+            AsyncImage(
+                load = { loadImageBitmap(iconUrl) },
+                painterFor = { remember { BitmapPainter(it) } },
+                contentDescription = "",
+                modifier = Modifier.padding(20.dp)
+                    .size(40.dp),
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Categoria",
+            text = name,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -159,56 +215,24 @@ fun CategoryItem(
     }
 }
 
-
-@Composable
-fun PlacesTitle() {
-    Text(
-        text = "Lugares",
-        color = Color.Black,
-        fontSize = 25.sp,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(bottom = 15.dp)
-    )
-}
-
 @Composable
 fun PlacesGrid(
     places: List<Place>,
     onPlaceClicked: (String) -> Unit
 ) {
-//    FlowRow(
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
-//        maxItemsInEachRow = 2,
         modifier = Modifier.fillMaxWidth().height(1000.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(places) { place ->
-//        places.forEach { place ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(180.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Color.Gray)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Lugar",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Center
-                )
-
-            }
+            PlaceItem(
+                id = place.id,
+                name = place.name,
+                iconUrl = place.imageUrls.first(),
+                onPlaceClicked = onPlaceClicked
+            )
         }
     }
 }
@@ -220,31 +244,60 @@ fun PlaceItem(
     iconUrl: String,
     onPlaceClicked: (String) -> Unit
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { onPlaceClicked(id) }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
-//        AsyncImage(
-//            model = ImageRequest.Builder(LocalContext.current)
-//                .data(iconUrl)
-//                .build(),
-//            contentDescription = null,
-//            modifier = Modifier
-//                .size(50.dp)
-//                .padding(8.dp)
-//        )
+        Box(
+            modifier = Modifier
+                .size(180.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(backgroundColor)
+                .clickable { onPlaceClicked.invoke("id") }
+        ) {
+            AsyncImage(
+                load = { loadImageBitmap(iconUrl) },
+                painterFor = { remember { BitmapPainter(it) } },
+                contentDescription = "",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = name,
-            fontSize = 16.sp,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
             color = Color.Black,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center
+        )
+
+    }
+}
+
+@Composable
+fun AddButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+            .size(20.dp)
+            .clip(shape = CircleShape)
+            .background(backgroundColor)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Add,
+            tint = Color.White,
+            contentDescription = "Add"
         )
     }
 }
+
 
 @Composable
 fun <T> AsyncImage(
@@ -295,3 +348,9 @@ fun loadImageBitmap(url: String): ImageBitmap =
 //
 //fun loadXmlImageVector(url: String, density: Density): ImageVector =
 //    URL(url).openStream().buffered().use { loadXmlImageVector(InputSource(it), density) }
+
+@Preview
+@Composable
+fun AddButtonPreview() {
+    AddButton(onClick = { }, modifier = Modifier.padding(16.dp))
+}

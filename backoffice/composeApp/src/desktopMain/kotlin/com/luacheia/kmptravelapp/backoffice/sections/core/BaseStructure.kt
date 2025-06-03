@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import kmptravelapp.backoffice.composeapp.generated.resources.Res
 import kmptravelapp.backoffice.composeapp.generated.resources.ic_lua_cheia_desktop
 import org.jetbrains.compose.resources.painterResource
@@ -32,7 +33,7 @@ fun SideNavigationBar(currentSection: Section, onScreenSelected: (Section) -> Un
         modifier = Modifier
             .fillMaxHeight()
             .width(200.dp)
-            .background(Color(0xFF161616)),
+            .background(backgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(

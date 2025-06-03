@@ -21,9 +21,8 @@ class PlaceRepository(
         }
     }
 
-    fun getAllPlacesFromRemote(): Flow<List<Place>> = flow {
-        remoteDataSource.getItems()
-    }
+    fun getRemotePlaces(): Flow<List<Place>> = remoteDataSource.getItems()
+
 
     fun getAllPlaces(searchText: String? = null): Flow<List<Place>> = flow {
         emit(filterPlacesIfNeeded(localDataSource.getAllPlaces(), searchText))

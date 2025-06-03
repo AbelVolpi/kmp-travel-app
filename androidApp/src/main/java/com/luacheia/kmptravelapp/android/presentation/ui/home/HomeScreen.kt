@@ -1,18 +1,14 @@
 package com.luacheia.kmptravelapp.android.presentation.ui.home
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -27,7 +23,7 @@ import com.luacheia.kmptravelapp.android.presentation.components.LoadingIndicato
 import com.luacheia.kmptravelapp.android.presentation.navigation.Section
 import com.luacheia.kmptravelapp.android.presentation.navigation.navGraph
 import com.luacheia.kmptravelapp.android.presentation.theme.backgroundColor
-import com.luacheia.kmptravelapp.android.presentation.utils.UiState
+import com.luacheia.kmptravelapp.presentation.utils.UiState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

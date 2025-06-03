@@ -2,7 +2,7 @@ package com.luacheia.kmptravelapp.android.presentation.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luacheia.kmptravelapp.android.presentation.utils.UiState
+import com.luacheia.kmptravelapp.presentation.utils.UiState
 import com.luacheia.kmptravelapp.data.manager.SyncManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

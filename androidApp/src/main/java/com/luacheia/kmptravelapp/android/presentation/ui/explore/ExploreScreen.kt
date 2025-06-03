@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
@@ -39,7 +38,6 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.luacheia.kmptravelapp.android.presentation.components.CustomSearchBar
 import com.luacheia.kmptravelapp.android.presentation.components.LoadingIndicator
-import com.luacheia.kmptravelapp.android.presentation.components.SearchBarComponent
 import com.luacheia.kmptravelapp.android.presentation.theme.tertiaryColor
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.data.model.Place

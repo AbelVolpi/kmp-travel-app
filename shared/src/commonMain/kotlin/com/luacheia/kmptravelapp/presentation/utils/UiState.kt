@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.android.presentation.utils
+package com.luacheia.kmptravelapp.presentation.utils
 
 sealed class UiState<out T> {
     object Loading : UiState<Nothing>()
