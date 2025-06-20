@@ -27,14 +27,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,6 +55,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.addcategory.AddCategoryScreen
 import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.data.model.Place
@@ -59,32 +69,75 @@ import org.koin.compose.viewmodel.koinViewModel
 import java.io.IOException
 import java.net.URL
 
-//import coil.compose.AsyncImage
-//import coil.decode.SvgDecoder
-//import coil.request.ImageRequest
-//import com.luacheia.kmptravelapp.data.model.Category
-//import com.luacheia.kmptravelapp.data.model.Place
+@Composable
+fun CategoriesAndPlacesRoot(viewModel: CategoriesAndPlacesViewModel = koinViewModel()) {
+    val navController = rememberNavController()
+
+    NavHost(navController, startDestination = "categories") {
+        composable("categories") {
+            CategoriesAndPlacesScreen(
+                viewModel = viewModel,
+                onCategoryClicked = { categoryId ->
+                    navController.navigate("categoryDetail/$categoryId")
+                },
+                onAddCategoryClicked = {
+                    navController.navigate("addCategory")
+                },
+            )
+        }
+        // TODO usar navigation
+        composable("categoryDetail/{categoryId}") { backStackEntry ->
+            val categoryId = backStackEntry.arguments?.getString("categoryId") ?: return@composable
+            CategoryDetailScreen(
+                categoryId = categoryId,
+                viewModel = viewModel,
+                onClose = { navController.popBackStack() }
+            )
+        }
+        composable("addCategory") {
+            AddCategoryScreen(
+                onDismiss = { navController.popBackStack() }
+            )
+
+        }
+    }
+}
+
 
 @Composable
-fun CategoriesAndPlacesSectionUI(
+fun CategoriesAndPlacesScreen(
     viewModel: CategoriesAndPlacesViewModel = koinViewModel(),
     onCategoryClicked: (String) -> Unit = { _ -> },
+    onAddCategoryClicked: () -> Unit = {},
+    onAddCategorySuccessCallback: () -> Unit = {},
     onPlaceClicked: (String) -> Unit = { _ -> }
 ) {
+    var selectedCategoryId by remember { mutableStateOf<String?>(null) }
     val categoriesAndPlacesUiState by viewModel.categoriesAndPlacesUiState.collectAsState()
-    // TODO review this part
+    val addCategoryState by viewModel.addCategoryState.collectAsState()
+
+    // Show detail screen if a category is selected
+    selectedCategoryId?.let { categoryId ->
+        CategoryDetailScreen(
+            categoryId = categoryId,
+            viewModel = viewModel,
+            onClose = { selectedCategoryId = null }
+        )
+        return
+    }
+
     when (val uiState = categoriesAndPlacesUiState) {
         is UiState.Success -> {
             CategoriesAndPlacesSuccessLayout(
                 categories = uiState.data.categories,
                 places = uiState.data.places,
-                onCategoryClicked = onCategoryClicked,
-                onPlaceClicked = onPlaceClicked
+                onCategoryClicked = { id -> selectedCategoryId = id },
+                onPlaceClicked = onPlaceClicked,
+                onAddCategoryClick = onAddCategoryClicked
             )
         }
 
         is UiState.Loading -> {
-            // Show loading indicator
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -94,7 +147,6 @@ fun CategoriesAndPlacesSectionUI(
         }
 
         is UiState.Failure -> {
-            // Show error message
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -102,6 +154,97 @@ fun CategoriesAndPlacesSectionUI(
                 Text(text = "Error loading data", fontSize = 20.sp, color = Color.Red)
             }
         }
+
+        else -> {}
+    }
+}
+
+@Composable
+fun CategoryDetailScreen(
+    categoryId: String,
+    viewModel: CategoriesAndPlacesViewModel,
+    onClose: () -> Unit
+) {
+    val categoryState by viewModel.categoryDetailState.collectAsState()
+    val editState by viewModel.editCategoryState.collectAsState()
+    val deleteState by viewModel.deleteCategoryState.collectAsState()
+    var isEditing by remember { mutableStateOf(false) }
+    var name by remember { mutableStateOf("") }
+    var iconUrl by remember { mutableStateOf("") }
+
+    LaunchedEffect(categoryId) {
+        viewModel.loadCategoryById(categoryId)
+    }
+
+    when (categoryState) {
+        is UiState.Loading -> Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) { Text("Carregando...") }
+
+        is UiState.Failure -> Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) { Text("Erro ao carregar categoria") }
+
+        is UiState.Success -> {
+            val category = (categoryState as UiState.Success<Category>).data
+            if (!isEditing) {
+                name = category.name
+                iconUrl = category.iconUrl
+            }
+            Column(
+                modifier = Modifier.fillMaxSize().padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("Categoria", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                Spacer(Modifier.height(16.dp))
+                if (isEditing) {
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = { name = it },
+                        label = { Text("Nome") })
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = iconUrl,
+                        onValueChange = { iconUrl = it },
+                        label = { Text("URL do Ícone") })
+                } else {
+                    Text("Nome: ${category.name}")
+                    Spacer(Modifier.height(8.dp))
+                    Text("Ícone: ${category.iconUrl}")
+                }
+                Spacer(Modifier.height(24.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (isEditing) {
+                        Button(onClick = {
+                            viewModel.updateCategory(category.copy(name = name, iconUrl = iconUrl))
+                            isEditing = false
+                        }, enabled = editState !is UiState.Loading) { Text("Salvar") }
+                        Button(onClick = { isEditing = false }) { Text("Cancelar") }
+                    } else {
+                        Button(onClick = { isEditing = true }) { Text("Editar") }
+                        Button(
+                            onClick = {
+                                viewModel.deleteCategory(category.id)
+                                onClose()
+                            },
+                            enabled = deleteState !is UiState.Loading,
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                        ) { Text("Excluir") }
+                        Button(onClick = onClose) { Text("Fechar") }
+                    }
+                }
+                if (editState is UiState.Failure) {
+                    Text("Erro ao editar categoria", color = Color.Red)
+                }
+                if (deleteState is UiState.Failure) {
+                    Text("Erro ao excluir categoria", color = Color.Red)
+                }
+            }
+        }
+
+        else -> {}
     }
 }
 
@@ -110,7 +253,8 @@ fun CategoriesAndPlacesSuccessLayout(
     categories: List<Category>,
     onCategoryClicked: (String) -> Unit,
     places: List<Place>,
-    onPlaceClicked: (String) -> Unit
+    onPlaceClicked: (String) -> Unit,
+    onAddCategoryClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -119,7 +263,7 @@ fun CategoriesAndPlacesSuccessLayout(
             .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.height(20.dp))
-        Topic("Categorias")
+        Topic("Categorias", onAddCategoryClick)
         CategoriesList(categories, onCategoryClicked)
         Spacer(modifier = Modifier.height(20.dp))
         Topic("Lugares")
@@ -129,7 +273,8 @@ fun CategoriesAndPlacesSuccessLayout(
 
 @Composable
 fun Topic(
-    text: String
+    text: String,
+    onAddClick: (() -> Unit)? = null
 ) {
     Row(
         modifier = Modifier.wrapContentHeight().padding(bottom = 25.dp),
@@ -137,7 +282,9 @@ fun Topic(
     ) {
         Title(text = text)
         Spacer(modifier = Modifier.width(30.dp))
-        AddButton(onClick = { /*TODO*/ })
+        if (onAddClick != null) {
+            AddButton(onClick = onAddClick)
+        }
     }
 }
 
@@ -190,7 +337,7 @@ fun CategoryItem(
                 .size(80.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(backgroundColor)
-                .clickable { onCategoryClicked.invoke("id") },
+                .clickable { onCategoryClicked.invoke(id) }, // FIX: pass real id
             contentAlignment = Alignment.Center
         ) {
             AsyncImage(

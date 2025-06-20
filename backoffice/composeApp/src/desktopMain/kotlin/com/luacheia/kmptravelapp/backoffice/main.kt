@@ -4,7 +4,9 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import com.luacheia.kmptravelapp.backoffice.sections.auth.AuthViewModel
 import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.CategoriesAndPlacesViewModel
+import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.addcategory.AddCategoryViewModel
 import com.luacheia.kmptravelapp.di.appModule
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModel
@@ -23,7 +25,6 @@ fun main() {
             title = "Lua Cheia - Backoffice",
             state = WindowState(placement = WindowPlacement.Maximized)
         ) {
-
             App()
         }
     }
@@ -31,4 +32,6 @@ fun main() {
 
 val desktopModule = module {
     viewModel { CategoriesAndPlacesViewModel(get(),get()) }
+    viewModel { AuthViewModel(get()) }
+    viewModel { AddCategoryViewModel(get()) }
 }

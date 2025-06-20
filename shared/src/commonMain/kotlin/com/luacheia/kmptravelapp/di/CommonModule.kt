@@ -25,7 +25,10 @@ import com.luacheia.kmptravelapp.data.repository.ImageManager
 import com.luacheia.kmptravelapp.data.repository.InfoRepository
 import com.luacheia.kmptravelapp.data.repository.PlaceRepository
 import com.luacheia.kmptravelapp.data.repository.TimeRepository
+import com.luacheia.kmptravelapp.data.repository.UserRepository
 import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.FirebaseAuth
+import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.firestore
 import io.realm.kotlin.Realm
@@ -60,12 +63,16 @@ val appModule = module {
     single { provideGuidanceRemoteDataSource(get()) }
     single { provideGuidanceLocalDataSource(provideGuidanceRealm()) }
 
+    // User
+    single { provideUserRepository(get()) }
+
     // Time
     single { TimeRepository(get(), get()) }
     single { TimeLocalDataSource(provideTimestampRealm()) }
 
     // Remote Data
     single { provideFirestore() }
+    single { provideAuth() }
 
     // Local Image Manager
     single { provideImageManager() }
@@ -162,6 +169,10 @@ private fun provideGuidanceRealm(): Realm {
     return Realm.open(config)
 }
 
+private fun provideUserRepository(
+    firebaseAuth: FirebaseAuth
+) = UserRepository(firebaseAuth)
+
 // Time
 private fun provideTimestampRealm(): Realm {
     val config = RealmConfiguration.create(schema = setOf(RealmTimestamp::class))
@@ -170,6 +181,7 @@ private fun provideTimestampRealm(): Realm {
 
 // Firebase
 private fun provideFirestore() = Firebase.firestore
+private fun provideAuth() = Firebase.auth
 
 // Local Image Manager
 // TODO review usage of this class

@@ -28,7 +28,10 @@ import kmptravelapp.backoffice.composeapp.generated.resources.ic_lua_cheia_deskt
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun SideNavigationBar(currentSection: Section, onScreenSelected: (Section) -> Unit) {
+fun SideNavigationBar(
+    currentSection: Section,
+    onScreenSelected: (Section) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxHeight()

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Category(
-    var id: String = "",
+    var id: String = "", // TODO switch to val
     val name: String = "",
     val iconUrl: String = ""
 )

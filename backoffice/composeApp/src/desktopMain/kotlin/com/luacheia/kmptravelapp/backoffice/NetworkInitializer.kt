@@ -1,7 +1,6 @@
 package com.luacheia.kmptravelapp.backoffice
 
 import android.app.Application
-import android.os.Build
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.FirebasePlatform
 import com.google.firebase.ktx.Firebase
@@ -13,8 +12,6 @@ object NetworkInitializer {
 
     fun initFirebase() {
         println("Initializing Firebase")
-        println(Build.BRAND)
-        println(Build.DEVICE)
         FirebasePlatform.initializeFirebasePlatform(object : FirebasePlatform() {
             val storage = mutableMapOf<String, String>()
             override fun store(key: String, value: String) = storage.set(key, value)

@@ -17,7 +17,12 @@ class CategoryRemoteDataSource(
 
     fun createCategory(category: Category): Flow<Boolean> = flow {
         try {
-            firebaseFirestore.collection(CATEGORIES).add(category)
+            // TODO remove duplication with improved implementation
+            // To this, we should create 2 data classes, 1 for firestore without categoryID and other
+            // for local database and local usage with categoryID
+            val documentReference = firebaseFirestore.collection(CATEGORIES).add(category)
+            category.id = documentReference.id
+            documentReference.set(category)
             emit(true)
         } catch (error: Exception) {
             println(error)

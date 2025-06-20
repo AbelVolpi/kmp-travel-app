@@ -39,6 +39,7 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.datetime)
             implementation(libs.firebase.firestore)
+            implementation(libs.firebase.auth)
             implementation(libs.firebase.common)
             implementation(libs.realm.kotlin)
             implementation(libs.koin.core)
