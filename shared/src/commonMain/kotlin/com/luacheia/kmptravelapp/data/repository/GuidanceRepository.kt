@@ -21,7 +21,16 @@ class GuidanceRepository(
         emit(localDataSource.getAllGuidelines())
     }
 
-    fun getGuidanceById(id: String): Flow<Guidance> = flow {
-        emit(localDataSource.getGuidanceById(id))
-    }
+    fun getRemoteGuidances(): Flow<List<Guidance>> = remoteDataSource.getItems()
+
+    fun getGuidanceById(id: String): Flow<Guidance?> = remoteDataSource.getItemById(id)
+
+    fun createGuidance(title: String, subtitle: String, iconUrl: String, description: String): Flow<Boolean> =
+        remoteDataSource.createGuidance(
+            Guidance(id = "", title = title, subtitle = subtitle, iconUrl = iconUrl, description = description)
+        )
+
+    fun updateGuidance(guidance: Guidance): Flow<Boolean> = remoteDataSource.updateGuidance(guidance)
+
+    fun deleteGuidance(guidanceId: String): Flow<Boolean> = remoteDataSource.deleteGuidance(guidanceId)
 }

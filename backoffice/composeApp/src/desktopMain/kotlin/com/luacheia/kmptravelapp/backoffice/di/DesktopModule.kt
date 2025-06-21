@@ -9,6 +9,9 @@ import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.places.
 import com.luacheia.kmptravelapp.backoffice.ui.sections.accommodations.addaccommodation.AddAccommodationViewModel
 import com.luacheia.kmptravelapp.backoffice.ui.sections.accommodations.home.AccommodationsListViewModel
 import com.luacheia.kmptravelapp.backoffice.ui.sections.accommodations.accommodationdetail.AccommodationDetailViewModel
+import com.luacheia.kmptravelapp.backoffice.ui.sections.guidances.AddGuidanceViewModel
+import com.luacheia.kmptravelapp.backoffice.ui.sections.guidances.GuidancesListViewModel
+import com.luacheia.kmptravelapp.backoffice.ui.sections.guidances.GuidanceDetailViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,4 +25,7 @@ val desktopModule = module {
     viewModel { AddAccommodationViewModel(get()) }
     viewModel { AccommodationsListViewModel(get()) }
     viewModel { AccommodationDetailViewModel(get()) }
+    viewModel { AddGuidanceViewModel(get()) }
+    viewModel { GuidancesListViewModel(get()) }
+    viewModel { GuidanceDetailViewModel(get()) }
 }

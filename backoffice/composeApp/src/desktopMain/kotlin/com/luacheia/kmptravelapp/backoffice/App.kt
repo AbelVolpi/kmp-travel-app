@@ -29,7 +29,7 @@ import com.luacheia.kmptravelapp.backoffice.ui.sections.auth.AuthWindow
 import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.CategoriesAndPlacesNavigation
 import com.luacheia.kmptravelapp.backoffice.ui.sections.core.Section
 import com.luacheia.kmptravelapp.backoffice.ui.sections.core.SideNavigationBar
-import com.luacheia.kmptravelapp.backoffice.ui.sections.guidelines.GuidelinesSectionUI
+import com.luacheia.kmptravelapp.backoffice.ui.sections.guidances.GuidelinesSectionNavigation
 import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -55,7 +55,7 @@ fun App() {
                 )
                 when (currentSection) {
                     is Section.CategoriesAndPlaces -> CategoriesAndPlacesNavigation()
-                    is Section.Guidelines -> GuidelinesSectionUI()
+                    is Section.Guidelines -> GuidelinesSectionNavigation()
                     is Section.Accommodations -> AccommodationsNavigation()
                 }
                 if (showLogin) {
