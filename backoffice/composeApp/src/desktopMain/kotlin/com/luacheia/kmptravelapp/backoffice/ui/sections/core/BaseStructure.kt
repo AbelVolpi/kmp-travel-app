@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.sections.core
+package com.luacheia.kmptravelapp.backoffice.ui.sections.core
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

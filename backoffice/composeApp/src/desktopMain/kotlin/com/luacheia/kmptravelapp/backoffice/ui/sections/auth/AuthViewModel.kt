@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.sections.auth
+package com.luacheia.kmptravelapp.backoffice.ui.sections.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

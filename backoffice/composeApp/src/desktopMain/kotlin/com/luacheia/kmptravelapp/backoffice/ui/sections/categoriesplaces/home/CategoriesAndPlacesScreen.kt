@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.home
+package com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,8 +43,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.AsyncImage
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.loadImageBitmap
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.AsyncImage
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.loadImageBitmap
 import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.data.model.Place

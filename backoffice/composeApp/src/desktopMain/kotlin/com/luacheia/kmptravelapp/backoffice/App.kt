@@ -24,12 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.luacheia.kmptravelapp.backoffice.sections.accommodations.AccommodationsSectionUI
-import com.luacheia.kmptravelapp.backoffice.sections.auth.AuthWindow
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.CategoriesAndPlacesNavigation
-import com.luacheia.kmptravelapp.backoffice.sections.core.Section
-import com.luacheia.kmptravelapp.backoffice.sections.core.SideNavigationBar
-import com.luacheia.kmptravelapp.backoffice.sections.guidelines.GuidelinesSectionUI
+import com.luacheia.kmptravelapp.backoffice.ui.sections.accommodations.AccommodationsSectionUI
+import com.luacheia.kmptravelapp.backoffice.ui.sections.auth.AuthWindow
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.CategoriesAndPlacesNavigation
+import com.luacheia.kmptravelapp.backoffice.ui.sections.core.Section
+import com.luacheia.kmptravelapp.backoffice.ui.sections.core.SideNavigationBar
+import com.luacheia.kmptravelapp.backoffice.ui.sections.guidelines.GuidelinesSectionUI
 import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.sections.guidelines
+package com.luacheia.kmptravelapp.backoffice.ui.sections.guidelines
 
 import androidx.compose.runtime.Composable
 

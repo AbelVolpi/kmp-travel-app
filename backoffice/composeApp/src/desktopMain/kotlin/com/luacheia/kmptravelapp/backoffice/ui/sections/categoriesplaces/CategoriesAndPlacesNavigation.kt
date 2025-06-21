@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces
+package com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
@@ -15,10 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.addcategory.AddCategoryScreen
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.categorydetail.CategoryDetailScreen
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.home.AddButton
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.home.CategoriesAndPlacesScreen
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.addcategory.AddCategoryScreen
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.categorydetail.CategoryDetailScreen
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.home.AddButton
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.home.CategoriesAndPlacesScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException

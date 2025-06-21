@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.components
+package com.luacheia.kmptravelapp.backoffice.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size

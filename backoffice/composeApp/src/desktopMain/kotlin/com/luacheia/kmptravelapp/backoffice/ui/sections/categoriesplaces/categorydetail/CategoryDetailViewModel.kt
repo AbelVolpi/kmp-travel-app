@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.categorydetail
+package com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.categorydetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.sections.accommodations
+package com.luacheia.kmptravelapp.backoffice.ui.sections.accommodations
 
 import androidx.compose.runtime.Composable
 

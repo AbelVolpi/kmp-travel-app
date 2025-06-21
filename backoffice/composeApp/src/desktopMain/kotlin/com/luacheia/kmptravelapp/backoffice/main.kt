@@ -4,6 +4,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import com.luacheia.kmptravelapp.backoffice.data.NetworkInitializer
 import com.luacheia.kmptravelapp.backoffice.di.desktopModule
 import com.luacheia.kmptravelapp.di.appModule
 import org.koin.core.context.startKoin

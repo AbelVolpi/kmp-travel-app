@@ -1,4 +1,4 @@
-package com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.addcategory
+package com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.addcategory
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
