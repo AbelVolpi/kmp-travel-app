@@ -24,7 +24,15 @@ class CategoryRepository(
 
     fun getCategoryById(id: String): Flow<Category?> = remoteDataSource.getItemById(id)
 
-    fun createCategory(category: Category): Flow<Boolean> = remoteDataSource.createCategory(category)
+    fun createCategory(
+        name: String,
+        iconUrl: String
+    ): Flow<Boolean> = remoteDataSource.createCategory(
+        Category(
+            name = name,
+            iconUrl = iconUrl
+        )
+    )
 
     fun updateCategory(category: Category): Flow<Boolean> = remoteDataSource.updateCategory(category)
 

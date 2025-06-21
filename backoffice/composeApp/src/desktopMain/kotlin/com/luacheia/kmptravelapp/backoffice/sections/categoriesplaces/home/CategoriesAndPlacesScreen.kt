@@ -1,7 +1,5 @@
-package com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces
+package com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.home
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,111 +25,49 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.addcategory.AddCategoryScreen
+import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.AsyncImage
+import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.loadImageBitmap
 import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.data.model.Place
 import com.luacheia.kmptravelapp.presentation.utils.UiState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.koin.compose.viewmodel.koinViewModel
-import java.io.IOException
-import java.net.URL
-
-@Composable
-fun CategoriesAndPlacesRoot(viewModel: CategoriesAndPlacesViewModel = koinViewModel()) {
-    val navController = rememberNavController()
-
-    NavHost(navController, startDestination = "categories") {
-        composable("categories") {
-            CategoriesAndPlacesScreen(
-                viewModel = viewModel,
-                onCategoryClicked = { categoryId ->
-                    navController.navigate("categoryDetail/$categoryId")
-                },
-                onAddCategoryClicked = {
-                    navController.navigate("addCategory")
-                },
-            )
-        }
-        // TODO usar navigation
-        composable("categoryDetail/{categoryId}") { backStackEntry ->
-            val categoryId = backStackEntry.arguments?.getString("categoryId") ?: return@composable
-            CategoryDetailScreen(
-                categoryId = categoryId,
-                viewModel = viewModel,
-                onClose = { navController.popBackStack() }
-            )
-        }
-        composable("addCategory") {
-            AddCategoryScreen(
-                onDismiss = { navController.popBackStack() }
-            )
-
-        }
-    }
-}
-
 
 @Composable
 fun CategoriesAndPlacesScreen(
     viewModel: CategoriesAndPlacesViewModel = koinViewModel(),
-    onCategoryClicked: (String) -> Unit = { _ -> },
     onAddCategoryClicked: () -> Unit = {},
-    onAddCategorySuccessCallback: () -> Unit = {},
+    onCategoryClicked: (String) -> Unit = { _ -> },
     onPlaceClicked: (String) -> Unit = { _ -> }
 ) {
-    var selectedCategoryId by remember { mutableStateOf<String?>(null) }
     val categoriesAndPlacesUiState by viewModel.categoriesAndPlacesUiState.collectAsState()
-    val addCategoryState by viewModel.addCategoryState.collectAsState()
-
-    // Show detail screen if a category is selected
-    selectedCategoryId?.let { categoryId ->
-        CategoryDetailScreen(
-            categoryId = categoryId,
-            viewModel = viewModel,
-            onClose = { selectedCategoryId = null }
-        )
-        return
-    }
 
     when (val uiState = categoriesAndPlacesUiState) {
         is UiState.Success -> {
             CategoriesAndPlacesSuccessLayout(
                 categories = uiState.data.categories,
                 places = uiState.data.places,
-                onCategoryClicked = { id -> selectedCategoryId = id },
+                onCategoryClicked = { id ->
+                    onCategoryClicked.invoke(id)
+                },
                 onPlaceClicked = onPlaceClicked,
                 onAddCategoryClick = onAddCategoryClicked
             )
@@ -152,95 +88,6 @@ fun CategoriesAndPlacesScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(text = "Error loading data", fontSize = 20.sp, color = Color.Red)
-            }
-        }
-
-        else -> {}
-    }
-}
-
-@Composable
-fun CategoryDetailScreen(
-    categoryId: String,
-    viewModel: CategoriesAndPlacesViewModel,
-    onClose: () -> Unit
-) {
-    val categoryState by viewModel.categoryDetailState.collectAsState()
-    val editState by viewModel.editCategoryState.collectAsState()
-    val deleteState by viewModel.deleteCategoryState.collectAsState()
-    var isEditing by remember { mutableStateOf(false) }
-    var name by remember { mutableStateOf("") }
-    var iconUrl by remember { mutableStateOf("") }
-
-    LaunchedEffect(categoryId) {
-        viewModel.loadCategoryById(categoryId)
-    }
-
-    when (categoryState) {
-        is UiState.Loading -> Box(
-            Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) { Text("Carregando...") }
-
-        is UiState.Failure -> Box(
-            Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) { Text("Erro ao carregar categoria") }
-
-        is UiState.Success -> {
-            val category = (categoryState as UiState.Success<Category>).data
-            if (!isEditing) {
-                name = category.name
-                iconUrl = category.iconUrl
-            }
-            Column(
-                modifier = Modifier.fillMaxSize().padding(32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text("Categoria", fontWeight = FontWeight.Bold, fontSize = 24.sp)
-                Spacer(Modifier.height(16.dp))
-                if (isEditing) {
-                    OutlinedTextField(
-                        value = name,
-                        onValueChange = { name = it },
-                        label = { Text("Nome") })
-                    Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = iconUrl,
-                        onValueChange = { iconUrl = it },
-                        label = { Text("URL do Ícone") })
-                } else {
-                    Text("Nome: ${category.name}")
-                    Spacer(Modifier.height(8.dp))
-                    Text("Ícone: ${category.iconUrl}")
-                }
-                Spacer(Modifier.height(24.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if (isEditing) {
-                        Button(onClick = {
-                            viewModel.updateCategory(category.copy(name = name, iconUrl = iconUrl))
-                            isEditing = false
-                        }, enabled = editState !is UiState.Loading) { Text("Salvar") }
-                        Button(onClick = { isEditing = false }) { Text("Cancelar") }
-                    } else {
-                        Button(onClick = { isEditing = true }) { Text("Editar") }
-                        Button(
-                            onClick = {
-                                viewModel.deleteCategory(category.id)
-                                onClose()
-                            },
-                            enabled = deleteState !is UiState.Loading,
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                        ) { Text("Excluir") }
-                        Button(onClick = onClose) { Text("Fechar") }
-                    }
-                }
-                if (editState is UiState.Failure) {
-                    Text("Erro ao editar categoria", color = Color.Red)
-                }
-                if (deleteState is UiState.Failure) {
-                    Text("Erro ao excluir categoria", color = Color.Red)
-                }
             }
         }
 
@@ -443,61 +290,4 @@ fun AddButton(
             contentDescription = "Add"
         )
     }
-}
-
-
-@Composable
-fun <T> AsyncImage(
-    load: suspend () -> T,
-    painterFor: @Composable (T) -> Painter,
-    contentDescription: String,
-    modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.Fit,
-) {
-    val image: T? by produceState<T?>(null) {
-        value = withContext(Dispatchers.IO) {
-            try {
-                load()
-            } catch (e: IOException) {
-                // instead of printing to console, you can also write this to log,
-                // or show some error placeholder
-                e.printStackTrace()
-                null
-            }
-        }
-    }
-
-    if (image != null) {
-        Image(
-            painter = painterFor(image!!),
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-            modifier = modifier
-        )
-    }
-}
-//fun loadImageBitmap(file: File): ImageBitmap =
-//    file.inputStream().buffered().use(::loadImageBitmap)
-
-//fun loadSvgPainter(file: File, density: Density): Painter =
-//    file.inputStream().buffered().use { loadSvgPainter(it, density) }
-//
-//fun loadXmlImageVector(file: File, density: Density): ImageVector =
-//    file.inputStream().buffered().use { loadXmlImageVector(InputSource(it), density) }
-
-/* Loading from network with java.net API */
-
-fun loadImageBitmap(url: String): ImageBitmap =
-    URL(url).openStream().buffered().use(::loadImageBitmap)
-//
-//fun loadSvgPainter(url: String, density: Density): Painter =
-//    URL(url).openStream().buffered().use { loadSvgPainter(it, density) }
-//
-//fun loadXmlImageVector(url: String, density: Density): ImageVector =
-//    URL(url).openStream().buffered().use { loadXmlImageVector(InputSource(it), density) }
-
-@Preview
-@Composable
-fun AddButtonPreview() {
-    AddButton(onClick = { }, modifier = Modifier.padding(16.dp))
 }

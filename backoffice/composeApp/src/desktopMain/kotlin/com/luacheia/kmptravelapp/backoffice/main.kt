@@ -4,13 +4,9 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import com.luacheia.kmptravelapp.backoffice.sections.auth.AuthViewModel
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.CategoriesAndPlacesViewModel
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.addcategory.AddCategoryViewModel
+import com.luacheia.kmptravelapp.backoffice.di.desktopModule
 import com.luacheia.kmptravelapp.di.appModule
 import org.koin.core.context.startKoin
-import org.koin.core.module.dsl.viewModel
-import org.koin.dsl.module
 
 
 fun main() {
@@ -28,10 +24,4 @@ fun main() {
             App()
         }
     }
-}
-
-val desktopModule = module {
-    viewModel { CategoriesAndPlacesViewModel(get(),get()) }
-    viewModel { AuthViewModel(get()) }
-    viewModel { AddCategoryViewModel(get()) }
 }

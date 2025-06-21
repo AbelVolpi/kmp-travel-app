@@ -8,16 +8,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.CategoriesAndPlacesViewModel
 import com.luacheia.kmptravelapp.presentation.utils.UiState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AddCategoryScreen(
-    viewModel: CategoriesAndPlacesViewModel = koinViewModel(),
+    viewModel: AddCategoryViewModel = koinViewModel(),
     onDismiss: () -> Unit,
 ) {
-    val uiState by  viewModel.addCategoryState.collectAsState()
+    val uiState by  viewModel.uiState.collectAsState()
     var name by remember { mutableStateOf("") }
     var iconUrl by remember { mutableStateOf("") }
 

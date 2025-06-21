@@ -26,7 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.luacheia.kmptravelapp.backoffice.sections.accommodations.AccommodationsSectionUI
 import com.luacheia.kmptravelapp.backoffice.sections.auth.AuthWindow
-import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.CategoriesAndPlacesRoot
+import com.luacheia.kmptravelapp.backoffice.sections.categoriesplaces.CategoriesAndPlacesNavigation
 import com.luacheia.kmptravelapp.backoffice.sections.core.Section
 import com.luacheia.kmptravelapp.backoffice.sections.core.SideNavigationBar
 import com.luacheia.kmptravelapp.backoffice.sections.guidelines.GuidelinesSectionUI
@@ -54,7 +54,7 @@ fun App() {
                     onLoginClick = { showLogin = true }
                 )
                 when (currentSection) {
-                    is Section.CategoriesAndPlaces -> CategoriesAndPlacesRoot()
+                    is Section.CategoriesAndPlaces -> CategoriesAndPlacesNavigation()
                     is Section.Guidelines -> GuidelinesSectionUI()
                     is Section.Accommodations -> AccommodationsSectionUI()
                 }
