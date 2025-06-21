@@ -15,10 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.addcategory.AddCategoryScreen
-import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.categorydetail.CategoryDetailScreen
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.categories.addcategory.AddCategoryScreen
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.categories.categorydetail.CategoryDetailScreen
 import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.home.AddButton
 import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.home.CategoriesAndPlacesScreen
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.places.addplace.AddPlaceScreen
+import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.places.placedetail.PlaceDetailScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -34,8 +36,14 @@ fun CategoriesAndPlacesNavigation() {
                 onCategoryClicked = { categoryId ->
                     navController.navigate("categoryDetail/$categoryId")
                 },
+                onPlaceClicked = { placeId ->
+                    navController.navigate("placeDetail/$placeId")
+                },
                 onAddCategoryClicked = {
                     navController.navigate("addCategory")
+                },
+                onAddPlaceClicked = {
+                    navController.navigate("addPlace")
                 }
             )
         }
@@ -46,11 +54,22 @@ fun CategoriesAndPlacesNavigation() {
                 onClose = { navController.popBackStack() }
             )
         }
+        composable("placeDetail/{placeId}") { backStackEntry ->
+            val categoryId = backStackEntry.arguments?.getString("placeId") ?: return@composable
+            PlaceDetailScreen(
+                placeId = categoryId,
+                onClose = { navController.popBackStack() }
+            )
+        }
         composable("addCategory") {
             AddCategoryScreen(
                 onDismiss = { navController.popBackStack() }
             )
-
+        }
+        composable("addPlace") {
+            AddPlaceScreen(
+                onDismiss = { navController.popBackStack() }
+            )
         }
     }
 }

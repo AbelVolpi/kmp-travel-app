@@ -15,6 +15,54 @@ class PlaceRemoteDataSource(
         id = document.id
     }
 
+    fun createPlace(place: Place): Flow<Boolean> = flow {
+        try {
+            val documentReference = firebaseFirestore.collection(PLACES).add(place)
+            place.id = documentReference.id
+            documentReference.set(place)
+            emit(true)
+        } catch (error: Exception) {
+            println(error)
+            emit(false)
+        }
+    }
+
+    fun updatePlace(place: Place): Flow<Boolean> = flow {
+        try {
+            firebaseFirestore.collection(PLACES).document(place.id).set(place)
+            emit(true)
+        } catch (error: Exception) {
+            println(error)
+            emit(false)
+        }
+    }
+
+    fun deletePlace(placeId: String): Flow<Boolean> = flow {
+        try {
+            firebaseFirestore.collection(PLACES).document(placeId).delete()
+            emit(true)
+        } catch (error: Exception) {
+            println(error)
+            emit(false)
+        }
+    }
+
+//    fun getItemById(id: String): Flow<Place?> = flow {
+//        try {
+//            val document = firebaseFirestore.collection(PLACES).document(id).get()
+//            if (document.exists) {
+//                val place = document.data(Place.serializer())
+//                place.id = document.id
+//                emit(place)
+//            } else {
+//                emit(null)
+//            }
+//        } catch (error: Exception) {
+//            println(error)
+//            emit(null)
+//        }
+//    }
+
     fun getPlacesByCategory(categoryId: String): Flow<List<Place>> = flow {
         try {
             val placesCollectionReference = firebaseFirestore.collection(collectionName)

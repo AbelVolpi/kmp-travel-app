@@ -23,14 +23,35 @@ class PlaceRepository(
 
     fun getRemotePlaces(): Flow<List<Place>> = remoteDataSource.getItems()
 
-
     fun getAllPlaces(searchText: String? = null): Flow<List<Place>> = flow {
         emit(filterPlacesIfNeeded(localDataSource.getAllPlaces(), searchText))
     }
 
-    fun getPlaceById(id: String): Flow<Place> = flow {
-        emit(localDataSource.getPlaceById(id))
-    }
+    fun getPlaceById(id: String): Flow<Place?> = remoteDataSource.getItemById(id)
+
+    fun createPlace(
+        name: String,
+        imageUrls: List<String>,
+        description: String,
+        address: String,
+        city: String,
+        categoryId: String,
+        price: String
+    ): Flow<Boolean> = remoteDataSource.createPlace(
+        Place(
+            name = name,
+            imageUrls = imageUrls,
+            description = description,
+            address = address,
+            city = city,
+            categoryId = categoryId,
+            price = price
+        )
+    )
+
+    fun updatePlace(place: Place): Flow<Boolean> = remoteDataSource.updatePlace(place)
+
+    fun deletePlace(placeId: String): Flow<Boolean> = remoteDataSource.deletePlace(placeId)
 
     fun getPlacesByCategory(categoryId: String, searchText: String? = null): Flow<List<Place>> =
         flow {

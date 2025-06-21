@@ -55,6 +55,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun CategoriesAndPlacesScreen(
     viewModel: CategoriesAndPlacesViewModel = koinViewModel(),
     onAddCategoryClicked: () -> Unit = {},
+    onAddPlaceClicked: () -> Unit = {},
     onCategoryClicked: (String) -> Unit = { _ -> },
     onPlaceClicked: (String) -> Unit = { _ -> }
 ) {
@@ -69,7 +70,8 @@ fun CategoriesAndPlacesScreen(
                     onCategoryClicked.invoke(id)
                 },
                 onPlaceClicked = onPlaceClicked,
-                onAddCategoryClick = onAddCategoryClicked
+                onAddCategoryClick = onAddCategoryClicked,
+                onAddPlaceClick = onAddPlaceClicked
             )
         }
 
@@ -101,7 +103,8 @@ fun CategoriesAndPlacesSuccessLayout(
     onCategoryClicked: (String) -> Unit,
     places: List<Place>,
     onPlaceClicked: (String) -> Unit,
-    onAddCategoryClick: () -> Unit
+    onAddCategoryClick: () -> Unit,
+    onAddPlaceClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -113,7 +116,7 @@ fun CategoriesAndPlacesSuccessLayout(
         Topic("Categorias", onAddCategoryClick)
         CategoriesList(categories, onCategoryClicked)
         Spacer(modifier = Modifier.height(20.dp))
-        Topic("Lugares")
+        Topic("Lugares", onAddPlaceClick)
         PlacesGrid(places, onPlaceClicked)
     }
 }
@@ -248,7 +251,7 @@ fun PlaceItem(
                 .size(180.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(backgroundColor)
-                .clickable { onPlaceClicked.invoke("id") }
+                .clickable { onPlaceClicked.invoke(id) }
         ) {
             AsyncImage(
                 load = { loadImageBitmap(iconUrl) },
