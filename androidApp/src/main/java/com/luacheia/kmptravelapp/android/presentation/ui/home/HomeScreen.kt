@@ -61,6 +61,7 @@ fun HomeScreen(
         is UiState.Failure -> {
             // TODO implement error
         }
+        is UiState.Idle->{}
     }
 
 

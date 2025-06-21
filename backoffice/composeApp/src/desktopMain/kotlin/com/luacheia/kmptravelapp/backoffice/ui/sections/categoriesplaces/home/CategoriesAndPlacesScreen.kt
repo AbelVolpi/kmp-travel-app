@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.luacheia.kmptravelapp.backoffice.ui.components.Topic
 import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.AsyncImage
 import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.loadImageBitmap
 import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
@@ -122,23 +123,6 @@ fun CategoriesAndPlacesSuccessLayout(
 }
 
 @Composable
-fun Topic(
-    text: String,
-    onAddClick: (() -> Unit)? = null
-) {
-    Row(
-        modifier = Modifier.wrapContentHeight().padding(bottom = 25.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Title(text = text)
-        Spacer(modifier = Modifier.width(30.dp))
-        if (onAddClick != null) {
-            AddButton(onClick = onAddClick)
-        }
-    }
-}
-
-@Composable
 fun Title(
     text: String,
 ) {
@@ -187,7 +171,7 @@ fun CategoryItem(
                 .size(80.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(backgroundColor)
-                .clickable { onCategoryClicked.invoke(id) }, // FIX: pass real id
+                .clickable { onCategoryClicked.invoke(id) },
             contentAlignment = Alignment.Center
         ) {
             AsyncImage(

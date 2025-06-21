@@ -20,4 +20,19 @@ class AccommodationRepository(
     fun getAccommodations(): Flow<List<Accommodation>> = flow {
         emit(localDataSource.getAllAccommodations())
     }
+
+    fun getRemoteAccommodations(): Flow<List<Accommodation>> = remoteDataSource.getItems()
+
+    fun getAccommodationById(id: String): Flow<Accommodation?> = remoteDataSource.getItemById(id)
+
+    fun createAccommodation(title: String, iconUrl: String, link: String): Flow<Boolean> =
+        remoteDataSource.createAccommodation(
+            Accommodation(id = "", title = title, iconUrl = iconUrl, link = link)
+        )
+
+    fun updateAccommodation(accommodation: Accommodation): Flow<Boolean> =
+        remoteDataSource.updateAccommodation(accommodation)
+
+    fun deleteAccommodation(accommodationId: String): Flow<Boolean> =
+        remoteDataSource.deleteAccommodation(accommodationId)
 }

@@ -24,7 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.luacheia.kmptravelapp.backoffice.ui.sections.accommodations.AccommodationsSectionUI
+import com.luacheia.kmptravelapp.backoffice.ui.sections.accommodations.AccommodationsNavigation
 import com.luacheia.kmptravelapp.backoffice.ui.sections.auth.AuthWindow
 import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.CategoriesAndPlacesNavigation
 import com.luacheia.kmptravelapp.backoffice.ui.sections.core.Section
@@ -56,7 +56,7 @@ fun App() {
                 when (currentSection) {
                     is Section.CategoriesAndPlaces -> CategoriesAndPlacesNavigation()
                     is Section.Guidelines -> GuidelinesSectionUI()
-                    is Section.Accommodations -> AccommodationsSectionUI()
+                    is Section.Accommodations -> AccommodationsNavigation()
                 }
                 if (showLogin) {
                     AuthWindow(
