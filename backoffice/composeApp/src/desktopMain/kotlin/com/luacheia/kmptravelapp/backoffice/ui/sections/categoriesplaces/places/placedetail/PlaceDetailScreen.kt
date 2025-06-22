@@ -2,6 +2,7 @@ package com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.places
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.DropdownMenu
@@ -14,7 +15,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.data.model.Place
 import com.luacheia.kmptravelapp.presentation.utils.UiState
@@ -46,8 +49,16 @@ fun PlaceDetailScreen(
     }
 
     when (placeState) {
-        is UiState.Loading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("Carregando...") }
-        is UiState.Failure -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("Erro ao carregar lugar") }
+        is UiState.Loading -> Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) { Text("Carregando...") }
+
+        is UiState.Failure -> Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) { Text("Erro ao carregar lugar") }
+
         is UiState.Success -> {
             val place = (placeState as UiState.Success<Place>).data
             if (!isEditing) {
@@ -61,22 +72,40 @@ fun PlaceDetailScreen(
             }
             Column(
                 modifier = Modifier.fillMaxSize().padding(32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.Start
             ) {
-                Text("Lugar", color = Color.Black)
+                Text("Lugar", fontWeight = FontWeight.Bold, fontSize = 24.sp)
                 Spacer(Modifier.height(16.dp))
                 if (isEditing) {
-                    OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Nome") })
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = { name = it },
+                        label = { Text("Nome") })
                     Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(value = imageUrlsText, onValueChange = { imageUrlsText = it }, label = { Text("URLs das Imagens") })
+                    OutlinedTextField(
+                        value = imageUrlsText,
+                        onValueChange = { imageUrlsText = it },
+                        label = { Text("URLs das Imagens") })
                     Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(value = description, onValueChange = { description = it }, label = { Text("Descrição") })
+                    OutlinedTextField(
+                        value = description,
+                        onValueChange = { description = it },
+                        label = { Text("Descrição") })
                     Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(value = address, onValueChange = { address = it }, label = { Text("Endereço") })
+                    OutlinedTextField(
+                        value = address,
+                        onValueChange = { address = it },
+                        label = { Text("Endereço") })
                     Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(value = city, onValueChange = { city = it }, label = { Text("Cidade") })
+                    OutlinedTextField(
+                        value = city,
+                        onValueChange = { city = it },
+                        label = { Text("Cidade") })
                     Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(value = price, onValueChange = { price = it }, label = { Text("Preço") })
+                    OutlinedTextField(
+                        value = price,
+                        onValueChange = { price = it },
+                        label = { Text("Preço") })
                     Spacer(Modifier.height(8.dp))
                     // Dropdown de categorias
                     ExposedDropdownMenuBox(
@@ -128,7 +157,8 @@ fun PlaceDetailScreen(
                         Button(onClick = {
                             val updatedPlace = place.copy(
                                 name = name,
-                                imageUrls = imageUrlsText.split(",").map { it.trim() }.filter { it.isNotEmpty() },
+                                imageUrls = imageUrlsText.split(",").map { it.trim() }
+                                    .filter { it.isNotEmpty() },
                                 description = description,
                                 address = address,
                                 city = city,
@@ -141,10 +171,13 @@ fun PlaceDetailScreen(
                         Button(onClick = { isEditing = false }) { Text("Cancelar") }
                     } else {
                         Button(onClick = { isEditing = true }) { Text("Editar") }
-                        Button(onClick = {
-                            viewModel.deletePlace(place.id)
-                            onClose()
-                        }) { Text("Excluir") }
+                        Button(
+                            onClick = {
+                                viewModel.deletePlace(place.id)
+                                onClose()
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                            ) { Text("Excluir") }
                         Button(onClick = onClose) { Text("Fechar") }
                     }
                 }
@@ -156,6 +189,7 @@ fun PlaceDetailScreen(
                 }
             }
         }
+
         else -> {}
     }
 }

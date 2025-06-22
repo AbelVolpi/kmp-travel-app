@@ -65,7 +65,7 @@ fun CategoryDetailScreen(
             }
             Column(
                 modifier = Modifier.fillMaxSize().padding(32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.Start
             ) {
                 Text("Categoria", fontWeight = FontWeight.Bold, fontSize = 24.sp)
                 Spacer(Modifier.height(16.dp))
