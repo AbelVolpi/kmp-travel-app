@@ -1,6 +1,7 @@
 package com.luacheia.kmptravelapp.backoffice.ui.sections.accommodations.accommodationdetail
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -10,7 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.luacheia.kmptravelapp.data.model.Accommodation
 import com.luacheia.kmptravelapp.presentation.utils.UiState
 import org.koin.compose.viewmodel.koinViewModel
@@ -44,7 +47,7 @@ fun AccommodationDetailScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier.fillMaxSize()) {
         when (state) {
             is UiState.Loading -> CircularProgressIndicator()
             is UiState.Failure -> Text((state as UiState.Failure<Accommodation>).exception.message ?: "Erro ao carregar acomodação")
@@ -55,66 +58,74 @@ fun AccommodationDetailScreen(
                     iconUrl = accommodation.iconUrl
                     link = accommodation.link
                 }
-                Column(
-                    modifier = Modifier.width(350.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text("Detalhes da Acomodação")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    OutlinedTextField(
-                        value = title,
-                        onValueChange = { title = it },
-                        label = { Text("Título") },
-                        enabled = isEditing && editState !is UiState.Loading
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = iconUrl,
-                        onValueChange = { iconUrl = it },
-                        label = { Text("URL do Ícone") },
-                        enabled = isEditing && editState !is UiState.Loading
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = link,
-                        onValueChange = { link = it },
-                        label = { Text("Link") },
-                        enabled = isEditing && editState !is UiState.Loading
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    if (editState is UiState.Failure) {
-                        Text((editState as UiState.Failure<Unit>).exception?.message ?: "Erro ao editar", color = androidx.compose.ui.graphics.Color.Red)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    if (deleteState is UiState.Failure) {
-                        Text((deleteState as UiState.Failure<Unit>).exception?.message ?: "Erro ao deletar", color = androidx.compose.ui.graphics.Color.Red)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        if (isEditing) {
-                            Button(
-                                onClick = {
-                                    viewModel.updateAccommodation(
-                                        accommodation.copy(title = title, iconUrl = iconUrl, link = link)
-                                    )
-                                },
-                                enabled = editState !is UiState.Loading
-                            ) { Text("Salvar") }
-                            Button(
-                                onClick = { isEditing = false },
-                                enabled = editState !is UiState.Loading
-                            ) { Text("Cancelar") }
-                        } else {
-                            Button(onClick = { isEditing = true }) { Text("Editar") }
-                            Button(
-                                onClick = { viewModel.deleteAccommodation(accommodation.id) },
-                                enabled = deleteState !is UiState.Loading,
-                                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                                ) { Text("Excluir") }
-                            Button(
-                                onClick = onClose
-                            ) {
-                                Text("Fechar")
+                Box(modifier = Modifier.fillMaxSize().padding(32.dp)) {
+                    androidx.compose.foundation.rememberScrollState().let { scrollState ->
+                        Column(
+                            modifier = Modifier.fillMaxWidth().verticalScroll(scrollState),
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Text("Acomodação", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            if (isEditing) {
+                                OutlinedTextField(
+                                    value = title,
+                                    onValueChange = { title = it },
+                                    label = { Text("Título") },
+                                    enabled = editState !is UiState.Loading
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                OutlinedTextField(
+                                    value = iconUrl,
+                                    onValueChange = { iconUrl = it },
+                                    label = { Text("URL do Ícone") },
+                                    enabled = editState !is UiState.Loading
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                OutlinedTextField(
+                                    value = link,
+                                    onValueChange = { link = it },
+                                    label = { Text("Link") },
+                                    enabled = editState !is UiState.Loading
+                                )
+                            } else {
+                                Text("Título: $title")
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text("URL do Ícone: $iconUrl")
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text("Link: $link")
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
+                            if (editState is UiState.Failure) {
+                                Text((editState as UiState.Failure<Unit>).exception?.message ?: "Erro ao editar", color = Color.Red)
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+                            if (deleteState is UiState.Failure) {
+                                Text((deleteState as UiState.Failure<Unit>).exception?.message ?: "Erro ao deletar", color = Color.Red)
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                if (isEditing) {
+                                    Button(
+                                        onClick = {
+                                            viewModel.updateAccommodation(
+                                                accommodation.copy(title = title, iconUrl = iconUrl, link = link)
+                                            )
+                                        },
+                                        enabled = editState !is UiState.Loading
+                                    ) { Text("Salvar") }
+                                    Button(
+                                        onClick = { isEditing = false },
+                                        enabled = editState !is UiState.Loading
+                                    ) { Text("Cancelar") }
+                                } else {
+                                    Button(onClick = { isEditing = true }) { Text("Editar") }
+                                    Button(
+                                        onClick = { viewModel.deleteAccommodation(accommodation.id) },
+                                        enabled = deleteState !is UiState.Loading,
+                                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                                    ) { Text("Excluir") }
+                                    Button(onClick = onClose) { Text("Fechar") }
+                                }
                             }
                         }
                     }
