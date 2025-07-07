@@ -2,6 +2,7 @@ package com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.places
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.DropdownMenu
@@ -14,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.presentation.utils.UiState
 import org.koin.compose.viewmodel.koinViewModel
@@ -122,19 +124,33 @@ fun AddPlaceScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             if (uiState is UiState.Failure) {
-                Text((uiState as UiState.Failure<Unit>).exception?.message ?: "Erro", color = androidx.compose.ui.graphics.Color.Red)
+                Text(
+                    (uiState as UiState.Failure<Unit>).exception?.message ?: "Erro",
+                    color = androidx.compose.ui.graphics.Color.Red
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
                     onClick = {
-                        val imageUrls = imageUrlsText.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+                        val imageUrls =
+                            imageUrlsText.split(",").map { it.trim() }.filter { it.isNotEmpty() }
                         val categoryId = selectedCategory?.id ?: ""
-                        viewModel.addPlace(name, imageUrls, description, address, city, categoryId, price)
+                        viewModel.addPlace(
+                            name,
+                            imageUrls,
+                            description,
+                            address,
+                            city,
+                            categoryId,
+                            price
+                        )
                     },
                     enabled = uiState !is UiState.Loading && selectedCategory != null
                 ) { Text("Salvar") }
                 Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
                     onClick = onDismiss,
                     enabled = uiState !is UiState.Loading
                 ) { Text("Cancelar") }

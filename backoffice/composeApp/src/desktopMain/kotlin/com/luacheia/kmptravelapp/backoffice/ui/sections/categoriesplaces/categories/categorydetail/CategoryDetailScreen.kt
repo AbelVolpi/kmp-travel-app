@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.presentation.utils.UiState
 import org.koin.compose.viewmodel.koinViewModel
@@ -87,13 +88,30 @@ fun CategoryDetailScreen(
                 Spacer(Modifier.height(24.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (isEditing) {
-                        Button(onClick = {
-                            viewModel.updateCategory(category.copy(name = name, iconUrl = iconUrl))
-                            isEditing = false
-                        }, enabled = editState !is UiState.Loading) { Text("Salvar") }
-                        Button(onClick = { isEditing = false }) { Text("Cancelar") }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                            onClick = {
+                                viewModel.updateCategory(
+                                    category.copy(
+                                        name = name,
+                                        iconUrl = iconUrl
+                                    )
+                                )
+                                isEditing = false
+                            }, enabled = editState !is UiState.Loading
+                        ) { Text("Salvar") }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                            onClick = { isEditing = false }) {
+                            Text("Cancelar")
+                        }
                     } else {
-                        Button(onClick = { isEditing = true }) { Text("Editar") }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                            onClick = { isEditing = true }
+                        ) {
+                            Text("Editar")
+                        }
                         Button(
                             onClick = {
                                 viewModel.deleteCategory(category.id)
@@ -102,7 +120,12 @@ fun CategoryDetailScreen(
                             enabled = deleteState !is UiState.Loading,
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                         ) { Text("Excluir") }
-                        Button(onClick = onClose) { Text("Fechar") }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                            onClick = onClose
+                        ) {
+                            Text("Fechar")
+                        }
                     }
                 }
                 if (editState is UiState.Failure) {

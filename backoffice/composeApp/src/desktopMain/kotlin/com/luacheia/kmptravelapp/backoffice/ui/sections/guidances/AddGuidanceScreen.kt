@@ -2,12 +2,14 @@ package com.luacheia.kmptravelapp.backoffice.ui.sections.guidances
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.presentation.utils.UiState
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -64,18 +66,27 @@ fun AddGuidanceScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             if (uiState is UiState.Failure) {
-                Text((uiState as UiState.Failure<Unit>).exception?.message ?: "Erro", color = androidx.compose.ui.graphics.Color.Red)
+                Text(
+                    (uiState as UiState.Failure<Unit>).exception?.message ?: "Erro",
+                    color = androidx.compose.ui.graphics.Color.Red
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
                     onClick = { viewModel.addGuidance(title, subtitle, iconUrl, description) },
                     enabled = uiState !is UiState.Loading
-                ) { Text("Salvar") }
+                ) {
+                    Text("Salvar")
+                }
                 Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
                     onClick = onDismiss,
                     enabled = uiState !is UiState.Loading
-                ) { Text("Cancelar") }
+                ) {
+                    Text("Cancelar")
+                }
             }
         }
     }

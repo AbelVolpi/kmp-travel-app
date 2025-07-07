@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.data.model.Category
 import com.luacheia.kmptravelapp.data.model.Place
 import com.luacheia.kmptravelapp.presentation.utils.UiState
@@ -154,31 +155,49 @@ fun PlaceDetailScreen(
                 Spacer(Modifier.height(24.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (isEditing) {
-                        Button(onClick = {
-                            val updatedPlace = place.copy(
-                                name = name,
-                                imageUrls = imageUrlsText.split(",").map { it.trim() }
-                                    .filter { it.isNotEmpty() },
-                                description = description,
-                                address = address,
-                                city = city,
-                                price = price,
-                                categoryId = selectedCategory?.id ?: place.categoryId
-                            )
-                            viewModel.updatePlace(updatedPlace)
-                            isEditing = false
-                        }) { Text("Salvar") }
-                        Button(onClick = { isEditing = false }) { Text("Cancelar") }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                            onClick = {
+                                val updatedPlace = place.copy(
+                                    name = name,
+                                    imageUrls = imageUrlsText.split(",").map { it.trim() }
+                                        .filter { it.isNotEmpty() },
+                                    description = description,
+                                    address = address,
+                                    city = city,
+                                    price = price,
+                                    categoryId = selectedCategory?.id ?: place.categoryId
+                                )
+                                viewModel.updatePlace(updatedPlace)
+                                isEditing = false
+                            }
+                        ) { Text("Salvar") }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                            onClick = { isEditing = false }
+                        ) {
+                            Text("Cancelar")
+                        }
                     } else {
-                        Button(onClick = { isEditing = true }) { Text("Editar") }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                            onClick = { isEditing = true }
+                        ) {
+                            Text("Editar")
+                        }
                         Button(
                             onClick = {
                                 viewModel.deletePlace(place.id)
                                 onClose()
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                            ) { Text("Excluir") }
-                        Button(onClick = onClose) { Text("Fechar") }
+                        ) { Text("Excluir") }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                            onClick = onClose
+                        ) {
+                            Text("Fechar")
+                        }
                     }
                 }
                 if (editState is UiState.Failure) {

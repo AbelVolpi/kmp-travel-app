@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.data.model.Accommodation
 import com.luacheia.kmptravelapp.presentation.utils.UiState
 import org.koin.compose.viewmodel.koinViewModel
@@ -50,7 +51,11 @@ fun AccommodationDetailScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         when (state) {
             is UiState.Loading -> CircularProgressIndicator()
-            is UiState.Failure -> Text((state as UiState.Failure<Accommodation>).exception.message ?: "Erro ao carregar acomodação")
+            is UiState.Failure -> Text(
+                (state as UiState.Failure<Accommodation>).exception.message
+                    ?: "Erro ao carregar acomodação"
+            )
+
             is UiState.Success -> {
                 val accommodation = (state as UiState.Success<Accommodation>).data
                 if (!isEditing) {
@@ -96,11 +101,17 @@ fun AccommodationDetailScreen(
                             }
                             Spacer(modifier = Modifier.height(16.dp))
                             if (editState is UiState.Failure) {
-                                Text((editState as UiState.Failure<Unit>).exception?.message ?: "Erro ao editar", color = Color.Red)
+                                Text(
+                                    (editState as UiState.Failure<Unit>).exception?.message
+                                        ?: "Erro ao editar", color = Color.Red
+                                )
                                 Spacer(modifier = Modifier.height(8.dp))
                             }
                             if (deleteState is UiState.Failure) {
-                                Text((deleteState as UiState.Failure<Unit>).exception?.message ?: "Erro ao deletar", color = Color.Red)
+                                Text(
+                                    (deleteState as UiState.Failure<Unit>).exception?.message
+                                        ?: "Erro ao deletar", color = Color.Red
+                                )
                                 Spacer(modifier = Modifier.height(8.dp))
                             }
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -108,29 +119,47 @@ fun AccommodationDetailScreen(
                                     Button(
                                         onClick = {
                                             viewModel.updateAccommodation(
-                                                accommodation.copy(title = title, iconUrl = iconUrl, link = link)
+                                                accommodation.copy(
+                                                    title = title,
+                                                    iconUrl = iconUrl,
+                                                    link = link
+                                                )
                                             )
                                         },
                                         enabled = editState !is UiState.Loading
                                     ) { Text("Salvar") }
                                     Button(
+                                        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
                                         onClick = { isEditing = false },
                                         enabled = editState !is UiState.Loading
-                                    ) { Text("Cancelar") }
+                                    ) {
+                                        Text("Cancelar")
+                                    }
                                 } else {
-                                    Button(onClick = { isEditing = true }) { Text("Editar") }
+                                    Button(
+                                        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                                        onClick = { isEditing = true }
+                                    ) {
+                                        Text("Editar")
+                                    }
                                     Button(
                                         onClick = { viewModel.deleteAccommodation(accommodation.id) },
                                         enabled = deleteState !is UiState.Loading,
                                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                                     ) { Text("Excluir") }
-                                    Button(onClick = onClose) { Text("Fechar") }
+                                    Button(
+                                        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                                        onClick = onClose
+                                    ) {
+                                        Text("Fechar")
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+
             else -> {}
         }
     }
