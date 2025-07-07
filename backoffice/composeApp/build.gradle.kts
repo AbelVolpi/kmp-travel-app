@@ -24,7 +24,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
-//            implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
@@ -48,6 +47,9 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.luacheia.kmptravelapp.backoffice"
             packageVersion = "1.0.0"
+
+            macOS { iconFile.set(project.file("src/commonMain/composeResources/drawable/ic_lua_cheia_desktop_mac.icns")) }
+            windows {/*TODO iconFile.set(project.file("icon.ico"))*/ }
         }
     }
 }
