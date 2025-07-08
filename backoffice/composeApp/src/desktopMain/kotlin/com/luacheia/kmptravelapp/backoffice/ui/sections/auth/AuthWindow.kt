@@ -5,12 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,6 +26,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
+import com.luacheia.kmptravelapp.backoffice.ui.theme.backgroundColor
 import com.luacheia.kmptravelapp.presentation.utils.UiState
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -68,13 +67,22 @@ fun AuthScreen(
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") })
+                label = { Text("Email") },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = backgroundColor,
+                    unfocusedBorderColor = backgroundColor
+                )
+            )
             Spacer(Modifier.height(8.dp))
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
-                visualTransformation = PasswordVisualTransformation()
+                visualTransformation = PasswordVisualTransformation(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = backgroundColor,
+                    unfocusedBorderColor = backgroundColor
+                )
             )
             Spacer(Modifier.height(16.dp))
             Button(
@@ -82,13 +90,17 @@ fun AuthScreen(
                     if (isLogin) viewModel.login(email, password)
                     else viewModel.register(email, password)
                 },
-                enabled = authState !is UiState.Loading
+                enabled = authState !is UiState.Loading,
+                colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
             ) {
                 Text(if (isLogin) "Login" else "Register")
             }
             Spacer(Modifier.height(8.dp))
             TextButton(onClick = { isLogin = !isLogin }) {
-                Text(if (isLogin) "No account? Register" else "Already have an account? Login")
+                Text(
+                    text = if (isLogin) "No account? Register" else "Already have an account? Login",
+                    color = backgroundColor
+                )
             }
             Spacer(Modifier.height(8.dp))
             if (authState is UiState.Failure) {
@@ -100,7 +112,10 @@ fun AuthScreen(
             if (authState is UiState.Success) {
                 LaunchedEffect(Unit) { onClose() }
             }
-            Button(onClick = onClose) { Text("Close") }
+            Button(
+                onClick = onClose,
+                colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
+            ) { Text("Close") }
         }
     }
 }
