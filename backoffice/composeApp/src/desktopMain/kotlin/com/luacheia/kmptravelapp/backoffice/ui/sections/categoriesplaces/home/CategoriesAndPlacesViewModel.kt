@@ -24,7 +24,7 @@ class CategoriesAndPlacesViewModel(
         fetchCategoriesAndPlaces()
     }
 
-    private fun fetchCategoriesAndPlaces() {
+    fun fetchCategoriesAndPlaces() {
         viewModelScope.launch {
             val placesDeferred = async {
                 var places = listOf<Place>()

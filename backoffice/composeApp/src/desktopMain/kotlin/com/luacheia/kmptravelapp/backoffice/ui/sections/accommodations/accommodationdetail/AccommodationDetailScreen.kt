@@ -126,7 +126,8 @@ fun AccommodationDetailScreen(
                                                 )
                                             )
                                         },
-                                        enabled = editState !is UiState.Loading
+                                        enabled = editState !is UiState.Loading,
+                                        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
                                     ) { Text("Salvar") }
                                     Button(
                                         colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),

@@ -24,7 +24,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.material.icons.automirrored.filled.RotateLeft
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Cached
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -43,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.luacheia.kmptravelapp.backoffice.ui.components.ReloadTopBar
 import com.luacheia.kmptravelapp.backoffice.ui.components.Topic
 import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.AsyncImage
 import com.luacheia.kmptravelapp.backoffice.ui.sections.categoriesplaces.loadImageBitmap
@@ -61,40 +68,44 @@ fun CategoriesAndPlacesScreen(
     onPlaceClicked: (String) -> Unit = { _ -> }
 ) {
     val categoriesAndPlacesUiState by viewModel.categoriesAndPlacesUiState.collectAsState()
-
-    when (val uiState = categoriesAndPlacesUiState) {
-        is UiState.Success -> {
-            CategoriesAndPlacesSuccessLayout(
-                categories = uiState.data.categories,
-                places = uiState.data.places,
-                onCategoryClicked = { id ->
-                    onCategoryClicked.invoke(id)
-                },
-                onPlaceClicked = onPlaceClicked,
-                onAddCategoryClick = onAddCategoryClicked,
-                onAddPlaceClick = onAddPlaceClicked
-            )
-        }
-
-        is UiState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Loading...", fontSize = 20.sp, color = Color.Black)
+    Column {
+        ReloadTopBar(
+            onClick = { viewModel.fetchCategoriesAndPlaces() }
+        )
+        when (val uiState = categoriesAndPlacesUiState) {
+            is UiState.Success -> {
+                CategoriesAndPlacesSuccessLayout(
+                    categories = uiState.data.categories,
+                    places = uiState.data.places,
+                    onCategoryClicked = { id ->
+                        onCategoryClicked.invoke(id)
+                    },
+                    onPlaceClicked = onPlaceClicked,
+                    onAddCategoryClick = onAddCategoryClicked,
+                    onAddPlaceClick = onAddPlaceClicked
+                )
             }
-        }
 
-        is UiState.Failure -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Error loading data", fontSize = 20.sp, color = Color.Red)
+            is UiState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "Loading...", fontSize = 20.sp, color = Color.Black)
+                }
             }
-        }
 
-        else -> {}
+            is UiState.Failure -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "Error loading data", fontSize = 20.sp, color = Color.Red)
+                }
+            }
+
+            else -> {}
+        }
     }
 }
 
